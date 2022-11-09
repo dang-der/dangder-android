@@ -36,7 +36,7 @@ android {
 
     apollo {
         packageName.set("com.viewpoint")
-        useVersion2Compat()
+//        useVersion2Compat()
     }
 }
 
@@ -53,6 +53,22 @@ dependencies {
     // graphql
     implementation("com.apollographql.apollo3:apollo-runtime:3.6.2")
     implementation("com.apollographql.apollo3:apollo-rx3-support:3.7.0")
+
+    // hilt
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+
+
+    // navigation
+    def nav_version = "2.5.3"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+
+    // socketio
+    implementation('io.socket:socket.io-client:2.1.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 
 
 }
