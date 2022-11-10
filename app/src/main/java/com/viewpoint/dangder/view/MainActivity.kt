@@ -1,3 +1,5 @@
+package com.viewpoint.dangder.view
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.viewpoint.dangder.R
