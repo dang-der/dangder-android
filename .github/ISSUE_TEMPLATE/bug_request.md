@@ -1,8 +1,8 @@
 ---
-name: Feature request
+name: Bug request
 about: Suggest an idea for this project
-title: "[Feature]"
-labels: enhancement
+title: "[Bug]"
+labels: bug
 assignees: hyejineee
 
 ---
