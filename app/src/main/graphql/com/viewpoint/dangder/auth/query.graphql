@@ -1,0 +1,17 @@
+query FetchLoginUser{
+    fetchLoginUser {
+        user{
+            id
+            email
+            pet
+        }
+        dog {
+            id
+            img {
+                img
+                isMain
+            }
+            name
+        }
+    }
+}
