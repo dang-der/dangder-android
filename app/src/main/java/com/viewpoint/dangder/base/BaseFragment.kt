@@ -6,18 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-abstract class BaseFragment<VM : ViewModel, B : ViewBinding> : Fragment() {
+abstract class BaseFragment< B : ViewBinding> : Fragment() {
 
-    protected abstract val viewModel : VM
+    protected val compositeDisposable = CompositeDisposable()
     protected lateinit var binding : B
     protected abstract val layoutId : Int
 
     protected abstract fun initView()
     protected abstract fun subscribeModel()
-    protected abstract fun fetch()
+    protected abstract fun initData()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,8 +28,15 @@ abstract class BaseFragment<VM : ViewModel, B : ViewBinding> : Fragment() {
 
         initView()
         subscribeModel()
-        fetch()
+        initData()
 
         return binding.root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        compositeDisposable.clear()
+    }
+
+
 }
