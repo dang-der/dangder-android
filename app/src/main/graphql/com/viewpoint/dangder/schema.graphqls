@@ -1,0 +1,939 @@
+type AdminUser {
+  id: String!
+
+  account: String!
+
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type BlockUser {
+  id: String!
+
+  blockId: String!
+
+  user: User!
+}
+
+type Character {
+  id: String!
+
+  character: String!
+
+  dogs: [Dog!]!
+}
+
+type Breed {
+  id: String!
+
+  name: String!
+
+  dogs: [Dog!]!
+}
+
+type InterestChatMessage {
+  id: String!
+
+  senderId: String!
+
+  type: String!
+
+  message: String
+
+  lat: Float
+
+  lng: Float
+
+  meetAt: String
+
+  interestChatRoom: InterestChatRoom!
+}
+
+type InterestChatRoom {
+  id: String!
+
+  interest: Interest!
+
+  interestChatMessages: [InterestChatMessage!]!
+
+  createdAt: DateTime!
+
+  deletedAt: DateTime!
+}
+
+type Interest {
+  id: String!
+
+  interest: String!
+
+  interestImg: String!
+
+  title: String!
+
+  subTitle: String!
+
+  dogs: [Dog!]!
+
+  iChatRoom: InterestChatRoom!
+}
+
+type Location {
+  id: String!
+
+  lat: Float!
+
+  lng: Float!
+
+  dog: Dog!
+}
+
+type DogImage {
+  id: String!
+
+  img: String!
+
+  isMain: Boolean!
+
+  dog: Dog!
+}
+
+type Like {
+  id: String!
+
+  receiveId: String!
+
+  createdAt: String!
+
+  sendId: Dog!
+}
+
+type ReviewDetail {
+  id: String!
+
+  reviewDetail: String!
+}
+
+type Review {
+  id: String!
+
+  reviewMessage: String!
+
+  receiveReviewId: String!
+
+  createdAt: DateTime!
+
+  reviewDetail: [ReviewDetail!]!
+
+  sendReview: Dog!
+}
+
+type Dog {
+  id: String!
+
+  name: String!
+
+  age: Int!
+
+  gender: String!
+
+  isNeut: Boolean!
+
+  description: String!
+
+  registerNumber: String!
+
+  birthday: String
+
+  targetDistance: Int
+
+  targetAgeMin: Int
+
+  targetAgeMax: Int
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+
+  interests: [Interest!]!
+
+  characters: [Character!]!
+
+  breeds: [Breed!]!
+
+  locations: Location!
+
+  user: User!
+
+  img: [DogImage!]!
+
+  sendId: [Like!]!
+
+  sendReview: [Review!]!
+}
+
+type PassTicket {
+  id: String!
+
+  createdAt: DateTime!
+
+  deletedAt: DateTime!
+
+  expiredAt: String!
+
+  user: User!
+}
+
+type Payment {
+  id: String!
+
+  impUid: String!
+
+  payMoney: Int!
+
+  paymentType: PAYMENT_STATUS_ENUM!
+
+  user: User!
+
+  createdAt: DateTime!
+}
+
+enum PAYMENT_STATUS_ENUM {
+  PAYMENT
+
+  CANCEL
+}
+
+type Report {
+  id: String!
+
+  targetId: String!
+
+  reportContent: String!
+
+  user: User!
+}
+
+type User {
+  id: String!
+
+  email: String!
+
+  pet: Boolean!
+
+  ddMoney: Int!
+
+  phone: String!
+
+  createdAt: DateTime!
+
+  updatedAt: DateTime!
+
+  reportCnt: Int!
+
+  donateTotal: Int!
+
+  isCert: Boolean!
+
+  donateGrade: String!
+
+  isStop: Boolean!
+
+  dog: Dog!
+
+  payments: [Payment!]!
+
+  passTickets: [PassTicket!]!
+
+  blockUsers: [BlockUser!]!
+
+  reports: [Report!]!
+}
+
+"""
+fetchLoginUser 의 Return Type
+"""
+type UserOutput {
+  user: User
+
+  dog: Dog
+}
+
+type ChatRoom {
+  id: String!
+
+  chatPairId: String!
+
+  dog: Dog!
+
+  chatMessages: [ChatMessage!]!
+
+  createdAt: DateTime!
+
+  deletedAt: DateTime!
+}
+
+type ChatMessage {
+  id: String!
+
+  senderId: String!
+
+  type: String!
+
+  message: String
+
+  lat: Float
+
+  lng: Float
+
+  meetAt: String
+
+  chatRoom: ChatRoom!
+}
+
+"""
+findChatRooms 출력 형식
+"""
+type ChatRoomsOutput {
+  id: String
+
+  chatPairDog: Dog
+
+  lastMessage: ChatMessage
+}
+
+"""
+인기댕댕
+"""
+type TodayLikeDogOutput {
+  id: String!
+
+  mainImg: String!
+
+  name: String!
+
+  age: Int!
+}
+
+type AroundDogOutput {
+  dogId: String!
+
+  distance: Int!
+}
+
+type InterestCategoryOutput {
+  interest: String!
+
+  interestImg: String!
+
+  title: String!
+
+  subTitle: String!
+
+  iChatRoomId: String!
+}
+
+"""
+좋아요를 눌렀을 때 매칭여부와 sendId, receiveId
+"""
+type CreateLikeOutput {
+  isMatch: Boolean!
+
+  sendId: String!
+
+  receiveId: String!
+}
+
+type Order {
+  id: String!
+
+  createdAt: DateTime!
+
+  deletedAt: DateTime!
+
+  comment: String!
+
+  receiver: String!
+
+  address: String!
+
+  phone: String!
+
+  goodsQnt: Int!
+}
+
+type Product {
+  id: String!
+
+  productName: String!
+
+  price: Int!
+
+  category: String!
+
+  description: String!
+
+  deletedAt: DateTime!
+}
+
+type Query {
+  """
+  Return : 차단된 모든 유저 정보
+  """
+  fetchBlockUsers(page: Float!): [BlockUser!]!
+
+  """
+  Return : 차단된 유저 정보
+  """
+  fetchBlockUser("차단된 유저 Id" blockId: String!): BlockUser!
+
+  """
+  견종 종류 조회
+  """
+  fetchBreeds: Breed!
+
+  """
+  성격 정보 조회
+  """
+  fetchCharacters: [Character!]!
+
+  """
+  Return : chatRoomId로 찾은 메시지들의 정보
+  """
+  fetchChatMessagesByChatRoomId("채팅방 id" chatRoomId: String!): [ChatMessage!]!
+
+  """
+  Return : 조회된 채팅방 정보
+  """
+  fetchChatRoom("채팅방 id (roomId)" roomId: String!): ChatRoom!
+
+  """
+  Return : 채팅방id, 상대강아지정보, 채팅방의 마지막메시지
+  """
+  fetchChatRooms("내 강아지 id (dogId)" dogId: String!): [ChatRoomsOutput!]!
+
+  """
+  강아지 검색
+  """
+  fetchDogsBySearch(search: String!): [Dog!]!
+
+  """
+   Return : 모든 강아지 정보
+  """
+  fetchDogs(page: Float!): [Dog!]!
+
+  """
+  한마리의 강아지 정보 조회
+  """
+  fetchOneDog(id: String!): Dog!
+
+  """
+  유저 정보로 내 강아지 정보 조회
+  """
+  fetchMyDog("유저의 uuid" userId: String!): Dog!
+
+  fetchCategoryDogs("관심사명" interest: String!): [Dog!]!
+
+  fetchAroundDogs("강아지 id" id: String!, "페이지값" page: Float!): [Dog!]!
+
+  fetchDogsDistance(id: String!): [AroundDogOutput!]!
+
+  fetchDogImage(dogId: String!): [DogImage!]!
+
+  fetchMainDogImage(dogId: String!): [DogImage!]!
+
+  """
+  Return : iChatRoomId로 찾은 메시지들의 정보
+  """
+  fetchIChatMessagesByIChatRoomId("관심사 채팅방 id" iChatRoomId: String!): [InterestChatMessage!]!
+
+  """
+  Return : 조회된 관심사 채팅방 정보
+  """
+  fetchInterestChatRoom("관심사 채팅방 id (iRoomId)" iRoomId: String!): InterestChatRoom!
+
+  fetchInterestCategory: [InterestCategoryOutput!]!
+
+  """
+  return : 좋아요 많이 받은 12마리 댕댕이
+  """
+  fetchTodayDog: [TodayLikeDogOutput!]!
+
+  """
+  Return : 주문 정보
+  """
+  fetchOrderById("주문 Id" id: String!): Order!
+
+  """
+  Return : 주문 정보
+  """
+  fetchOrderByPhone("휴대폰 번호" phone: String!): Order!
+
+  """
+  Return : 패스 티켓 정보
+  """
+  fetchPassTicket("user의 email" email: String!): PassTicket!
+
+  """
+  Return : 결제 정보
+  """
+  fetchPayment(page: Float!): Payment!
+
+  """
+  Return : 조회한 상품 정보
+  """
+  fetchProduct("상품 Id" id: String!): Product!
+
+  """
+  Return : 신고 정보
+  """
+  fetchWhoReport("신고한 유저 Id" userId: String!, page: Float!): Report!
+
+  """
+  Return : 신고 정보
+  """
+  fetchTarget("신고 당한 유저 Id" targetId: String!, page: Float!): Report!
+
+  fetchReviewDetails: [ReviewDetail!]!
+
+  fetchReceiveReviews("내가 받은 리뷰들을 조회하기 위한 내 강아지 uuid" id: String!): [Review!]!
+
+  fetchSendReviews("내가 작성한 리뷰들을 조회하기 위한 내 강아지 uuid" id: String!): [Review!]!
+
+  fetchReviews("리뷰를 쓴 강아지의 uuid" myId: String!, "리뷰를 받은 강아지의 uuid" targetId: String!): Boolean!
+
+  """
+  Return : 전체 유저 정보
+  """
+  fetchUsers(page: Float!): [User!]!
+
+  """
+  Return : 유저 정보
+  """
+  fetchUser("회원의 계정(메일주소)" email: String!): User!
+
+  """
+  Return : 로그인한 유저, 유저의 강아지 데이터
+  """
+  fetchLoginUser: UserOutput!
+
+  """
+  Return : 로그인한 유저 데이터
+  """
+  fetchSocialLoginUser: User!
+
+  """
+  로그인 중인 유저의 이용권 유효 여부 확인하기
+  """
+  fetchLoginUserIsCert: Boolean!
+}
+
+type Mutation {
+  """
+  Return : 발급된 Admin AccessToken
+  """
+  adminLogin("관리자 계정" account: String!, "관리자 계정 비밀번호" password: String!): String!
+
+  """
+  Return : 재발급된 AdminAccessToken
+  """
+  restoreAdminAccessToken: String!
+
+  """
+  Return : Admin User 로그아웃 성공여부 (true / false)
+  """
+  adminLogout: Boolean!
+
+  """
+  Return : 가입성공한 관리자 계정 정보
+  """
+  createAdminUser("관리자 계정(문자열, unique)" account: String!, "계정 비밀번호" password: String!): AdminUser!
+
+  """
+  Return : 계정 삭제 여부
+  """
+  deleteAdminUser("삭제할 계정" account: String!): Boolean!
+
+  """
+  Return : 발급된 AccessToken
+  """
+  userLogin("회원의 계정(메일주소)" email: String!, "계정 비밀번호" password: String!): String!
+
+  """
+  Return : 재발급된 AccessToken
+  """
+  restoreAccessToken: String!
+
+  """
+  Return : 로그아웃 성공여부 (true / false)
+  """
+  userLogout: Boolean!
+
+  """
+  Return : 메일발송 성공 여부 (true / false)
+  """
+  createMailToken("토큰발급 후 검증을 위해 전송될 메일주소" email: String!, "사용목적 : 회원가입(signUp), 비밀번호 변경(resetPwd)" type: String!): Boolean!
+
+  """
+  Return : 인증토큰 일치 여부 (true / false)
+  """
+  verifyMailToken("토큰이 전송된 메일주소" email: String!, "입력받은 토큰정보" code: String!): Boolean!
+
+  """
+  Return: 차단된 유저 정보
+  """
+  createBlockUser("차단을 요청한 유저 Id" userId: String!, "차단하고 싶은 유저 Id" blockId: String!): BlockUser!
+
+  createCharacter(character: String!): Character!
+
+  deleteCharacter(id: String!): Boolean!
+
+  """
+  Return : 생성된 채팅 메시지 정보
+  """
+  createChatMessage("채팅방 id" chatRoomId: String!, "보낼 메시지 Data" chatMessageInput: ChatMessageInput!): ChatMessage!
+
+  """
+  Return : 생성된 채팅방 정보
+  """
+  createChatRoom("내 강아지 id (dogId)" dogId: String!, "채팅 상대 강아지 id (chatPairId)" chatPairId: String!): ChatRoom!
+
+  """
+  Return : 참가할 채팅방 정보(fetch + create)
+  """
+  joinChatRoom("내 강아지 id (dogId)" dogId: String!, "채팅 상대 강아지 id (chatPairId)" chatPairId: String!): ChatRoom!
+
+  """
+  Return : 채팅방 삭제 여부  (true, false)
+  """
+  deleteChatRoom("채팅방 id" id: String!): Boolean!
+
+  getDogInfo(dogRegNum: String!, ownerBirth: String!): Boolean!
+
+  createDog(createDogInput: CreateDogInput!, dogRegNum: String!, ownerBirth: String!): Dog!
+
+  updateDog("강아지의 uuid" dogId: String!, updateDogInput: UpdateDogInput!): Dog!
+
+  updateTargetDistance("강아지의 uuid" dogId: String!, "조회할 상대강아지와의 거리" targetDistance: Float!): Dog!
+
+  updateTargetAge("강아지의 uuid" dogId: String!, "조회할 상대강아지의 최소나이" targetAgeMin: Float!, "조회할 상대강아지의 최대나이" targetAgeMax: Float!): Dog!
+
+  deleteDog("강아지의 uuid" id: String!): Boolean!
+
+  """
+  Return : 버킷 주소 (파일 위치). prefix : [https://storage.googleapis.com/]
+  """
+  uploadFile(files: [Upload!]!): [String!]!
+
+  createIamportAuth: Boolean!
+
+  createIChatMessage(iRoomId: String!, testMsg: String!): InterestChatMessage!
+
+  """
+  Return : 참가할 채팅방 정보
+  """
+  joinIChatRoom("사용자의 email" email: String!, "입장할 관심사 채팅방의 id" iChatRoomId: String!): InterestChatRoom!
+
+  """
+  Return : 채팅방 삭제 여부  (true, false)
+  """
+  deleteInterestChatRoom("채팅방 id" id: String!): Boolean!
+
+  """
+  관심사 항목 생성
+  """
+  createInterest(createInterestInput: CreateInterestInput!): Interest!
+
+  deleteInterest("관심사 uuid" id: String!): Boolean!
+
+  """
+  return : 내가 좋아요 누른 댕댕이가 나를 좋아요 누른 기록 있는지 조회
+  """
+  isLike("나의 댕댕 uuid" sendId: String!, "내가 좋아요 누르는 상대의 댕댕 uuid" receiveId: String!): Boolean!
+
+  """
+  return : 좋아요 매칭여부, sendId, DogId
+  """
+  createLike("sendId: 보내는 댕댕 uuid, receiveId: 받는 댕댕 uuid" createLikeInput: createLikeInput!): CreateLikeOutput!
+
+  updateDogsLocation(id: String!, lat: Float!, lng: Float!): Location!
+
+  """
+  Return : 주문 정보
+  """
+  createOrder("생성된 주문 정보" createOrderInput: CreateOrderInput!): Order!
+
+  """
+  Return : 업데이트 된 주문 정보
+  """
+  updateOrder("주문 Id" id: String!, "업데이트 할 주문 정보" updateOrderInput: UpdateOrderInput!): Order!
+
+  """
+  Return : 주문 삭제된 시간
+  """
+  deleteOrder("주문 Id" id: String!): Boolean!
+
+  """
+  Return : 생성된 패스 티켓 정보
+  """
+  createPassTicket("유저 아이디" userId: String!, "티켓 만료 시간" expiredAt: String!): PassTicket!
+
+  """
+  Return : deletedAt(패스 티켓 정보 삭제된 시간)
+  """
+  deletePassTicket("패스 티켓 아이디" id: String!): Boolean!
+
+  """
+  Return : 생성된 결제 정보
+  """
+  createPayment("아임포트 결제번호" impUid: String!, "결제 금액" payMoney: Float!): Payment!
+
+  """
+  Return : 삭제된 결제 정보
+  """
+  cancelPayment("아임포트 결제번호" impUid: String!): Payment!
+
+  """
+  Return : 포인트 결제내역
+  """
+  createPaymentForPoints("아임포트 결제번호" impUid: String!, "결제 금액" payMoney: Float!): Payment!
+
+  """
+  Return : 포인트 취소내역
+  """
+  cancelPaymentForPoints("아임포트 결제번호" impUid: String!): Payment!
+
+  createPaymentForPassTicket("아임포트 결제번호" impUid: String!, "결제 금액" payMoney: Float!): PassTicket!
+
+  """
+  Return : 생성된 상품 정보
+  """
+  createProduct("상품 정보 입력" createProductInput: CreateProductInput!): Product!
+
+  """
+  Return : 업데이트 된 상품 정보
+  """
+  updateProduct("상품 Id" id: String!, "업데이트 할 유저 정보" updateProductInput: UpdateProductInput!): Product!
+
+  """
+  Return : 상품 삭제된 시간
+  """
+  deleteProduct("상품 Id" id: String!): Boolean!
+
+  """
+  Return : 생성된 신고 게시물
+  """
+  createReport("신고 한 Id" userId: String!, "신고 당한 Id" targetId: String!, "신고 내용" reportContent: String!): Report!
+
+  createReviewDetail("리뷰 상세 내용" reviewDetail: String!): ReviewDetail!
+
+  deleteReviewDetail("삭제할 리뷰 디테일 uuid" id: String!): Boolean!
+
+  createReview(createReviewInput: CreateReviewInput!): Review!
+
+  updateReview(updateReviewInput: UpdateReviewInput!): Review!
+
+  deleteReview(id: String!): Boolean!
+
+  """
+  Return : 바뀐 유저 정보
+  """
+  updateUser("회원의 계정(메일주소)" email: String!, "바꾸고 싶은 유저 정보" updateUserInput: UpdateUserInput!): User!
+
+  """
+  Return : 가입된 유저 정보
+  """
+  createUser("회원의 정보 입력" createUserInput: CreateUserInput!): User!
+
+  """
+  Return : deletedAt(유저 정보 삭제된 시간)
+  """
+  deleteUser("회원의 계정(메일주소)" email: String!): Boolean!
+
+  """
+  Return : 유저 정보
+  """
+  stopUser("유저 id" id: String!): User!
+}
+
+"""
+메시지 데이터 입력형식
+"""
+input ChatMessageInput {
+  senderId: String!
+
+  type: String!
+
+  message: String
+
+  lat: Float
+
+  lng: Float
+
+  meetAt: String
+}
+
+input CreateDogInput {
+  age: Int!
+
+  description: String!
+
+  birthday: String
+
+  interests: [String!]
+
+  characters: [String!]
+
+  img: [String!]
+
+  userId: String!
+
+  locations: LocationInput!
+}
+
+input LocationInput {
+  lat: Float!
+
+  lng: Float!
+}
+
+input UpdateDogInput {
+  age: Int
+
+  description: String
+
+  birthday: String
+
+  interests: [String!]
+
+  characters: [String!]
+
+  img: [String!]
+
+  userId: String
+
+  locations: LocationInput
+}
+
+"""
+The `Upload` scalar type represents a file upload.
+"""
+scalar Upload
+
+input CreateInterestInput {
+  interest: String!
+
+  interestImg: String!
+
+  title: String!
+
+  subTitle: String!
+}
+
+input createLikeInput {
+  receiveId: String!
+
+  sendId: String!
+}
+
+input CreateOrderInput {
+  comment: String
+
+  receiver: String!
+
+  address: String!
+
+  phone: String
+
+  goodsQnt: Int = 0
+}
+
+input UpdateOrderInput {
+  comment: String
+
+  receiver: String
+
+  address: String
+
+  phone: String
+
+  goodsQnt: Int = 0
+}
+
+input CreateProductInput {
+  productName: String!
+
+  price: Int!
+
+  category: String!
+
+  description: String!
+}
+
+input UpdateProductInput {
+  productName: String
+
+  price: Int
+
+  category: String
+
+  description: String
+}
+
+input CreateReviewInput {
+  sendReview: String!
+
+  receiveReviewId: String!
+
+  reviewMessage: String
+
+  reviewDetail: [String!]
+}
+
+input UpdateReviewInput {
+  sendReview: String
+
+  receiveReviewId: String
+
+  reviewMessage: String
+
+  reviewDetail: [String!]
+}
+
+input UpdateUserInput {
+  email: String
+
+  password: String
+
+  pet: Boolean
+
+  phone: String
+
+  ddMoney: Int
+
+  reportCnt: Int
+
+  donateTotal: Int
+
+  isCert: Boolean
+
+  donateGrade: String
+}
+
+input CreateUserInput {
+  email: String!
+
+  password: String!
+
+  pet: Boolean
+
+  phone: String
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
