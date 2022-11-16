@@ -4,6 +4,7 @@ query FetchLoginUser{
             id
             email
             pet
+            isStop
         }
         dog {
             id
