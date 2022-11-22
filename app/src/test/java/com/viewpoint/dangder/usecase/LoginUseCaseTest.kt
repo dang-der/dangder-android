@@ -18,7 +18,7 @@ import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 
-@DisplayName("로그인 유스케이스는 ")
+@DisplayName("로그인 유스케이스는")
 internal class LoginUseCaseTest {
     @Mock
     private val mockAuthRepository = Mockito.mock(AuthRepository::class.java)
