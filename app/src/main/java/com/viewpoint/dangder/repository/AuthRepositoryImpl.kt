@@ -41,7 +41,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveToken(token: String) {
-
+        settingsRepository.saveAccessToken(token)
     }
 
 }

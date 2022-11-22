@@ -11,10 +11,12 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
+import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
+import java.net.CookieManager
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -46,9 +48,10 @@ object NetworkModule {
         }).apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
 
         return OkHttpClient.Builder()
+            .addInterceptor(AuthorizationInterceptor(settingsLocalDataSource))
+            .cookieJar(JavaNetCookieJar(CookieManager()))
             .addInterceptor(headerLogging)
             .addInterceptor(bodyLogging)
-            .addInterceptor(AuthorizationInterceptor(settingsLocalDataSource))
             .build()
     }
 
@@ -60,10 +63,18 @@ class AuthorizationInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
 
         val key = stringPreferencesKey(SettingsLocalDataSource.TOKEN)
-        val token = runBlocking { settingsLocalDataSource.getString(key).first() }
+        val token = runBlocking {
+            val t = settingsLocalDataSource.getString(key).first()
+            Timber.tag("interceptor").d("get t : ${t}")
+            t
+        }
+
+        Timber.tag("interceptor").d("get Token : $token")
         val request = chain.request().newBuilder()
             .addHeader("Authorization", "Bearer $token")
             .build()
+
+        Timber.d(request.header("Authorization"))
         return chain.proceed(request)
     }
 

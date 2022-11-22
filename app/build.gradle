@@ -41,7 +41,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    testOptions{
+    testOptions {
         unitTests.returnDefaultValues = true
     }
 
@@ -54,7 +54,7 @@ android {
         exclude "META-INF/LICENSE*"
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
         dataBinding = true
     }
@@ -84,10 +84,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-    testImplementation ("com.google.truth:truth:1.0.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("com.google.truth:truth:1.0.1")
     testImplementation("org.mockito:mockito-inline:3.9.0")
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 
 //    testImplementation("junit:junit:4.13.2")
 //    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
@@ -105,13 +105,13 @@ dependencies {
     implementation("com.apollographql.apollo3:apollo-rx3-support:3.7.0")
 
     // hilt
-    implementation ("com.google.dagger:hilt-android:2.44")
-    kapt ("com.google.dagger:hilt-compiler:2.44")
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-compiler:2.44")
 
     // navigation
     def nav_version = "2.5.3"
-    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     // socketio
     implementation('io.socket:socket.io-client:2.1.0') {
@@ -119,14 +119,15 @@ dependencies {
     }
 
     // rx
-    implementation ('io.reactivex.rxjava3:rxandroid:3.0.2')
-    implementation ('io.reactivex.rxjava3:rxkotlin:3.0.1')
-    implementation ('io.reactivex.rxjava3:rxjava:3.1.5')
+    implementation('io.reactivex.rxjava3:rxandroid:3.0.2')
+    implementation('io.reactivex.rxjava3:rxkotlin:3.0.1')
+    implementation('io.reactivex.rxjava3:rxjava:3.1.5')
 
     // okhttp
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:4.9.1")
 
 
     // timber
@@ -134,8 +135,6 @@ dependencies {
 
     // datastore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
-
-
 
 
 }
