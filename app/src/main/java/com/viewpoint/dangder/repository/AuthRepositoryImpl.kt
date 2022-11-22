@@ -5,6 +5,7 @@ import com.viewpoint.dangder.entity.User
 import com.viewpoint.dangder.mapper.UserMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.toList
+import timber.log.Timber
 import java.util.PrimitiveIterator
 
 import javax.inject.Inject
@@ -31,7 +32,7 @@ class AuthRepositoryImpl @Inject constructor(
         return UserMapper.mapToUser(userData)
     }
 
-    override suspend fun fetchAuthLoginSetting(): Flow<Boolean?> {
+    override suspend fun fetchAutoLoginSetting(): Flow<Boolean?> {
         return settingsRepository.getIsLoginSetting()
     }
 

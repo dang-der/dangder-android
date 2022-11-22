@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import androidx.activity.viewModels
 import com.viewpoint.dangder.R
+import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseActivity
 import com.viewpoint.dangder.databinding.ActivityIntroBinding
 import com.viewpoint.dangder.viewmodel.AuthViewModel
@@ -27,11 +28,11 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
     override fun initView() {}
 
     override fun subscribe() {
-        authViewModel.isLogin.subscribe {
+        authViewModel.action.subscribe {
             Timber.d("isLogin : ${it}")
 
             Handler(Looper.getMainLooper()).postDelayed({
-                if (it.not()) {
+                if (it == Actions.GoToLoginPage) {
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                     return@postDelayed
@@ -46,4 +47,5 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
     override fun initData() {
         authViewModel.checkIsLogin()
     }
+
 }
