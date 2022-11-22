@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Dangder</string>
+    <string name="hint_email">이메일을 입력해주세요.</string>
+    <string name="hint_password">비밀번호를 입력해주세요.</string>
+    <string name="singup"><u>회원가입하기</u></string>
+    <string name="have_no_account">아직 계정이 없으신가요?</string>
+    <string name="forget_password">비밀번호를 잊으셨나요?</string>
+    <string name="reset_password"><u>비밀번호 재설정</u></string>
+    <string name="nonmember_enter"><u>비회원으로 둘러보기 🐾</u></string>
 </resources>
