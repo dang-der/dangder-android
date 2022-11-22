@@ -1,14 +1,5 @@
----
-name: PR template
-about: pr 템플릿
-title: "[]"
-labels: 
-assignees: hyejineee
-
----
-
 ## Issue 번호
-- `Issue` - #
+- Closes #
 
 ## 작업 내역
 `구현 내용 및 작업한 내역`

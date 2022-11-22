@@ -16,12 +16,13 @@ abstract class BaseActivity<B :ViewBinding> : AppCompatActivity(){
     protected abstract fun initData()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
+        super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
 
         initView()
         initData()
+
     }
 
     override fun onStart() {
