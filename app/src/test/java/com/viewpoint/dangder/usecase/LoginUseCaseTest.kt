@@ -13,14 +13,12 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.anyString
-import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 
+@DisplayName("로그인 유스케이스는 ")
 internal class LoginUseCaseTest {
     @Mock
     private val mockAuthRepository = Mockito.mock(AuthRepository::class.java)
@@ -33,29 +31,45 @@ internal class LoginUseCaseTest {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         Dispatchers.resetMain()
     }
 
     @Nested
-    @DisplayName("올바른 이메일, 비밀번호를 입력했을 때")
-    inner class CollectValue() {
-
-        private val email = "test@test.com"
-        private val password = "123qwe"
+    @DisplayName("가입된 계정을 입력하면")
+    inner class ContextWithJoinedAccount() {
 
         @BeforeEach
-        fun setUp()  = runTest {
+        fun setUp() = runTest {
             given(mockAuthRepository.userLogin(any(), any())).willReturn("testToken")
         }
 
         @Test
         @DisplayName("로그인에 성공할 수 있다.")
         fun `When the correct value is entered`() = runTest {
-            assertThat(loginUseCase(any(), any())).isTrue()
+            val result = loginUseCase(any(), any())
+            assertThat(result).isTrue()
         }
     }
 
+    @Nested
+    @DisplayName("가입되지 않은 계정을 입력하면")
+    inner class ContextWithNotJoinedAccount() {
+        @BeforeEach
+        fun setUp() = runTest {
+            given(mockAuthRepository.userLogin(any(), any())).willAnswer { throw Exception("test") }
+        }
+
+        @Test
+        @DisplayName("예외를 던진다")
+        fun `When the correct value is entered`() = runTest {
+            try {
+                loginUseCase(any(), any())
+            } catch (e: Exception) {
+                assertThat(e.message).isEqualTo("test")
+            }
+        }
+    }
 
 
 }
