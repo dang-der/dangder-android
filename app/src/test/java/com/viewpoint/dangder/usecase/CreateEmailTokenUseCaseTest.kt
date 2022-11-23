@@ -50,7 +50,7 @@ internal class CreateEmailTokenUseCaseTest {
         @DisplayName("true를 리턴한다.")
         fun `it return true`() = runTest {
 
-            val result = createEmailTokenUseCase(email)
+            val result = createEmailTokenUseCase(email, "signUp")
             assertThat(result).isTrue()
         }
     }
@@ -67,7 +67,7 @@ internal class CreateEmailTokenUseCaseTest {
         @Test
         @DisplayName("false를 리턴한다.")
         fun `it return false`() = runTest {
-            val result = createEmailTokenUseCase(email)
+            val result = createEmailTokenUseCase(email, "signUp")
             assertThat(result).isFalse()
         }
     }

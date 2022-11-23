@@ -2,6 +2,7 @@ package com.viewpoint.dangder
 
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
+import com.viewpoint.dangder.usecase.CreateEmailTokenUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
 import com.viewpoint.dangder.viewmodel.AuthViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
+import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 
 class AuthViewModelTest {
@@ -23,27 +25,30 @@ class AuthViewModelTest {
 
     private val mockCheckIsLoginUseCase = Mockito.mock(CheckLoggedInUseCase::class.java)
     private val mockLoginUseCase = Mockito.mock(LoginUseCase::class.java)
+    private val mockCreateEmailTokenUseCase = Mockito.mock(CreateEmailTokenUseCase::class.java)
+
     private lateinit var authViewModel: AuthViewModel
     private val mainThread = newSingleThreadContext(AuthViewModel::class.java.simpleName)
 
     @BeforeEach
     fun setUp() {
-        authViewModel = AuthViewModel(mockCheckIsLoginUseCase, mockLoginUseCase)
+        authViewModel =
+            AuthViewModel(mockCheckIsLoginUseCase, mockLoginUseCase, mockCreateEmailTokenUseCase)
         Dispatchers.setMain(mainThread)
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         Dispatchers.resetMain()
     }
 
     @Nested
     @DisplayName("checkIsLogin 메소드는")
-    inner class DescribeOfCheckIsLogin{
+    inner class DescribeOfCheckIsLogin {
 
         @Nested
         @DisplayName("로그인한 상태라면")
-        inner class ContextWithLogin{
+        inner class ContextWithLogin {
 
             @BeforeEach
             fun setUp() = runTest {
@@ -60,7 +65,7 @@ class AuthViewModelTest {
 
         @Nested
         @DisplayName("로그인하지 않은 상태라면")
-        inner class ContextWithoutLogin{
+        inner class ContextWithoutLogin {
 
             @BeforeEach
             fun setUp() = runTest {
@@ -78,10 +83,10 @@ class AuthViewModelTest {
 
     @Nested
     @DisplayName("login 메소드는")
-    inner class DescribeOfLogin{
+    inner class DescribeOfLogin {
         @Nested
-        @DisplayName("올바른 이메일, 패스워드 값이라면")
-        inner class ContextWithCollectValue{
+        @DisplayName("입력이 올바른 이메일, 패스워드 값이라면")
+        inner class ContextWithCollectValue {
             @BeforeEach
             fun setUp() = runTest {
                 given(mockLoginUseCase.invoke(any(), any())).willReturn(true)
@@ -98,6 +103,26 @@ class AuthViewModelTest {
         }
     }
 
+    @Nested
+    @DisplayName("createEmailToken 메소드는")
+    inner class DescribeOfCreateEmailToken {
+        @Nested
+        @DisplayName("입력이 올바른 이메일 값이면")
+        inner class ContextWithCollectEmail {
+            @BeforeEach
+            fun setUp() = runTest {
+                given(mockCreateEmailTokenUseCase.invoke(any(), eq("signUp"))).willReturn(true)
+            }
+
+            @Test
+            @DisplayName("인증코드 페이지 이동 맥션을 발생한다.")
+            fun `it publish GoToCodeInputPage action`() = runTest {
+                val email = "collect@tt.com"
+                authViewModel.createEmailTokenForSignUp(email)
+                authViewModel.action.test().awaitCount(1).assertValue(Actions.GoToNextPage)
+            }
+        }
+    }
 
 
 }

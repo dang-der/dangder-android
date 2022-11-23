@@ -7,7 +7,7 @@ class CreateEmailTokenUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
 
-    suspend operator fun invoke(email : String) : Boolean{
-        return authRepository.createEmailTokenForSignUp(email)
+    suspend operator fun invoke(email : String, type: String) : Boolean{
+        return if(type == "signUp")authRepository.createEmailTokenForSignUp(email) else false
     }
 }
