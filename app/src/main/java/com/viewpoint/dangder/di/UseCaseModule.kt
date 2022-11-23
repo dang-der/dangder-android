@@ -2,6 +2,7 @@ package com.viewpoint.dangder.di
 
 import com.viewpoint.dangder.repository.AuthRepository
 import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
+import com.viewpoint.dangder.usecase.CreateEmailTokenUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
 import dagger.Module
 import dagger.Provides
@@ -16,4 +17,7 @@ object UseCaseModule {
 
     @Provides
     fun providedLoginUseCase(authRepository: AuthRepository) = LoginUseCase(authRepository)
+
+    @Provides
+    fun providesCreateEmailTokenUseCase(authRepository: AuthRepository) = CreateEmailTokenUseCase(authRepository)
 }
