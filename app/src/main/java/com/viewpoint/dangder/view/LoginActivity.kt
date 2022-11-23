@@ -43,6 +43,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             )
         )
 
+        binding.loginSignupButton.setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java))
+        }
+
 
         binding.loginLoginButton.setOnClickListener {
             hideKeyboard(this, currentFocus)

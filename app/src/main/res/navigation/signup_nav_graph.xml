@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/signip_nav_graph"
+    app:startDestination="@id/userEmailFragment">
+    <fragment
+        android:id="@+id/userEmailFragment"
+        android:name="com.viewpoint.dangder.view.signup.UserEmailFragment"
+        android:label="회원가입" >
+        <action
+            android:id="@+id/action_userEmailFragment_to_emailVerifyFragment"
+            app:destination="@id/emailVerifyFragment"
+           />
+    </fragment>
+    <fragment
+        android:id="@+id/emailVerifyFragment"
+        android:name="com.viewpoint.dangder.view.signup.EmailVerifyFragment"
+        android:label="회원가입" >
+        <action
+            android:id="@+id/action_emailVerifyFragment_to_userPasswordFragment"
+            app:destination="@id/userPasswordFragment"
+          />
+    </fragment>
+    <fragment
+        android:id="@+id/userPasswordFragment"
+        android:name="com.viewpoint.dangder.view.signup.UserPasswordFragment"
+        android:label="회원가입" />
+</navigation>
