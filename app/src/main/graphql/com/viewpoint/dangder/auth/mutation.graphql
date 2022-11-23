@@ -1,3 +1,7 @@
 mutation UserLogin($email : String!, $password : String!){
     userLogin(email: $email, password: $password)
 }
+
+mutation CreateMailToken($email:String!, $type : String!){
+    createMailToken(email: $email, type: $type)
+}
