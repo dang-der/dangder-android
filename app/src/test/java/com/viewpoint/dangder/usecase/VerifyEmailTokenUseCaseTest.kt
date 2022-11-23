@@ -19,12 +19,12 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 
-@DisplayName("CreateEmailTokenUseCase (이메일 토큰 생성)는")
-internal class CreateEmailTokenUseCaseTest {
+@DisplayName("VerifyEmailTokenUseCase (이메일 토큰 검사 유스케이스)는")
+internal class VerifyEmailTokenUseCaseTest {
     @Mock
     private val mockAuthRepository = Mockito.mock(AuthRepository::class.java)
-    private val createEmailTokenUseCase = CreateEmailTokenUseCase(mockAuthRepository)
-    private val mainThread = newSingleThreadContext(CreateEmailTokenUseCase::class.java.simpleName)
+    private val verifyEmailTokenUseCase = VerifyEmailTokenUseCase(mockAuthRepository)
+    private val mainThread = newSingleThreadContext(VerifyEmailTokenUseCase::class.java.simpleName)
 
     @Before
     fun setUp() {
@@ -37,37 +37,36 @@ internal class CreateEmailTokenUseCaseTest {
     }
 
     @Nested
-    @DisplayName("이메일 전송이 가능하면")
-    inner class ContextWithPossibleSendEmail() {
+    @DisplayName("올바른 인증코드를 입력하면")
+    inner class ContextWithCorrectToken() {
 
-        val email = "tt@tt.com"
         @BeforeEach
         fun setUp() = runTest {
-            given(mockAuthRepository.createEmailTokenForSignUp(eq(email))).willReturn(true)
+            given(mockAuthRepository.verifyEmailToken(any(), eq("token"))).willReturn(true)
         }
 
         @Test
         @DisplayName("true를 리턴한다.")
         fun `it return true`() = runTest {
 
-            val result = createEmailTokenUseCase(email, "signUp")
+            val result = verifyEmailTokenUseCase("email","token")
             assertThat(result).isTrue()
         }
     }
 
     @Nested
-    @DisplayName("이메일 전송이 불가능하면")
-    inner class ContextWithImpossibleSendEmail() {
-        val email = "incorrect@tt.com"
+    @DisplayName("올바르지 않은 인증코드를 입력하면")
+    inner class ContextWithUnCorrectToken() {
+
         @BeforeEach
         fun setUp() = runTest {
-            given(mockAuthRepository.createEmailTokenForSignUp(eq(email))).willReturn(false)
+            given(mockAuthRepository.verifyEmailToken(any(), any())).willReturn(false)
         }
 
         @Test
         @DisplayName("false를 리턴한다.")
         fun `it return false`() = runTest {
-            val result = createEmailTokenUseCase(email, "signUp")
+            val result = verifyEmailTokenUseCase("eamil", "unCorrectToken")
             assertThat(result).isFalse()
         }
     }

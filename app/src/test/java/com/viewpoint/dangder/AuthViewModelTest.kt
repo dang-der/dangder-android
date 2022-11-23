@@ -86,7 +86,7 @@ class AuthViewModelTest {
     inner class DescribeOfLogin {
         @Nested
         @DisplayName("입력이 올바른 이메일, 패스워드 값이라면")
-        inner class ContextWithCollectValue {
+        inner class ContextWithCorrectValue {
             @BeforeEach
             fun setUp() = runTest {
                 given(mockLoginUseCase.invoke(any(), any())).willReturn(true)
@@ -108,7 +108,7 @@ class AuthViewModelTest {
     inner class DescribeOfCreateEmailToken {
         @Nested
         @DisplayName("입력이 올바른 이메일 값이면")
-        inner class ContextWithCollectEmail {
+        inner class ContextWithCorrectEmail {
             @BeforeEach
             fun setUp() = runTest {
                 given(mockCreateEmailTokenUseCase.invoke(any(), eq("signUp"))).willReturn(true)
@@ -117,7 +117,7 @@ class AuthViewModelTest {
             @Test
             @DisplayName("인증코드 페이지 이동 맥션을 발생한다.")
             fun `it publish GoToCodeInputPage action`() = runTest {
-                val email = "collect@tt.com"
+                val email = "correct@tt.com"
                 authViewModel.createEmailTokenForSignUp(email)
                 authViewModel.action.test().awaitCount(1).assertValue(Actions.GoToNextPage)
             }

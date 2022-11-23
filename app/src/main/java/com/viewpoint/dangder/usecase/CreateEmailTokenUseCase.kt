@@ -9,7 +9,7 @@ class CreateEmailTokenUseCase @Inject constructor(
 
     suspend operator fun invoke(email : String, type: String) : Boolean{
         try {
-            return if(type == "signUp")authRepository.createEmailTokenForSignUp(email) else false
+            return if(type == "signUp") authRepository.createEmailTokenForSignUp(email) else false
         }catch (e : Exception){
             throw e
         }

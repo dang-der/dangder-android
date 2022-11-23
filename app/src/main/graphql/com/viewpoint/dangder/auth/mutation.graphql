@@ -5,3 +5,7 @@ mutation UserLogin($email : String!, $password : String!){
 mutation CreateMailToken($email:String!, $type : String!){
     createMailToken(email: $email, type: $type)
 }
+
+mutation VerifyMailToken($email:String!, $code : String!){
+    verifyMailToken(email: $email, code: $code)
+}

@@ -10,5 +10,5 @@ interface AuthRepository {
     suspend fun fetchUserAccount() : Flow<List<String>>
     suspend fun saveToken(token : String)
     suspend fun createEmailTokenForSignUp(email: String): Boolean
-
+    suspend fun verifyEmailToken(email: String, token: String): Boolean
 }

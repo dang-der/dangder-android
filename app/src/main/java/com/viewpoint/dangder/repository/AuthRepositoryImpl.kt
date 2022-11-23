@@ -47,4 +47,11 @@ class AuthRepositoryImpl @Inject constructor(
         return response.data?.createMailToken ?: throw Exception("데이터가 없습니다.")
     }
 
+    override suspend fun verifyEmailToken(email: String, token: String): Boolean {
+        val response = authRemoteDataSource.verifyMailToken(email, token)
+        if (response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        return response.data?.verifyMailToken ?: throw Exception("데이터가 없습니다.")
+    }
+
 }
