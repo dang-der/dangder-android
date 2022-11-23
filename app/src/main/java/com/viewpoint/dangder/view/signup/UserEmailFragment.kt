@@ -43,8 +43,6 @@ class UserEmailFragment : BaseFragment<FragmentUserEmailBinding>() {
                 emailRegex
             )
         )
-
-
     }
 
     override fun subscribeModel() {
@@ -53,7 +51,7 @@ class UserEmailFragment : BaseFragment<FragmentUserEmailBinding>() {
                 when (it) {
                     Actions.GoToNextPage -> findNavController().navigate(R.id.action_userEmailFragment_to_emailVerifyFragment)
                     else -> {
-                        if(it is Actions.ShowErrorMessage){
+                        if (it is Actions.ShowErrorMessage) {
                             Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT).show()
                         }
                     }

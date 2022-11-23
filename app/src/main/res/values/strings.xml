@@ -7,7 +7,7 @@
     <string name="forget_password">비밀번호를 잊으셨나요?</string>
     <string name="reset_password"><u>비밀번호 재설정</u></string>
     <string name="nonmember_enter"><u>비회원으로 둘러보기 🐾</u></string>
-    <string name="not_match_verify_code">비밀번호가 일치하지 않습니다.</string>
+    <string name="not_match_verify_code">인증번호를 모두 입력해주세요.</string>
     <string name="verified">인증되었습니다.</string>
     <string name="label_check_password">비밀번호 확인</string>
     <string name="hint_repassword">비밀번호를 다시 입력해 주세요.</string>
