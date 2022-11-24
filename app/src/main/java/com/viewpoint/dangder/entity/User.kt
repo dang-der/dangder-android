@@ -1,13 +1,11 @@
 package com.viewpoint.dangder.entity
 
-import com.viewpoint.FetchLoginUserQuery
-
 
 data class User(
     val id : String,
     val email : String,
-    val pet : Boolean,
-    val isStop : Boolean,
+    val pet : Boolean = false,
+    val isStop : Boolean = false,
     val dog : Dog? = null,
 )
 

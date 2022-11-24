@@ -1,9 +1,8 @@
-package com.viewpoint.dangder
+package com.viewpoint.dangder.viewmodel
 
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
-import com.viewpoint.dangder.viewmodel.AuthViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -17,33 +16,35 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
+import timber.log.Timber
 
-class AuthViewModelTest {
-
+class LoginViewModelTest {
 
     private val mockCheckIsLoginUseCase = Mockito.mock(CheckLoggedInUseCase::class.java)
     private val mockLoginUseCase = Mockito.mock(LoginUseCase::class.java)
-    private lateinit var authViewModel: AuthViewModel
-    private val mainThread = newSingleThreadContext(AuthViewModel::class.java.simpleName)
+
+    private lateinit var loginViewModel: LoginViewModel
+    private val mainThread = newSingleThreadContext(LoginViewModel::class.java.simpleName)
 
     @BeforeEach
     fun setUp() {
-        authViewModel = AuthViewModel(mockCheckIsLoginUseCase, mockLoginUseCase)
+        loginViewModel =
+            LoginViewModel(mockCheckIsLoginUseCase, mockLoginUseCase)
         Dispatchers.setMain(mainThread)
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         Dispatchers.resetMain()
     }
 
     @Nested
     @DisplayName("checkIsLogin 메소드는")
-    inner class DescribeOfCheckIsLogin{
+    inner class DescribeOfCheckIsLogin {
 
         @Nested
         @DisplayName("로그인한 상태라면")
-        inner class ContextWithLogin{
+        inner class ContextWithLogin {
 
             @BeforeEach
             fun setUp() = runTest {
@@ -53,14 +54,17 @@ class AuthViewModelTest {
             @Test
             @DisplayName("메인 페이지 이동 액션을 발행한다.")
             fun `it publish GoToMainPage action`() = runTest {
-                authViewModel.checkIsLogin()
-                authViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
+                loginViewModel.checkIsLogin()
+                loginViewModel.action.subscribe {
+                    Timber.tag("loginViewModel test").d(it.toString())
+                }
+                loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
             }
         }
 
         @Nested
         @DisplayName("로그인하지 않은 상태라면")
-        inner class ContextWithoutLogin{
+        inner class ContextWithoutLogin {
 
             @BeforeEach
             fun setUp() = runTest {
@@ -70,18 +74,18 @@ class AuthViewModelTest {
             @Test
             @DisplayName("로그인 페이지 이동 액션을 발행한다.")
             fun `it publish GotoLoginPage action`() = runTest {
-                authViewModel.checkIsLogin()
-                authViewModel.action.test().awaitCount(1).assertValue(Actions.GoToLoginPage)
+                loginViewModel.checkIsLogin()
+                loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToLoginPage)
             }
         }
     }
 
     @Nested
     @DisplayName("login 메소드는")
-    inner class DescribeOfLogin{
+    inner class DescribeOfLogin {
         @Nested
-        @DisplayName("올바른 이메일, 패스워드 값이라면")
-        inner class ContextWithCollectValue{
+        @DisplayName("입력이 올바른 이메일, 패스워드 값이라면")
+        inner class ContextWithCorrectValue {
             @BeforeEach
             fun setUp() = runTest {
                 given(mockLoginUseCase.invoke(any(), any())).willReturn(true)
@@ -92,12 +96,9 @@ class AuthViewModelTest {
             fun `it publish GoToMainPage action`() = runTest {
                 val email = "test@test.com"
                 val pw = "123qwe"
-                authViewModel.login(email, pw)
-                authViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
+                loginViewModel.login(email, pw)
+                loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
             }
         }
     }
-
-
-
 }

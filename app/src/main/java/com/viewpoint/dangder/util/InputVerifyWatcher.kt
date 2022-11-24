@@ -4,7 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.google.android.material.textfield.TextInputLayout
 
-class InputWatcher(
+class InputVerifyWatcher(
     private val textInputLayout: TextInputLayout,
     private val errorMessage: String,
     private val pattern: Regex
