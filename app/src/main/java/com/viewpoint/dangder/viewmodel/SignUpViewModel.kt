@@ -4,10 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
-import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
-import com.viewpoint.dangder.usecase.CreateEmailTokenUseCase
-import com.viewpoint.dangder.usecase.LoginUseCase
-import com.viewpoint.dangder.usecase.VerifyEmailTokenUseCase
+import com.viewpoint.dangder.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
@@ -21,6 +18,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val createEmailTokenUseCase: CreateEmailTokenUseCase,
     private val verifyEmailTokenUseCase: VerifyEmailTokenUseCase,
+    private val createUserUseCase: CreateUserUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
 
@@ -65,7 +63,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun verifyEmailToken(token: String) = viewModelScope.launch(ceh) {
-        val email = _email ?: savedStateHandle.get<String>(EMAIL_KEY) ?: return@launch
+        val email = _email ?:return@launch
         val result = verifyEmailTokenUseCase(email, token)
 
         if (result) {
@@ -74,6 +72,13 @@ class SignUpViewModel @Inject constructor(
         } else {
             _action.onNext(Actions.ShowErrorMessage("인증코드가 일치하지 않습니다."))
         }
+    }
+
+    fun createUser(password : String) = viewModelScope.launch(ceh){
+        val email = _email ?:return@launch
+
+        createUserUseCase(email, password)
+        _action.onNext(Actions.GoToInitDogPage)
     }
 
     override fun onCleared() {

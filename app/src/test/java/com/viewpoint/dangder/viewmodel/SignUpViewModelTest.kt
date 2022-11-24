@@ -2,7 +2,9 @@ package com.viewpoint.dangder.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import com.viewpoint.dangder.action.Actions
+import com.viewpoint.dangder.entity.User
 import com.viewpoint.dangder.usecase.CreateEmailTokenUseCase
+import com.viewpoint.dangder.usecase.CreateUserUseCase
 import com.viewpoint.dangder.usecase.VerifyEmailTokenUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
@@ -23,6 +25,7 @@ class SignUpViewModelTest {
 
     private val mockCreateEmailTokenUseCase = Mockito.mock(CreateEmailTokenUseCase::class.java)
     private val mockVerifyEmailTokenUseCase = Mockito.mock(VerifyEmailTokenUseCase::class.java)
+    private val mockCreateUserUseCase = Mockito.mock(CreateUserUseCase::class.java)
     private val mockSavedStateHandle = Mockito.mock(SavedStateHandle::class.java)
 
     private lateinit var signUpViewModel: SignUpViewModel
@@ -31,7 +34,11 @@ class SignUpViewModelTest {
     @BeforeEach
     fun setUp() {
         signUpViewModel =
-            SignUpViewModel(mockCreateEmailTokenUseCase, mockVerifyEmailTokenUseCase, mockSavedStateHandle)
+            SignUpViewModel(
+                createEmailTokenUseCase = mockCreateEmailTokenUseCase,
+                verifyEmailTokenUseCase = mockVerifyEmailTokenUseCase,
+                createUserUseCase = mockCreateUserUseCase,
+                savedStateHandle = mockSavedStateHandle)
         Dispatchers.setMain(mainThread)
     }
 
@@ -53,7 +60,7 @@ class SignUpViewModelTest {
 
             @Test
             @DisplayName("다음 페이지 이동 액션을 발생한다.")
-            fun `it publish GoToCodeInputPage action`() = runTest {
+            fun `it publish GoToNextPage action`() = runTest {
                 val email = "correct@tt.com"
                 signUpViewModel.createEmailTokenForSignUp(email)
                 signUpViewModel.action.test().awaitCount(1).assertValue(Actions.GoToNextPage)
@@ -75,10 +82,34 @@ class SignUpViewModelTest {
 
             @Test
             @DisplayName("다음 페이지 이동 액션을 발생한다.")
-            fun `it publish GoToCodeInputPage action`() = runTest {
+            fun `it publish GoToNextPage action`() = runTest {
 
                 signUpViewModel.verifyEmailToken("token")
                 signUpViewModel.action.test().awaitCount(1).assertValue(Actions.GoToNextPage)
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("createUser 메소드는")
+    inner class DescribeOfCreateUser {
+        @Nested
+        @DisplayName("정상적으로 유저가 생성되면")
+        inner class ContextWithCreateUserSuccess {
+            private val mockUser = Mockito.mock(User::class.java)
+
+            @BeforeEach
+            fun setUp() = runTest {
+                given(mockCreateUserUseCase.invoke(eq("email"), any())).willReturn(mockUser)
+                given(mockSavedStateHandle.get<String>(signUpViewModel.EMAIL_KEY)).willReturn("email")
+            }
+
+            @Test
+            @DisplayName("강아지 등록 페이지 이동 액션을 발행한다.")
+            fun `it publish GoToInitDogPage action`() = runTest {
+
+                signUpViewModel.createUser("password")
+                signUpViewModel.action.test().awaitCount(1).assertValue(Actions.GoToInitDogPage)
             }
         }
     }
