@@ -9,6 +9,7 @@ import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentUserPasswordBinding
 import com.viewpoint.dangder.util.InputVerifyWatcher
 import com.viewpoint.dangder.util.passwordRegex
+import com.viewpoint.dangder.util.showErrorSnackBar
 import com.viewpoint.dangder.viewmodel.SignUpViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -24,7 +25,7 @@ class UserPasswordFragment : BaseFragment<FragmentUserPasswordBinding>() {
             val pw = binding.signupCheckPasswordInput.text.toString()
 
             if (pw.isBlank() || binding.signupCheckPasswordInputLayout.isErrorEnabled || binding.signupPasswordInputLayout.isErrorEnabled) {
-                Snackbar.make(binding.root, "비밀번호를 올바르게 입력해 주세요.", Snackbar.LENGTH_SHORT).show()
+                showErrorSnackBar(binding.root, "비밀번호를 올바르게 입력해 주세요.")
                 return@setOnClickListener
             }
 
@@ -60,7 +61,7 @@ class UserPasswordFragment : BaseFragment<FragmentUserPasswordBinding>() {
                     }
                     else -> {
                         if(it is Actions.ShowErrorMessage){
-                            Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT).show()
+                            showErrorSnackBar(binding.root, it.message)
                         }
                     }
                 }

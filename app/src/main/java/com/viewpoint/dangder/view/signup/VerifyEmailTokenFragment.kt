@@ -9,6 +9,7 @@ import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentEmailVerifyBinding
 import com.viewpoint.dangder.util.Timer
+import com.viewpoint.dangder.util.showErrorSnackBar
 import com.viewpoint.dangder.viewmodel.SignUpViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -36,7 +37,7 @@ class VerifyEmailTokenFragment : BaseFragment<FragmentEmailVerifyBinding>() {
                 "${binding.signupCode1.text.toString()}${binding.signupCode2.text.toString()}${binding.signupCode3.text.toString()}${binding.signupCode4.text.toString()}"
 
             if (token.length != 4) {
-                Snackbar.make(binding.root, "정확한 인증코드를 입력해주세요.", Snackbar.LENGTH_SHORT).show()
+                showErrorSnackBar(binding.root, "정확한 인증코드를 입력해주세요.")
                 return@setOnClickListener
             }
 
@@ -71,7 +72,7 @@ class VerifyEmailTokenFragment : BaseFragment<FragmentEmailVerifyBinding>() {
                     Actions.GoToNextPage -> findNavController().navigate(R.id.action_emailVerifyFragment_to_userPasswordFragment)
                     else -> {
                         if (it is Actions.ShowErrorMessage) {
-                            Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT).show()
+                            showErrorSnackBar(binding.root, it.message)
                         }
                     }
                 }

@@ -51,6 +51,9 @@
                 android:id="@+id/signup_email_input"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"
+                android:lines="1"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
                 android:textSize="@dimen/micro"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
