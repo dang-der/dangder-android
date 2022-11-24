@@ -2,16 +2,14 @@ package com.viewpoint.dangder.view
 
 
 import android.content.Intent
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseActivity
 import com.viewpoint.dangder.databinding.ActivityLoginBinding
-import com.viewpoint.dangder.util.InputWatcher
-import com.viewpoint.dangder.util.hideKeyboard
-import com.viewpoint.dangder.viewmodel.AuthViewModel
+import com.viewpoint.dangder.util.*
+import com.viewpoint.dangder.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -23,25 +21,29 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     override val layoutId: Int
         get() = R.layout.activity_login
-    private val authViewModel: AuthViewModel by viewModels()
+    private val authViewModel: LoginViewModel by viewModels()
 
     override fun initView() {
 
         binding.loginEmailInput.addTextChangedListener(
-            InputWatcher(
+            InputVerifyWatcher(
                 binding.loginEmailInputLayout,
                 "이메일을 정확하게 입력해주세요.",
-                "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+".toRegex()
+                emailRegex
             )
         )
 
         binding.loginPasswordInput.addTextChangedListener(
-            InputWatcher(
+            InputVerifyWatcher(
                 binding.loginPasswordInputLayout,
                 "영문 + 숫자 조합으로 입력해주세요.",
-                "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+\$".toRegex()
+                passwordRegex
             )
         )
+
+        binding.loginSignupButton.setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java))
+        }
 
 
         binding.loginLoginButton.setOnClickListener {
@@ -51,13 +53,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             val pw = binding.loginPasswordInput.text.toString()
 
             if (email.isBlank() || pw.isBlank()) {
-                Snackbar.make(binding.root, "이메일 또는 비밀번호를 입력해주세요.", Snackbar.LENGTH_SHORT).show()
+                showErrorSnackBar(binding.root,"이메일 또는 비밀번호를 입력해주세요.")
                 return@setOnClickListener
             }
 
             if (binding.loginEmailInputLayout.isErrorEnabled || binding.loginPasswordInputLayout.isErrorEnabled) {
-                Snackbar.make(binding.root, "이메일 또는 비밀번호를 정확하게 입력해주세요.", Snackbar.LENGTH_SHORT)
-                    .show()
+                showErrorSnackBar(binding.root,"이메일 또는 비밀번호를 정확하게 입력해주세요.")
                 return@setOnClickListener
             }
 

@@ -4,10 +4,6 @@ import com.viewpoint.dangder.data.remote.AuthRemoteDataSource
 import com.viewpoint.dangder.entity.User
 import com.viewpoint.dangder.mapper.UserMapper
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.toList
-import timber.log.Timber
-import java.util.PrimitiveIterator
-
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -42,6 +38,28 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun saveToken(token: String) {
         settingsRepository.saveAccessToken(token)
+    }
+
+    override suspend fun createEmailTokenForSignUp(email: String): Boolean {
+        val response = authRemoteDataSource.createMailToken(email, "signUp")
+        if (response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        return response.data?.createMailToken ?: throw Exception("데이터가 없습니다.")
+    }
+
+    override suspend fun verifyEmailToken(email: String, token: String): Boolean {
+        val response = authRemoteDataSource.verifyMailToken(email, token)
+        if (response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        return response.data?.verifyMailToken ?: throw Exception("데이터가 없습니다.")
+    }
+
+    override suspend fun createUser(email: String, password: String, pet: Boolean): User {
+        val response = authRemoteDataSource.createUser(email, password, pet)
+        if (response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val user = response.data?.createUser ?: throw Exception("데이터가 없습니다.")
+        return UserMapper.mapToUser(user)
     }
 
 }
