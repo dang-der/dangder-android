@@ -53,12 +53,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             val pw = binding.loginPasswordInput.text.toString()
 
             if (email.isBlank() || pw.isBlank()) {
-                showErrorSnackBar(binding.root,"이메일 또는 비밀번호를 입력해주세요.")
+                showErrorSnackBar(binding.root, "이메일 또는 비밀번호를 입력해주세요.")
                 return@setOnClickListener
             }
 
             if (binding.loginEmailInputLayout.isErrorEnabled || binding.loginPasswordInputLayout.isErrorEnabled) {
-                showErrorSnackBar(binding.root,"이메일 또는 비밀번호를 정확하게 입력해주세요.")
+                showErrorSnackBar(binding.root, "이메일 또는 비밀번호를 정확하게 입력해주세요.")
                 return@setOnClickListener
             }
 
@@ -73,11 +73,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                     Actions.GoToMainPage -> {
                         startActivity(Intent(this, MainActivity::class.java))
                     }
-                    is Actions.ShowErrorMessage -> {
-                        Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT).show()
+                    Actions.ShowLoadingDialog -> {
+                        showLoadingDialog()
+                    }
+                    Actions.HideLoadingDialog -> {
+                        hideLoadingDialog()
                     }
                     else -> {
-
+                        if (it is Actions.ShowErrorMessage) {
+                            Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT).show()
+                        }
                     }
                 }
             },
