@@ -8,6 +8,7 @@ import com.viewpoint.dangder.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,7 +21,7 @@ class LoginViewModel @Inject constructor(
 ) : BaseViewModel() {
 
 
-    override val _action: BehaviorSubject<Actions> = BehaviorSubject.create()
+    override val _action : PublishSubject<Actions> = PublishSubject.create()
     override val action: Observable<Actions>
         get() = _action
 

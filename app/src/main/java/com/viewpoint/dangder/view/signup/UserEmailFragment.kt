@@ -18,9 +18,12 @@ class UserEmailFragment : BaseFragment<FragmentUserEmailBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_user_email
 
-    private val authViewModel: SignUpViewModel by hiltNavGraphViewModels(R.id.signip_nav_graph)
+    private val signUpViewModel: SignUpViewModel by hiltNavGraphViewModels(R.id.signip_nav_graph)
 
     override fun initView() {
+        signUpViewModel._email?.let {
+            binding.signupEmailInput.setText(it)
+        }
 
         binding.signupNextButton.setOnClickListener {
 
@@ -33,7 +36,7 @@ class UserEmailFragment : BaseFragment<FragmentUserEmailBinding>() {
 
             if (binding.signupEmailInputLayout.isErrorEnabled) return@setOnClickListener
 
-            authViewModel.createEmailTokenForSignUp(email)
+            signUpViewModel.createEmailTokenForSignUp(email)
         }
 
         binding.signupEmailInput.addTextChangedListener(
@@ -46,7 +49,7 @@ class UserEmailFragment : BaseFragment<FragmentUserEmailBinding>() {
     }
 
     override fun subscribeModel() {
-        authViewModel.action.subscribeBy(
+        signUpViewModel.action.subscribeBy(
             onNext = {
                 when (it) {
                     Actions.GoToNextPage -> findNavController().navigate(R.id.action_userEmailFragment_to_emailVerifyFragment)
