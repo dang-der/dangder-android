@@ -1,5 +1,6 @@
 package com.viewpoint.dangder.viewmodel
 
+import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
@@ -48,6 +49,7 @@ class LoginViewModelTest {
 
             @BeforeEach
             fun setUp() = runTest {
+
                 given(mockCheckIsLoginUseCase.invoke()).willReturn(true)
             }
 
@@ -55,10 +57,8 @@ class LoginViewModelTest {
             @DisplayName("메인 페이지 이동 액션을 발행한다.")
             fun `it publish GoToMainPage action`() = runTest {
                 loginViewModel.checkIsLogin()
-                loginViewModel.action.subscribe {
-                    Timber.tag("loginViewModel test").d(it.toString())
-                }
-                loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
+                val actual = loginViewModel.action.test().awaitCount(3).values()
+                assertThat(actual).contains(Actions.GoToMainPage)
             }
         }
 
@@ -75,7 +75,8 @@ class LoginViewModelTest {
             @DisplayName("로그인 페이지 이동 액션을 발행한다.")
             fun `it publish GotoLoginPage action`() = runTest {
                 loginViewModel.checkIsLogin()
-                loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToLoginPage)
+                val actual = loginViewModel.action.test().awaitCount(3).values()
+                assertThat(actual).contains(Actions.GoToLoginPage)
             }
         }
     }
@@ -97,7 +98,8 @@ class LoginViewModelTest {
                 val email = "test@test.com"
                 val pw = "123qwe"
                 loginViewModel.login(email, pw)
-                loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
+                val actual = loginViewModel.action.test().awaitCount(3).values()
+                assertThat(actual).contains(Actions.GoToMainPage)
             }
         }
     }

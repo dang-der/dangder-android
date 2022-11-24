@@ -1,6 +1,7 @@
 package com.viewpoint.dangder.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
+import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.entity.User
 import com.viewpoint.dangder.usecase.CreateEmailTokenUseCase
@@ -63,7 +64,8 @@ class SignUpViewModelTest {
             fun `it publish GoToNextPage action`() = runTest {
                 val email = "correct@tt.com"
                 signUpViewModel.createEmailTokenForSignUp(email)
-                signUpViewModel.action.test().awaitCount(1).assertValue(Actions.GoToNextPage)
+                val actual = signUpViewModel.action.test().awaitCount(3).values()
+                assertThat(actual).contains(Actions.GoToNextPage)
             }
         }
     }
@@ -85,7 +87,8 @@ class SignUpViewModelTest {
             fun `it publish GoToNextPage action`() = runTest {
 
                 signUpViewModel.verifyEmailToken("token")
-                signUpViewModel.action.test().awaitCount(1).assertValue(Actions.GoToNextPage)
+                val actual = signUpViewModel.action.test().awaitCount(3).values()
+                assertThat(actual).contains(Actions.GoToNextPage)
             }
         }
     }
@@ -109,7 +112,8 @@ class SignUpViewModelTest {
             fun `it publish GoToInitDogPage action`() = runTest {
 
                 signUpViewModel.createUser("password")
-                signUpViewModel.action.test().awaitCount(1).assertValue(Actions.GoToInitDogPage)
+                val actual = signUpViewModel.action.test().awaitCount(3).values()
+                assertThat(actual).contains(Actions.GoToInitDogPage(mockUser.id))
             }
         }
     }
