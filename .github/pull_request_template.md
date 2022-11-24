@@ -1,5 +1,5 @@
 ## Issue 번호
-- Closes #
+close #
 
 ## 작업 내역
 - 
