@@ -8,7 +8,7 @@ import com.viewpoint.dangder.R
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseActivity
 import com.viewpoint.dangder.databinding.ActivityLoginBinding
-import com.viewpoint.dangder.util.InputWatcher
+import com.viewpoint.dangder.util.InputVerifyWatcher
 import com.viewpoint.dangder.util.emailRegex
 import com.viewpoint.dangder.util.hideKeyboard
 import com.viewpoint.dangder.util.passwordRegex
@@ -29,7 +29,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     override fun initView() {
 
         binding.loginEmailInput.addTextChangedListener(
-            InputWatcher(
+            InputVerifyWatcher(
                 binding.loginEmailInputLayout,
                 "이메일을 정확하게 입력해주세요.",
                 emailRegex
@@ -37,7 +37,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         )
 
         binding.loginPasswordInput.addTextChangedListener(
-            InputWatcher(
+            InputVerifyWatcher(
                 binding.loginPasswordInputLayout,
                 "영문 + 숫자 조합으로 입력해주세요.",
                 passwordRegex

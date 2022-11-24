@@ -7,7 +7,7 @@ import com.viewpoint.dangder.R
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentUserEmailBinding
-import com.viewpoint.dangder.util.InputWatcher
+import com.viewpoint.dangder.util.InputVerifyWatcher
 import com.viewpoint.dangder.util.emailRegex
 import com.viewpoint.dangder.viewmodel.SignUpViewModel
 import io.reactivex.rxjava3.kotlin.addTo
@@ -40,7 +40,7 @@ class UserEmailFragment : BaseFragment<FragmentUserEmailBinding>() {
         }
 
         binding.signupEmailInput.addTextChangedListener(
-            InputWatcher(
+            InputVerifyWatcher(
                 binding.signupEmailInputLayout,
                 "이메일을 정확하게 입력해주세요.",
                 emailRegex
