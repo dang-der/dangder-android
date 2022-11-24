@@ -59,6 +59,8 @@ class UserPasswordFragment : BaseFragment<FragmentUserPasswordBinding>() {
                     Actions.GoToInitDogPage-> {
                         Snackbar.make(binding.root, "페이지 이동한다.", Snackbar.LENGTH_SHORT).show()
                     }
+                    Actions.ShowLoadingDialog -> showLoadingDialog()
+                    Actions.HideLoadingDialog -> hideLoadingDialog()
                     else -> {
                         if(it is Actions.ShowErrorMessage){
                             showErrorSnackBar(binding.root, it.message)

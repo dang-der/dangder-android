@@ -44,6 +44,32 @@ class VerifyEmailTokenFragment : BaseFragment<FragmentEmailVerifyBinding>() {
             signUpViewModel.verifyEmailToken(token)
         }
 
+        moveFocus()
+    }
+
+    override fun subscribeModel() {
+        signUpViewModel.action.subscribeBy(
+            onNext = {
+                when (it) {
+                    Actions.GoToNextPage -> findNavController().navigate(R.id.action_emailVerifyFragment_to_userPasswordFragment)
+                    Actions.ShowLoadingDialog -> showLoadingDialog()
+                    Actions.HideLoadingDialog -> hideLoadingDialog()
+                    else -> {
+                        if (it is Actions.ShowErrorMessage) {
+                            showErrorSnackBar(binding.root, it.message)
+                        }
+                    }
+                }
+            },
+            onError = {
+
+            }
+        ).addTo(compositeDisposable)
+    }
+
+    override fun initData() {}
+
+    private fun moveFocus(){
         binding.signupCode1.addTextChangedListener {
             if (it.toString().isNotEmpty()) {
                 binding.signupCode2.requestFocus()
@@ -61,29 +87,5 @@ class VerifyEmailTokenFragment : BaseFragment<FragmentEmailVerifyBinding>() {
                 binding.signupCode4.requestFocus()
             }
         }
-
-
-    }
-
-    override fun subscribeModel() {
-        signUpViewModel.action.subscribeBy(
-            onNext = {
-                when (it) {
-                    Actions.GoToNextPage -> findNavController().navigate(R.id.action_emailVerifyFragment_to_userPasswordFragment)
-                    else -> {
-                        if (it is Actions.ShowErrorMessage) {
-                            showErrorSnackBar(binding.root, it.message)
-                        }
-                    }
-                }
-            },
-            onError = {
-
-            }
-        ).addTo(compositeDisposable)
-    }
-
-    override fun initData() {
-
     }
 }

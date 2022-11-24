@@ -48,7 +48,12 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun createEmailTokenForSignUp(email: String) = viewModelScope.launch(ceh) {
+        showLoading()
+
         val result = createEmailTokenUseCase(email, "signUp")
+
+        hideLoading()
+
         if (result) {
             _email = email
             _token = null
@@ -63,8 +68,12 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun verifyEmailToken(token: String) = viewModelScope.launch(ceh) {
+        showLoading()
+
         val email = _email ?:return@launch
         val result = verifyEmailTokenUseCase(email, token)
+
+        hideLoading()
 
         if (result) {
             _token = token
@@ -75,9 +84,13 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun createUser(password : String) = viewModelScope.launch(ceh){
-        val email = _email ?:return@launch
+        showLoading()
 
+        val email = _email ?:return@launch
         createUserUseCase(email, password)
+
+        hideLoading()
+
         _action.onNext(Actions.GoToInitDogPage)
     }
 
@@ -87,5 +100,12 @@ class SignUpViewModel @Inject constructor(
         super.onCleared()
     }
 
+    private fun showLoading(){
+        _action.onNext(Actions.ShowLoadingDialog)
+    }
+
+    private fun hideLoading(){
+        _action.onNext(Actions.HideLoadingDialog)
+    }
 }
 
