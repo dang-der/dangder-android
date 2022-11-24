@@ -7,7 +7,6 @@ import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -21,7 +20,7 @@ class LoginViewModel @Inject constructor(
 ) : BaseViewModel() {
 
 
-    override val _action : PublishSubject<Actions> = PublishSubject.create()
+    override val _action: PublishSubject<Actions> = PublishSubject.create()
     override val action: Observable<Actions>
         get() = _action
 
@@ -31,13 +30,19 @@ class LoginViewModel @Inject constructor(
     }
 
     fun checkIsLogin() = viewModelScope.launch(ceh) {
+        _action.onNext(Actions.ShowLoadingDialog)
+
         val result = checkLoggedInUseCase()
+
+        _action.onNext(Actions.HideLoadingDialog)
         if (result) _action.onNext(Actions.GoToMainPage) else _action.onNext(Actions.GoToLoginPage)
     }
 
 
     fun login(email: String, pw: String) = viewModelScope.launch(ceh) {
+        _action.onNext(Actions.ShowLoadingDialog)
         val result = loginUseCase(email, pw)
+        _action.onNext(Actions.HideLoadingDialog)
         if (result) _action.onNext(Actions.GoToMainPage)
     }
 

@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewbinding.ViewBinding
+import com.viewpoint.dangder.view.dialog.LoadingDialog
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class BaseActivity<B :ViewBinding> : AppCompatActivity(){
     protected lateinit var binding : B
     protected abstract val layoutId : Int
+    protected lateinit var loadingDialog:LoadingDialog
     protected val compositeDisposable = CompositeDisposable()
 
     protected abstract fun initView()
@@ -19,7 +21,7 @@ abstract class BaseActivity<B :ViewBinding> : AppCompatActivity(){
 
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
-
+        loadingDialog = LoadingDialog.newInstance()
         initView()
         initData()
 
@@ -33,6 +35,16 @@ abstract class BaseActivity<B :ViewBinding> : AppCompatActivity(){
     override fun onStop() {
         super.onStop()
         compositeDisposable.clear()
+    }
+
+    protected fun showLoadingDialog(){
+        loadingDialog.show(supportFragmentManager, loadingDialog.tag)
+    }
+
+    protected fun hideLoadingDialog(){
+        if(loadingDialog.isAdded){
+            loadingDialog.dismissAllowingStateLoss()
+        }
     }
 
 

@@ -54,6 +54,8 @@ class UserEmailFragment : BaseFragment<FragmentUserEmailBinding>() {
             onNext = {
                 when (it) {
                     Actions.GoToNextPage -> findNavController().navigate(R.id.action_userEmailFragment_to_emailVerifyFragment)
+                    Actions.ShowLoadingDialog -> showLoadingDialog()
+                    Actions.HideLoadingDialog -> hideLoadingDialog()
                     else -> {
                         if (it is Actions.ShowErrorMessage) {
                             showErrorSnackBar(binding.root, it.message)

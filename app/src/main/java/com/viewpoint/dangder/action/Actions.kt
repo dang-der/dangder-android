@@ -7,6 +7,8 @@ sealed class Actions {
     object GoToLoginPage : Actions()
     object GoToNextPage : Actions()
     object GoToInitDogPage : Actions()
+    object ShowLoadingDialog: Actions()
+    object HideLoadingDialog: Actions()
     data class ShowErrorMessage (val message:String) : Actions()
 
 }
