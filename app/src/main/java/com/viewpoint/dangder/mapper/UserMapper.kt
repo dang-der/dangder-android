@@ -1,5 +1,6 @@
 package com.viewpoint.dangder.mapper
 
+import com.viewpoint.CreateUserMutation
 import com.viewpoint.FetchLoginUserQuery
 import com.viewpoint.dangder.entity.User
 
@@ -10,5 +11,10 @@ object UserMapper {
         email = userData.email,
         isStop = userData.isStop,
         pet = userData.pet
+    )
+
+    fun mapToUser(userData: CreateUserMutation.CreateUser) = User(
+        id = userData.id,
+        email = userData.email,
     )
 }

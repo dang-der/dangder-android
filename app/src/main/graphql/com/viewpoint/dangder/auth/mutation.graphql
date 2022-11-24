@@ -9,3 +9,10 @@ mutation CreateMailToken($email:String!, $type : String!){
 mutation VerifyMailToken($email:String!, $code : String!){
     verifyMailToken(email: $email, code: $code)
 }
+
+mutation CreateUser($createUserInput : CreateUserInput!){
+    createUser(createUserInput: $createUserInput){
+        id
+        email
+    }
+}

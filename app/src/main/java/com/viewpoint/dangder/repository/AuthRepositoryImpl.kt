@@ -54,4 +54,12 @@ class AuthRepositoryImpl @Inject constructor(
         return response.data?.verifyMailToken ?: throw Exception("데이터가 없습니다.")
     }
 
+    override suspend fun createUser(email: String, password: String, pet: Boolean): User {
+        val response = authRemoteDataSource.createUser(email, password, pet)
+        if (response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val user = response.data?.createUser ?: throw Exception("데이터가 없습니다.")
+        return UserMapper.mapToUser(user)
+    }
+
 }

@@ -11,4 +11,5 @@ interface AuthRepository {
     suspend fun saveToken(token : String)
     suspend fun createEmailTokenForSignUp(email: String): Boolean
     suspend fun verifyEmailToken(email: String, token: String): Boolean
+    suspend fun createUser(email: String,password: String, pet : Boolean): User
 }
