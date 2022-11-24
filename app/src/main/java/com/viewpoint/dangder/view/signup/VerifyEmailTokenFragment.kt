@@ -8,6 +8,7 @@ import com.viewpoint.dangder.R
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentEmailVerifyBinding
+import com.viewpoint.dangder.util.Timer
 import com.viewpoint.dangder.viewmodel.SignUpViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -19,6 +20,17 @@ class VerifyEmailTokenFragment : BaseFragment<FragmentEmailVerifyBinding>() {
     private val signUpViewModel: SignUpViewModel by hiltNavGraphViewModels(R.id.signip_nav_graph)
 
     override fun initView() {
+        signUpViewModel._token?.let {
+            binding.signupCode1.setText(it[0].toString())
+            binding.signupCode2.setText(it[1].toString())
+            binding.signupCode3.setText(it[2].toString())
+            binding.signupCode4.setText(it[3].toString())
+        }
+
+        signUpViewModel._token ?: let {
+            Timer(5 * 1000 * 60, 1000, binding.signupTimerText).start()
+        }
+
         binding.signupNextButton.setOnClickListener {
             val token =
                 "${binding.signupCode1.text.toString()}${binding.signupCode2.text.toString()}${binding.signupCode3.text.toString()}${binding.signupCode4.text.toString()}"
@@ -57,8 +69,8 @@ class VerifyEmailTokenFragment : BaseFragment<FragmentEmailVerifyBinding>() {
             onNext = {
                 when (it) {
                     Actions.GoToNextPage -> findNavController().navigate(R.id.action_emailVerifyFragment_to_userPasswordFragment)
-                    else ->{
-                        if(it is Actions.ShowErrorMessage){
+                    else -> {
+                        if (it is Actions.ShowErrorMessage) {
                             Snackbar.make(binding.root, it.message, Snackbar.LENGTH_SHORT).show()
                         }
                     }

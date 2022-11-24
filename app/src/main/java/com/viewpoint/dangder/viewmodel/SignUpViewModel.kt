@@ -25,13 +25,24 @@ class SignUpViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val EMAIL_KEY = "email"
+    val TOKEN_KEY = "token"
 
     override val _action: PublishSubject<Actions> = PublishSubject.create()
     override val action: Observable<Actions>
         get() = _action
 
-    var _email : String? = null
-    private set
+    var _email: String? = null
+        get() =
+            field ?:let {
+                savedStateHandle.get<String>(EMAIL_KEY)
+            }
+        private set
+
+    var _token: String? = null
+        get() = field?:let {
+            savedStateHandle.get<String>(TOKEN_KEY)
+        }
+        private set
 
     private val ceh = CoroutineExceptionHandler { _, exception ->
         Timber.d(exception.message)
@@ -42,8 +53,9 @@ class SignUpViewModel @Inject constructor(
         val result = createEmailTokenUseCase(email, "signUp")
         if (result) {
             _email = email
+            _token = null
             _action.onNext(Actions.GoToNextPage)
-        }else {
+        } else {
             _action.onNext(
                 Actions.ShowErrorMessage(
                     "이메일 전송에 실패했습니다."
@@ -52,15 +64,21 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun verifyEmailToken( token : String) = viewModelScope.launch(ceh){
-        val email = _email?:savedStateHandle.get<String>(EMAIL_KEY) ?:return@launch
+    fun verifyEmailToken(token: String) = viewModelScope.launch(ceh) {
+        val email = _email ?: savedStateHandle.get<String>(EMAIL_KEY) ?: return@launch
         val result = verifyEmailTokenUseCase(email, token)
 
-        if(result) _action.onNext(Actions.GoToNextPage) else _action.onNext(Actions.ShowErrorMessage("인증코드가 일치하지 않습니다."))
+        if (result) {
+            _token = token
+            _action.onNext(Actions.GoToNextPage)
+        } else {
+            _action.onNext(Actions.ShowErrorMessage("인증코드가 일치하지 않습니다."))
+        }
     }
 
     override fun onCleared() {
         savedStateHandle[EMAIL_KEY] = _email
+        savedStateHandle[TOKEN_KEY] = _token
         super.onCleared()
     }
 
