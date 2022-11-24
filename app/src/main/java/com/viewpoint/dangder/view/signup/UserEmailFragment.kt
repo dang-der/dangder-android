@@ -9,7 +9,7 @@ import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentUserEmailBinding
 import com.viewpoint.dangder.util.InputWatcher
 import com.viewpoint.dangder.util.emailRegex
-import com.viewpoint.dangder.viewmodel.AuthViewModel
+import com.viewpoint.dangder.viewmodel.SignUpViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
@@ -18,7 +18,7 @@ class UserEmailFragment : BaseFragment<FragmentUserEmailBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_user_email
 
-    private val authViewModel: AuthViewModel by hiltNavGraphViewModels(R.id.signip_nav_graph)
+    private val authViewModel: SignUpViewModel by hiltNavGraphViewModels(R.id.signip_nav_graph)
 
     override fun initView() {
 

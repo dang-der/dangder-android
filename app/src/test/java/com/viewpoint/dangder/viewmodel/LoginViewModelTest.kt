@@ -1,10 +1,8 @@
-package com.viewpoint.dangder
+package com.viewpoint.dangder.viewmodel
 
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
-import com.viewpoint.dangder.usecase.CreateEmailTokenUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
-import com.viewpoint.dangder.viewmodel.AuthViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -17,23 +15,21 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
+import timber.log.Timber
 
-class AuthViewModelTest {
-
+class LoginViewModelTest {
 
     private val mockCheckIsLoginUseCase = Mockito.mock(CheckLoggedInUseCase::class.java)
     private val mockLoginUseCase = Mockito.mock(LoginUseCase::class.java)
-    private val mockCreateEmailTokenUseCase = Mockito.mock(CreateEmailTokenUseCase::class.java)
 
-    private lateinit var authViewModel: AuthViewModel
-    private val mainThread = newSingleThreadContext(AuthViewModel::class.java.simpleName)
+    private lateinit var loginViewModel: LoginViewModel
+    private val mainThread = newSingleThreadContext(LoginViewModel::class.java.simpleName)
 
     @BeforeEach
     fun setUp() {
-        authViewModel =
-            AuthViewModel(mockCheckIsLoginUseCase, mockLoginUseCase, mockCreateEmailTokenUseCase)
+        loginViewModel =
+            LoginViewModel(mockCheckIsLoginUseCase, mockLoginUseCase)
         Dispatchers.setMain(mainThread)
     }
 
@@ -58,8 +54,11 @@ class AuthViewModelTest {
             @Test
             @DisplayName("메인 페이지 이동 액션을 발행한다.")
             fun `it publish GoToMainPage action`() = runTest {
-                authViewModel.checkIsLogin()
-                authViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
+                loginViewModel.checkIsLogin()
+                loginViewModel.action.subscribe {
+                    Timber.tag("loginViewModel test").d(it.toString())
+                }
+                loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
             }
         }
 
@@ -75,8 +74,8 @@ class AuthViewModelTest {
             @Test
             @DisplayName("로그인 페이지 이동 액션을 발행한다.")
             fun `it publish GotoLoginPage action`() = runTest {
-                authViewModel.checkIsLogin()
-                authViewModel.action.test().awaitCount(1).assertValue(Actions.GoToLoginPage)
+                loginViewModel.checkIsLogin()
+                loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToLoginPage)
             }
         }
     }
@@ -97,32 +96,9 @@ class AuthViewModelTest {
             fun `it publish GoToMainPage action`() = runTest {
                 val email = "test@test.com"
                 val pw = "123qwe"
-                authViewModel.login(email, pw)
-                authViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
+                loginViewModel.login(email, pw)
+                loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToMainPage)
             }
         }
     }
-
-    @Nested
-    @DisplayName("createEmailToken 메소드는")
-    inner class DescribeOfCreateEmailToken {
-        @Nested
-        @DisplayName("입력이 올바른 이메일 값이면")
-        inner class ContextWithCorrectEmail {
-            @BeforeEach
-            fun setUp() = runTest {
-                given(mockCreateEmailTokenUseCase.invoke(any(), eq("signUp"))).willReturn(true)
-            }
-
-            @Test
-            @DisplayName("인증코드 페이지 이동 맥션을 발생한다.")
-            fun `it publish GoToCodeInputPage action`() = runTest {
-                val email = "correct@tt.com"
-                authViewModel.createEmailTokenForSignUp(email)
-                authViewModel.action.test().awaitCount(1).assertValue(Actions.GoToNextPage)
-            }
-        }
-    }
-
-
 }

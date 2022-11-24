@@ -1,12 +1,9 @@
 package com.viewpoint.dangder.viewmodel
 
-
-import android.app.Notification.Action
 import androidx.lifecycle.viewModelScope
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
 import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
-import com.viewpoint.dangder.usecase.CreateEmailTokenUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
@@ -17,14 +14,15 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(
+class LoginViewModel @Inject constructor(
     private val checkLoggedInUseCase: CheckLoggedInUseCase,
-    private val loginUseCase: LoginUseCase,
-    private val createEmailTokenUseCase: CreateEmailTokenUseCase
+    private val loginUseCase: LoginUseCase
 ) : BaseViewModel() {
 
-    private val _action = BehaviorSubject.create<Actions>()
-    val action: Observable<Actions> = _action
+
+    override val _action: BehaviorSubject<Actions> = BehaviorSubject.create()
+    override val action: Observable<Actions>
+        get() = _action
 
     private val ceh = CoroutineExceptionHandler { _, exception ->
         Timber.d(exception.message)
@@ -42,13 +40,5 @@ class AuthViewModel @Inject constructor(
         if (result) _action.onNext(Actions.GoToMainPage)
     }
 
-    fun createEmailTokenForSignUp(email: String) = viewModelScope.launch(ceh) {
-        val result = createEmailTokenUseCase(email, "signUp")
-        if (result) _action.onNext(Actions.GoToNextPage) else _action.onNext(
-            Actions.ShowErrorMessage(
-                "이메일 전송에 실패했습니다."
-            )
-        )
-    }
-
 }
+

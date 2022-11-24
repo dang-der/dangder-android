@@ -6,9 +6,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentEmailVerifyBinding
-import timber.log.Timber
 
-class AuthCodeVerifyFragment : BaseFragment<FragmentEmailVerifyBinding>() {
+class VerifyEmailTokenFragment : BaseFragment<FragmentEmailVerifyBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_email_verify
 

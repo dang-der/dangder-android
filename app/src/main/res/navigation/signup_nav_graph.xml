@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/emailVerifyFragment"
-        android:name="com.viewpoint.dangder.view.signup.AuthCodeVerifyFragment"
+        android:name="com.viewpoint.dangder.view.signup.VerifyEmailTokenFragment"
         android:label="회원가입" >
         <action
             android:id="@+id/action_emailVerifyFragment_to_userPasswordFragment"

@@ -2,7 +2,6 @@ package com.viewpoint.dangder.view
 
 
 import android.content.Intent
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.viewpoint.dangder.R
@@ -13,7 +12,7 @@ import com.viewpoint.dangder.util.InputWatcher
 import com.viewpoint.dangder.util.emailRegex
 import com.viewpoint.dangder.util.hideKeyboard
 import com.viewpoint.dangder.util.passwordRegex
-import com.viewpoint.dangder.viewmodel.AuthViewModel
+import com.viewpoint.dangder.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -25,7 +24,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     override val layoutId: Int
         get() = R.layout.activity_login
-    private val authViewModel: AuthViewModel by viewModels()
+    private val authViewModel: LoginViewModel by viewModels()
 
     override fun initView() {
 
