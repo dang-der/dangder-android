@@ -1,6 +1,7 @@
 package com.viewpoint.dangder.di
 
 import com.viewpoint.dangder.repository.AuthRepository
+import com.viewpoint.dangder.repository.DogRepository
 import com.viewpoint.dangder.usecase.*
 import dagger.Module
 import dagger.Provides
@@ -24,5 +25,8 @@ object UseCaseModule {
 
     @Provides
     fun providesCreateUserUseCase(authRepository: AuthRepository) = CreateUserUseCase(authRepository)
+
+    @Provides
+    fun providesCheckRegisteredDogUseCase(dogRepository: DogRepository) = CheckRegisteredDogUseCase(dogRepository)
 
 }
