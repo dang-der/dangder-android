@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="26dp">
+
+
+        <LinearLayout
+            android:id="@+id/label_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/initdog_next_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dog_emoji"
+                android:textColor="@color/black"
+                android:textSize="@dimen/supper"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/label_setting_profile"
+                android:textColor="@color/black"
+                android:textSize="@dimen/supper" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/initdog_image_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/label_image"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_layout" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/initdog_images_container"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/initdog_add_image_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/initdog_image_label">
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <ImageView
+            android:id="@+id/initdog_add_image_btn"
+            android:layout_width="70dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/btn_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/initdog_image_label" />
+
+        <TextView
+            android:id="@+id/initdog_image_caution_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/caution_image1"
+            android:textSize="@dimen/nano"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/initdog_add_image_btn" />
+
+        <TextView
+            android:id="@+id/initdog_image_caution_label2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/caution_image2"
+            android:textSize="@dimen/nano"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/initdog_image_caution_label" />
+
+
+        <TextView
+            android:id="@+id/initdog_age_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="나이"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/initdog_image_caution_label2" />
+
+
+        <EditText
+            android:textSize="@dimen/micro"
+            android:id="@+id/initdog_age_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:inputType="numberDecimal"
+            app:layout_constraintTop_toBottomOf="@+id/initdog_age_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/age_unit_label"/>
+
+        <TextView
+            android:id="@+id/age_unit_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="세"
+            android:textAlignment="center"
+            android:textSize="@dimen/large"
+            app:layout_constraintTop_toBottomOf="@+id/initdog_age_label"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/initdog_description_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="댕댕이의 소개 글을 작성해 주세요. (200자 이내)"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/initdog_age_input" />
+        
+        <EditText
+            android:textSize="@dimen/micro"
+            android:background="@drawable/bg_round_text_input_box"
+            android:padding="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/initdog_description_label"
+            app:layout_constraintBottom_toTopOf="@+id/initdog_next_button"
+            android:layout_marginVertical="16dp"
+            android:textAlignment="viewStart"
+            android:gravity="top"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <Button
+            android:id="@+id/initdog_next_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_button"
+            android:text="다음"
+            android:textSize="@dimen/middle"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -7,6 +7,7 @@ import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch

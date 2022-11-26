@@ -87,11 +87,11 @@ class SignUpViewModel @Inject constructor(
         showLoading()
 
         val email = _email ?:return@launch
-        createUserUseCase(email, password)
+        val user = createUserUseCase(email, password)
 
         hideLoading()
 
-        _action.onNext(Actions.GoToInitDogPage)
+        _action.onNext(Actions.GoToInitDogPage(user.id))
     }
 
     override fun onCleared() {
