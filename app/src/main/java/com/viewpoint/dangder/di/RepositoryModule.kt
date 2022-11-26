@@ -1,9 +1,6 @@
 package com.viewpoint.dangder.di
 
-import com.viewpoint.dangder.repository.AuthRepository
-import com.viewpoint.dangder.repository.AuthRepositoryImpl
-import com.viewpoint.dangder.repository.SettingsRepository
-import com.viewpoint.dangder.repository.SettingsRepositoryImpl
+import com.viewpoint.dangder.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,5 +14,8 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindSettingsRepository(settingsRepository: SettingsRepositoryImpl) : SettingsRepository
+
+    @Binds
+    abstract fun bindDogRepository(dogRepository: DogRepositoryImpl) : DogRepository
 
 }
