@@ -49,8 +49,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:hint="@string/hint_dog_reg_number"
+            app:hintEnabled="false"
             android:textSize="@dimen/micro"
+            android:padding="3dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/label_layout">
 
@@ -61,6 +62,9 @@
                 android:background="@android:color/transparent"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
+                android:maxLength="15"
+
+                android:hint="@string/hint_dog_reg_number"
                 android:textSize="@dimen/micro" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,6 +88,8 @@
             android:orientation="horizontal">
 
             <EditText
+                android:backgroundTint="@color/main"
+                android:textCursorDrawable="@color/main"
                 android:id="@+id/initdog_birth_year_input"
                 android:textAlignment="center"
                 android:hint="1995"
@@ -103,6 +109,8 @@
                 android:text="년"/>
 
             <EditText
+                android:backgroundTint="@color/main"
+                android:textCursorDrawable="@color/main"
                 android:textSize="@dimen/micro"
                 android:id="@+id/initdog_birth_month_input"
                 android:textAlignment="center"
@@ -133,6 +141,8 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:backgroundTint="@color/main"
+                android:textCursorDrawable="@color/main"
                 android:textAlignment="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
