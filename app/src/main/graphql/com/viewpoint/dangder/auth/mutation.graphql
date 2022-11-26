@@ -16,3 +16,17 @@ mutation CreateUser($createUserInput : CreateUserInput!){
         email
     }
 }
+
+mutation GetDogInfo($dogRegNum : String!, $ownerBirth : String!){
+    getDogInfo(dogRegNum: $dogRegNum, ownerBirth: $ownerBirth)
+}
+
+mutation CreateDog($createDogInput : CreateDogInput!, $dogRegNum : String!, $ownerBirth : String!){
+    createDog(ownerBirth: $ownerBirth, createDogInput: $createDogInput, dogRegNum: $dogRegNum){
+        id
+    }
+}
+
+mutation UploadFile($files : [Upload!]!){
+    uploadFile(files: $files)
+}
