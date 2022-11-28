@@ -25,6 +25,7 @@ class RegisterDogViewModel @Inject constructor(
     private val ceh = CoroutineExceptionHandler { _, exception ->
         Timber.d(exception.message)
         _action.onNext(Actions.ShowErrorMessage(exception.message ?: ""))
+        _action.onNext(Actions.HideLoadingDialog)
     }
 
 
