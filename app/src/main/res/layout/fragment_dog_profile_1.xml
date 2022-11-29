@@ -62,12 +62,14 @@
 
         <ImageView
             android:id="@+id/initdog_add_image_btn"
-            android:layout_width="70dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/btn_image"
             app:layout_constraintStart_toEndOf="@+id/initdog_image_list"
-            app:layout_constraintTop_toBottomOf="@id/initdog_image_label"/>
+            app:layout_constraintTop_toTopOf="@+id/initdog_image_list"
+            app:layout_constraintBottom_toBottomOf="@+id/initdog_image_list"/>
 
 
         <TextView
@@ -108,7 +110,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="8"
+            android:backgroundTint="@color/main"
             android:inputType="numberDecimal"
+            android:textAlignment="center"
+            android:textCursorDrawable="@color/main"
             android:textSize="@dimen/micro"
             app:layout_constraintEnd_toStartOf="@+id/age_unit_label"
             app:layout_constraintStart_toStartOf="parent"
@@ -143,7 +148,7 @@
             android:layout_marginVertical="16dp"
             android:background="@drawable/bg_round_text_input_box"
             android:gravity="top"
-            android:padding="6dp"
+            android:padding="16dp"
             android:textSize="@dimen/micro"
             app:layout_constraintBottom_toTopOf="@+id/initdog_next_button"
             app:layout_constraintStart_toStartOf="parent"

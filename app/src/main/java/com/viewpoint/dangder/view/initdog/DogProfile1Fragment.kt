@@ -14,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentDogProfile1Binding
+import com.viewpoint.dangder.util.showErrorSnackBar
 import com.viewpoint.dangder.view.adapter.ImageListAdapter
 import com.viewpoint.dangder.viewmodel.RegisterDogViewModel
 import timber.log.Timber
@@ -72,6 +73,12 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
 
     private fun handleClickAddImage(){
         binding.initdogAddImageBtn.setOnClickListener {
+
+            if(imageListAdapter.itemCount >=3){
+                showErrorSnackBar(binding.root, "이미지는 최대 3장까지 등록 가능합니다.")
+                return@setOnClickListener
+            }
+
             val permissionResult = checkPermissions(
                 arrayOf(
                     android.Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -86,7 +93,6 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
             }
 
             imageDialog.show()
-            Timber.tag("permissions").d(permissionResult.toString())
         }
     }
 
