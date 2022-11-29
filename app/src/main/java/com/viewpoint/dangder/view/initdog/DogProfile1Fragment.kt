@@ -1,14 +1,23 @@
 package com.viewpoint.dangder.view.initdog
 
+import android.app.Activity.RESULT_OK
+import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
+import android.provider.MediaStore
+import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentDogProfile1Binding
-import com.viewpoint.dangder.view.InitDogActivity
+import com.viewpoint.dangder.view.adapter.ImageListAdapter
 import com.viewpoint.dangder.viewmodel.RegisterDogViewModel
 import timber.log.Timber
-import java.util.jar.Manifest
+import java.text.SimpleDateFormat
 
 
 class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
@@ -17,6 +26,36 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
 
     private val registerDogViewModel: RegisterDogViewModel by hiltNavGraphViewModels(R.id.init_dog_nav_graph)
 
+    private lateinit var imageDialog :BottomSheetDialog
+    private val imageListAdapter = ImageListAdapter()
+    private var cameraImageUri:Uri? = null
+
+    // 갤러리에서 이미지 가져오는 launcher
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode != RESULT_OK) return@registerForActivityResult
+        val imageUri = it.data?.data
+        imageUri?.let {
+            imageListAdapter.addItem(it)
+        }
+    }
+
+    // 카메라에서 이미지 가져오는 launcher
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode != RESULT_OK) return@registerForActivityResult
+        cameraImageUri?.let {
+            imageListAdapter.addItem(it)
+        }
+    }
+
+
+    override fun subscribeModel() {
+
+    }
+
+    override fun initData() {
+
+    }
+
     override fun initView() {
         requestPermissions(arrayOf(
             android.Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -24,10 +63,14 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
             android.Manifest.permission.CAMERA
         ))
 
-        binding.initdogNextButton.setOnClickListener {
-            findNavController().navigate(R.id.action_dogProfile1Fragment_to_dogProfile2Fragment)
-        }
+        initImageDialog()
+        initImageListView()
 
+        handleClickAddImage()
+        handleClickNext()
+    }
+
+    private fun handleClickAddImage(){
         binding.initdogAddImageBtn.setOnClickListener {
             val permissionResult = checkPermissions(
                 arrayOf(
@@ -38,20 +81,67 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
             )
 
             if(permissionResult.not()) {
-                showDialogGoToSetting()
+                showDialogGoToSetting(arrayOf("저장소", "카메라"))
                 return@setOnClickListener
             }
 
+            imageDialog.show()
             Timber.tag("permissions").d(permissionResult.toString())
         }
-
     }
 
-    override fun subscribeModel() {
-
+    private fun handleClickNext(){
+        binding.initdogNextButton.setOnClickListener {
+            findNavController().navigate(R.id.action_dogProfile1Fragment_to_dogProfile2Fragment)
+        }
     }
 
-    override fun initData() {
+    private fun initImageDialog(){
+        val imageDialogView = layoutInflater.inflate(R.layout.dialog_select_gallery_camera, null)
+        imageDialog = BottomSheetDialog(requireActivity()).apply {
+            setContentView(imageDialogView)
+        }
 
+        imageDialogView.findViewById<TextView>(R.id.dialog_image_gallery_btn).setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK).apply {
+                setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+            }
+            galleryLauncher.launch(intent)
+        }
+
+        imageDialogView.findViewById<TextView>(R.id.dialog_image_camera_btn).setOnClickListener {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+            createImageUri(generateFileName(), "image/jpg")?.let {
+                cameraImageUri = it
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri)
+                cameraLauncher.launch(intent)
+            }
+
+        }
     }
+
+    private fun createImageUri (fileName : String, mimeType : String) : Uri?{
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
+            put(MediaStore.Images.Media.MIME_TYPE, mimeType)
+        }
+        return requireContext().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+    }
+
+    private fun generateFileName(): String {
+        val fileName = SimpleDateFormat("yyyyMMdd-HHmmss").let {
+            it.format(System.currentTimeMillis())
+        }
+        return "${fileName}.jpg"
+    }
+
+    private fun initImageListView(){
+        binding.initdogImageList.layoutManager = LinearLayoutManager(requireContext()).apply {
+            orientation = LinearLayoutManager.HORIZONTAL
+        }
+
+        binding.initdogImageList.adapter = imageListAdapter
+    }
+
 }
