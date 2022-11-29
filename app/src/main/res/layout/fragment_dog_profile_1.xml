@@ -64,12 +64,12 @@
             android:id="@+id/initdog_add_image_btn"
             android:layout_width="60dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/btn_image"
+            app:layout_constraintBottom_toBottomOf="@+id/initdog_image_list"
             app:layout_constraintStart_toEndOf="@+id/initdog_image_list"
-            app:layout_constraintTop_toTopOf="@+id/initdog_image_list"
-            app:layout_constraintBottom_toBottomOf="@+id/initdog_image_list"/>
+            app:layout_constraintTop_toTopOf="@+id/initdog_image_list" />
 
 
         <TextView
@@ -112,6 +112,7 @@
             android:layout_weight="8"
             android:backgroundTint="@color/main"
             android:inputType="numberDecimal"
+            android:maxLength="2"
             android:textAlignment="center"
             android:textCursorDrawable="@color/main"
             android:textSize="@dimen/micro"

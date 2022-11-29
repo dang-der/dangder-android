@@ -9,11 +9,13 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentDogProfile1Binding
+import com.viewpoint.dangder.util.ImageOrderMover
 import com.viewpoint.dangder.util.showErrorSnackBar
 import com.viewpoint.dangder.view.adapter.ImageListAdapter
 import com.viewpoint.dangder.viewmodel.RegisterDogViewModel
@@ -148,6 +150,16 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
         }
 
         binding.initdogImageList.adapter = imageListAdapter
+
+        val moveCallback = ImageOrderMover { from, to -> imageListAdapter.swapItem(from, to) }
+        val touchHelper = ItemTouchHelper(moveCallback)
+
+        touchHelper.attachToRecyclerView(binding.initdogImageList)
+        imageListAdapter.onStartDragListener = object :ImageListAdapter.OnStartDragListener{
+            override fun onStartDrag(viewHolder: ImageListAdapter.ViewHolder) {
+                touchHelper.startDrag(viewHolder)
+            }
+        }
     }
 
 }
