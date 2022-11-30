@@ -50,7 +50,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/initdog_image_list"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:layout_marginTop="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,13 +63,12 @@
         <ImageView
             android:id="@+id/initdog_add_image_btn"
             android:layout_width="60dp"
-            android:layout_height="0dp"
+            android:layout_height="70dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
             android:src="@drawable/btn_image"
-            app:layout_constraintBottom_toBottomOf="@+id/initdog_image_list"
             app:layout_constraintStart_toEndOf="@+id/initdog_image_list"
-            app:layout_constraintTop_toTopOf="@+id/initdog_image_list" />
+            app:layout_constraintTop_toTopOf="@+id/initdog_image_list"
+            app:layout_constraintBottom_toBottomOf="@+id/initdog_image_list"/>
 
 
         <TextView

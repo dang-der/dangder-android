@@ -5,8 +5,12 @@ import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -55,9 +59,7 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
 
     }
 
-    override fun initData() {
-
-    }
+    override fun initData() {}
 
     override fun initView() {
         requestPermissions(arrayOf(
@@ -115,6 +117,7 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
                 setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
             }
             galleryLauncher.launch(intent)
+            imageDialog.dismiss()
         }
 
         imageDialogView.findViewById<TextView>(R.id.dialog_image_camera_btn).setOnClickListener {
@@ -124,6 +127,7 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
                 cameraImageUri = it
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri)
                 cameraLauncher.launch(intent)
+                imageDialog.dismiss()
             }
 
         }
@@ -155,6 +159,7 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
         val touchHelper = ItemTouchHelper(moveCallback)
 
         touchHelper.attachToRecyclerView(binding.initdogImageList)
+
         imageListAdapter.onStartDragListener = object :ImageListAdapter.OnStartDragListener{
             override fun onStartDrag(viewHolder: ImageListAdapter.ViewHolder) {
                 touchHelper.startDrag(viewHolder)
