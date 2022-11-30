@@ -25,4 +25,7 @@ object UseCaseModule {
     @Provides
     fun providesCreateUserUseCase(authRepository: AuthRepository) = CreateUserUseCase(authRepository)
 
+    @Provides
+    fun provideFetchUserUsecase(authRepository: AuthRepository) = FetchUserUseCase(authRepository)
+
 }

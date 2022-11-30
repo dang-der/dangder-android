@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
 import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
+import com.viewpoint.dangder.usecase.FetchUserUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val checkLoggedInUseCase: CheckLoggedInUseCase,
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val fetchUserUseCase: FetchUserUseCase,
 ) : BaseViewModel() {
 
 
@@ -27,6 +29,7 @@ class LoginViewModel @Inject constructor(
     private val ceh = CoroutineExceptionHandler { _, exception ->
         Timber.d(exception.message)
         _action.onNext(Actions.ShowErrorMessage(exception.message ?: ""))
+        _action.onNext(Actions.HideLoadingDialog)
     }
 
     fun checkIsLogin() = viewModelScope.launch(ceh) {
@@ -34,17 +37,35 @@ class LoginViewModel @Inject constructor(
 
         val result = checkLoggedInUseCase()
 
+
+        if (result) {
+            val isRegisterDog = checkRegisterDog()
+            if(isRegisterDog) _action.onNext(Actions.GoToMainPage) else _action.onNext(Actions.GoToInitDogPage)
+        } else {
+            _action.onNext(Actions.GoToLoginPage)
+        }
+
         _action.onNext(Actions.HideLoadingDialog)
-        if (result) _action.onNext(Actions.GoToMainPage) else _action.onNext(Actions.GoToLoginPage)
     }
 
 
     fun login(email: String, pw: String) = viewModelScope.launch(ceh) {
         _action.onNext(Actions.ShowLoadingDialog)
         val result = loginUseCase(email, pw)
+
+        if (result){
+            val isRegistered = checkRegisterDog()
+            if(isRegistered) _action.onNext(Actions.GoToMainPage) else _action.onNext(Actions.GoToInitDogPage)
+        }
+
         _action.onNext(Actions.HideLoadingDialog)
-        if (result) _action.onNext(Actions.GoToMainPage)
     }
+
+    private suspend fun checkRegisterDog(): Boolean {
+        val user = fetchUserUseCase()
+        return user.pet
+    }
+
 
 }
 
