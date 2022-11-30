@@ -7,6 +7,7 @@ import com.apollographql.apollo3.api.Optional
 import com.apollographql.apollo3.rx3.Rx3Apollo
 import com.apollographql.apollo3.rx3.rxSingle
 import com.viewpoint.*
+import com.viewpoint.adapter.FetchSocialLoginUserQuery_ResponseAdapter
 import com.viewpoint.type.CreateUserInput
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -21,6 +22,12 @@ class AuthRemoteDataSource @Inject constructor(
     suspend fun fetchLoginUser(): ApolloResponse<FetchLoginUserQuery.Data> {
         return withContext(Dispatchers.IO){
             apolloClient.query(FetchLoginUserQuery()).execute()
+        }
+    }
+
+    suspend fun fetchSocialLoginUser(): ApolloResponse<FetchSocialLoginUserQuery.Data> {
+        return withContext(Dispatchers.IO){
+            apolloClient.query(FetchSocialLoginUserQuery()).execute()
         }
     }
 

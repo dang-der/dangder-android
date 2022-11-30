@@ -28,6 +28,15 @@ class AuthRepositoryImpl @Inject constructor(
         return UserMapper.mapToUser(userData)
     }
 
+    override suspend fun fetchSocialLoginUser(): User {
+        val response = authRemoteDataSource.fetchSocialLoginUser()
+        if(response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val user = response?.data?.fetchSocialLoginUser?: throw Exception("데이터가 없습니다.")
+        return UserMapper.mapToUser(user)
+    }
+
+
     override suspend fun fetchAutoLoginSetting(): Flow<Boolean?> {
         return settingsRepository.getIsLoginSetting()
     }
