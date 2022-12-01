@@ -1,8 +1,7 @@
-package com.viewpoint.dangder.usecase
+package com.viewpoint.dangder.usecase.auth
 
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.repository.AuthRepository
-import com.viewpoint.dangder.usecase.auth.VerifyEmailTokenUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -16,16 +15,15 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 
-@DisplayName("VerifyEmailTokenUseCase (이메일 토큰 검사 유스케이스)는")
-internal class VerifyEmailTokenUseCaseTest {
+@DisplayName("CreateEmailTokenUseCase (이메일 토큰 생성)는")
+internal class CreateEmailTokenUseCaseTest {
     @Mock
     private val mockAuthRepository = Mockito.mock(AuthRepository::class.java)
-    private val verifyEmailTokenUseCase = VerifyEmailTokenUseCase(mockAuthRepository)
-    private val mainThread = newSingleThreadContext(VerifyEmailTokenUseCase::class.java.simpleName)
+    private val createEmailTokenUseCase = CreateEmailTokenUseCase(mockAuthRepository)
+    private val mainThread = newSingleThreadContext(CreateEmailTokenUseCase::class.java.simpleName)
 
     @Before
     fun setUp() {
@@ -38,36 +36,37 @@ internal class VerifyEmailTokenUseCaseTest {
     }
 
     @Nested
-    @DisplayName("올바른 인증코드를 입력하면")
-    inner class ContextWithCorrectToken() {
+    @DisplayName("이메일 전송이 가능하면")
+    inner class ContextWithPossibleSendEmail() {
 
+        val email = "tt@tt.com"
         @BeforeEach
         fun setUp() = runTest {
-            given(mockAuthRepository.verifyEmailToken(any(), eq("token"))).willReturn(true)
+            given(mockAuthRepository.createEmailTokenForSignUp(eq(email))).willReturn(true)
         }
 
         @Test
         @DisplayName("true를 리턴한다.")
         fun `it return true`() = runTest {
 
-            val result = verifyEmailTokenUseCase("email","token")
+            val result = createEmailTokenUseCase(email, "signUp")
             assertThat(result).isTrue()
         }
     }
 
     @Nested
-    @DisplayName("올바르지 않은 인증코드를 입력하면")
-    inner class ContextWithUnCorrectToken() {
-
+    @DisplayName("이메일 전송이 불가능하면")
+    inner class ContextWithImpossibleSendEmail() {
+        val email = "incorrect@tt.com"
         @BeforeEach
         fun setUp() = runTest {
-            given(mockAuthRepository.verifyEmailToken(any(), any())).willReturn(false)
+            given(mockAuthRepository.createEmailTokenForSignUp(eq(email))).willReturn(false)
         }
 
         @Test
         @DisplayName("false를 리턴한다.")
         fun `it return false`() = runTest {
-            val result = verifyEmailTokenUseCase("eamil", "unCorrectToken")
+            val result = createEmailTokenUseCase(email, "signUp")
             assertThat(result).isFalse()
         }
     }
