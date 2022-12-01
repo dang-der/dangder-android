@@ -5,6 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.apollographql.apollo3.ApolloClient
+import com.viewpoint.dangder.data.remote.FileRemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +21,9 @@ object DataStoreModule {
 
     @Provides
     fun providesDataStore(@ApplicationContext context: Context) : DataStore<Preferences> = context.settingsStore
+
+    @Provides
+    fun proviedsFileRemoteDataSource(apolloClient: ApolloClient, @ApplicationContext context: Context) = FileRemoteDataSource(apolloClient, context)
 }
 
 
