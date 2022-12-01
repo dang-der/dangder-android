@@ -20,19 +20,19 @@ import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 
-class RegisterDogViewModelTest {
+class InitDogViewModelTest {
     private val mockCheckRegisteredDogUseCase = Mockito.mock(CheckRegisteredDogUseCase::class.java)
     private val mockFetchCharacterUseCase = Mockito.mock(FetchCharactersUseCase::class.java)
     private val mockFetchInterestsUseCase = Mockito.mock(FetchInterestsUseCase::class.java)
     private val mockSavedStateHandle = Mockito.mock(SavedStateHandle::class.java)
 
-    private lateinit var registerDogViewModel: RegisterDogViewModel
-    private val mainThread = newSingleThreadContext(RegisterDogViewModel::class.java.simpleName)
+    private lateinit var initDogViewModel: InitDogViewModel
+    private val mainThread = newSingleThreadContext(InitDogViewModel::class.java.simpleName)
 
     @BeforeEach
     fun setUp() {
-        registerDogViewModel =
-            RegisterDogViewModel(
+        initDogViewModel =
+            InitDogViewModel(
                 checkRegisteredDogUseCase = mockCheckRegisteredDogUseCase,
                 fetchCharactersUseCase = mockFetchCharacterUseCase,
                 fetchInterestsUseCase = mockFetchInterestsUseCase,
@@ -60,8 +60,8 @@ class RegisterDogViewModelTest {
             @Test
             @DisplayName("GoToNextPage 액션을 발행한다.")
             fun `it publish GoToNextPage`() = runTest {
-                registerDogViewModel.checkRegisteredDog("getNumber", "birth")
-                val actual = registerDogViewModel.action.test().values()
+                initDogViewModel.checkRegisteredDog("getNumber", "birth")
+                val actual = initDogViewModel.action.test().values()
                 assertThat(actual).contains(Actions.GoToNextPage)
             }
         }

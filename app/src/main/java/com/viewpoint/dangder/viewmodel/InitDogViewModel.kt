@@ -17,7 +17,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterDogViewModel @Inject constructor(
+class InitDogViewModel @Inject constructor(
     private val checkRegisteredDogUseCase: CheckRegisteredDogUseCase,
     private val fetchInterestsUseCase: FetchInterestsUseCase,
     private val fetchCharactersUseCase: FetchCharactersUseCase,

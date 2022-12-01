@@ -8,7 +8,7 @@ import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentDogProfile2Binding
 import com.viewpoint.dangder.util.showErrorSnackBar
-import com.viewpoint.dangder.viewmodel.RegisterDogViewModel
+import com.viewpoint.dangder.viewmodel.InitDogViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
@@ -17,12 +17,12 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
     override val layoutId: Int
         get() = R.layout.fragment_dog_profile_2
 
-    private val registerDogViewModel: RegisterDogViewModel by hiltNavGraphViewModels(R.id.init_dog_nav_graph)
+    private val initDogViewModel: InitDogViewModel by hiltNavGraphViewModels(R.id.init_dog_nav_graph)
 
     override fun initView() {}
 
     override fun subscribeModel() {
-        registerDogViewModel.action.subscribeBy(
+        initDogViewModel.action.subscribeBy(
             onNext = {
                 when (it) {
                     is Actions.FetchInterests -> addInterestsChips(it.data)
@@ -42,14 +42,14 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
     }
 
     override fun initData() {
-        registerDogViewModel.fetchCharacters()
-        registerDogViewModel.fetchInterests()
+        initDogViewModel.fetchCharacters()
+        initDogViewModel.fetchInterests()
     }
 
     private val characterChipCheckedChangeListener =
         OnCheckedChangeListener { p0, p1 ->
             val value = p0.text.toString()
-            if (p1) registerDogViewModel.addCharacter(value) else registerDogViewModel.removeCharacter(
+            if (p1) initDogViewModel.addCharacter(value) else initDogViewModel.removeCharacter(
                 value
             )
         }
@@ -57,7 +57,7 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
     private val interestChipCheckedChangeListener =
         OnCheckedChangeListener { p0, p1 ->
             val value = p0.text.toString()
-            if (p1) registerDogViewModel.addInterest(value) else registerDogViewModel.removeInterest(
+            if (p1) initDogViewModel.addInterest(value) else initDogViewModel.removeInterest(
                 value
             )
         }

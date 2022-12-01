@@ -63,7 +63,6 @@ internal class CreateDogUseCaseTest {
         @DisplayName("true를 리턴한다")
         fun `it return true`() = runTest {
             val result = createDogUseCase.invoke(any(), any(), any())
-
             assertThat(result).isTrue()
         }
     }

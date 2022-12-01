@@ -19,7 +19,7 @@ import com.viewpoint.dangder.databinding.FragmentDogProfile1Binding
 import com.viewpoint.dangder.util.ImageOrderMover
 import com.viewpoint.dangder.util.showErrorSnackBar
 import com.viewpoint.dangder.view.adapter.ImageListAdapter
-import com.viewpoint.dangder.viewmodel.RegisterDogViewModel
+import com.viewpoint.dangder.viewmodel.InitDogViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import java.text.SimpleDateFormat
@@ -29,7 +29,7 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
     override val layoutId: Int
         get() = R.layout.fragment_dog_profile_1
 
-    private val registerDogViewModel: RegisterDogViewModel by hiltNavGraphViewModels(R.id.init_dog_nav_graph)
+    private val initDogViewModel: InitDogViewModel by hiltNavGraphViewModels(R.id.init_dog_nav_graph)
 
     private lateinit var imageDialog: BottomSheetDialog
     private val imageListAdapter = ImageListAdapter()
@@ -56,7 +56,7 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
 
 
     override fun subscribeModel() {
-        registerDogViewModel.action.subscribeBy(
+        initDogViewModel.action.subscribeBy(
             onNext = {
                 when (it) {
                     Actions.GoToNextPage -> findNavController().navigate(R.id.action_dogProfile1Fragment_to_dogProfile2Fragment)
@@ -141,7 +141,7 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
                 return@setOnClickListener
             }
 
-            registerDogViewModel.tempSave(images, age.toInt(), description)
+            initDogViewModel.tempSave(images, age.toInt(), description)
 
         }
     }

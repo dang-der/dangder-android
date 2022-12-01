@@ -9,10 +9,9 @@ import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentDogRegNumberBinding
 import com.viewpoint.dangder.util.showErrorSnackBar
-import com.viewpoint.dangder.viewmodel.RegisterDogViewModel
+import com.viewpoint.dangder.viewmodel.InitDogViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import timber.log.Timber
 import java.time.LocalDate
 
 
@@ -20,7 +19,7 @@ class DogRegisterNumberCheckFragment : BaseFragment<FragmentDogRegNumberBinding>
     override val layoutId: Int
         get() = R.layout.fragment_dog_reg_number
 
-    private val registerDogViewModel: RegisterDogViewModel by hiltNavGraphViewModels(R.id.init_dog_nav_graph)
+    private val initDogViewModel: InitDogViewModel by hiltNavGraphViewModels(R.id.init_dog_nav_graph)
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun initView() {
@@ -52,13 +51,13 @@ class DogRegisterNumberCheckFragment : BaseFragment<FragmentDogRegNumberBinding>
                 m.toInt()
             ) + String.format("%02d", d.toInt())).substring(2)
 
-            registerDogViewModel.checkRegisteredDog(regNum, ownerBirth)
+            initDogViewModel.checkRegisteredDog(regNum, ownerBirth)
         }
 
     }
 
     override fun subscribeModel() {
-        registerDogViewModel.action.subscribeBy(
+        initDogViewModel.action.subscribeBy(
             onNext = {
                 when (it) {
                     Actions.GoToNextPage -> findNavController().navigate(R.id.action_dogRegisterNumberCheckFragment_to_dogProfile1Fragment)
