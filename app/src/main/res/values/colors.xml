@@ -12,4 +12,5 @@
     <color name="sub">#FDC500</color>
     <color name="grayF5">#F5F5F5</color>
     <color name="gray32">#323232</color>
+    <color name="main_opacity_10">#1A304FFE</color>
 </resources>

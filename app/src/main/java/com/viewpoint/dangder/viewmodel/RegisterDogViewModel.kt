@@ -9,6 +9,7 @@ import com.viewpoint.dangder.usecase.CheckRegisteredDogUseCase
 import com.viewpoint.dangder.usecase.FetchCharactersUseCase
 import com.viewpoint.dangder.usecase.FetchInterestsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.internal.aggregatedroot.codegen._com_viewpoint_dangder_DangderApplication
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -48,7 +49,7 @@ class RegisterDogViewModel @Inject constructor(
         }
         private set
 
-    var _images: Array<Uri>? = null
+    var _images: Array<Uri>? = emptyArray()
         get() = field ?: let {
             savedStateHandle.get<Array<Uri>>(IMAGE_URIS)
         }
@@ -66,13 +67,13 @@ class RegisterDogViewModel @Inject constructor(
         }
         private set
 
-    var _characters: Array<String>? = null
+    var _characters: Array<String>? = emptyArray()
         get() = field ?: let {
             savedStateHandle.get<Array<String>>(CHARACTERS)
         }
         private set
 
-    var _interests: Array<String>? = null
+    var _interests: Array<String>? = emptyArray()
         get() = field ?: let {
             savedStateHandle.get<Array<String>>(INTERESTS)
         }
@@ -102,7 +103,7 @@ class RegisterDogViewModel @Inject constructor(
         _action.onNext(Actions.GoToNextPage)
     }
 
-    fun fetchCharacters()= viewModelScope.launch(ceh) {
+    fun fetchCharacters() = viewModelScope.launch(ceh) {
         _action.onNext(Actions.ShowLoadingDialog)
         val characters = fetchCharactersUseCase()
 
@@ -117,6 +118,49 @@ class RegisterDogViewModel @Inject constructor(
         _action.onNext(Actions.HideLoadingDialog)
         _action.onNext(Actions.FetchInterests(interests))
     }
+
+    fun addCharacter(character: String) {
+        _characters?.let {
+            if (it.contains(character)) return
+
+            _characters = it.toMutableList().apply {
+                add(character)
+            }.toTypedArray()
+        }
+        Timber.d(_characters?.toList().toString())
+    }
+
+    fun addInterest(interest: String) {
+        _interests?.let {
+            if (it.contains(interest)) return
+
+            _interests = it.toMutableList().apply {
+                add(interest)
+            }.toTypedArray()
+        }
+        Timber.d(_interests?.toList().toString())
+    }
+
+    fun removeCharacter(character: String){
+        _characters?.let {
+            if(it.contains(character)){
+                _characters = it.toMutableList().apply {
+                    remove(character)
+                }.toTypedArray()
+            }
+        }
+    }
+
+    fun removeInterest(interest: String){
+        _interests?.let {
+            if(it.contains(interest)){
+                _interests = it.toMutableList().apply {
+                    remove(interest)
+                }.toTypedArray()
+            }
+        }
+    }
+
 
     override fun onCleared() {
         savedStateHandle[REGISTER_NUMBER] = _registerNumber
