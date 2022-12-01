@@ -2,6 +2,7 @@ package com.viewpoint.dangder.usecase
 
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.repository.AuthRepository
+import com.viewpoint.dangder.usecase.auth.CreateEmailTokenUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 

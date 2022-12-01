@@ -24,15 +24,15 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
     override fun subscribeModel() {
         registerDogViewModel.action.subscribeBy(
             onNext = {
-                     when(it){
-                         is Actions.FetchInterests-> addInterestsChips(it.data)
-                         is Actions.FetchCharacters-> addCharacterChips(it.data)
-                         else->{
-                             if(it is Actions.ShowErrorMessage){
-                                 showErrorSnackBar(binding.root, it.message)
-                             }
-                         }
-                     }
+                when (it) {
+                    is Actions.FetchInterests -> addInterestsChips(it.data)
+                    is Actions.FetchCharacters -> addCharacterChips(it.data)
+                    else -> {
+                        if (it is Actions.ShowErrorMessage) {
+                            showErrorSnackBar(binding.root, it.message)
+                        }
+                    }
+                }
             },
             onError = {
 
@@ -46,19 +46,23 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
         registerDogViewModel.fetchInterests()
     }
 
-    private val characterChipCheckedChangeListener=
+    private val characterChipCheckedChangeListener =
         OnCheckedChangeListener { p0, p1 ->
             val value = p0.text.toString()
-            if(p1) registerDogViewModel.addCharacter(value) else registerDogViewModel.removeCharacter(value)
+            if (p1) registerDogViewModel.addCharacter(value) else registerDogViewModel.removeCharacter(
+                value
+            )
         }
 
-    private val interestChipCheckedChangeListener=
+    private val interestChipCheckedChangeListener =
         OnCheckedChangeListener { p0, p1 ->
             val value = p0.text.toString()
-            if(p1) registerDogViewModel.addInterest(value) else registerDogViewModel.removeInterest(value)
+            if (p1) registerDogViewModel.addInterest(value) else registerDogViewModel.removeInterest(
+                value
+            )
         }
 
-    private fun addCharacterChips(characters : Array<String>){
+    private fun addCharacterChips(characters: Array<String>) {
         val group = binding.initdogCharacterList
 
         characters.forEach {
@@ -66,7 +70,7 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
         }
     }
 
-    private fun addInterestsChips(interests : Array<String>){
+    private fun addInterestsChips(interests: Array<String>) {
         val group = binding.initdogInterestList
 
         interests.forEach {
@@ -74,7 +78,7 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
         }
     }
 
-    private fun createChip(data : String, checkedChangeListener: OnCheckedChangeListener): Chip {
+    private fun createChip(data: String, checkedChangeListener: OnCheckedChangeListener): Chip {
         return Chip(requireContext()).apply {
             text = data
             isCheckable = true
@@ -82,7 +86,6 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
             setOnCheckedChangeListener(checkedChangeListener)
         }
     }
-
 
 
 }

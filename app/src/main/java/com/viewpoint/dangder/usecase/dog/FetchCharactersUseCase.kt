@@ -1,4 +1,4 @@
-package com.viewpoint.dangder.usecase
+package com.viewpoint.dangder.usecase.dog
 
 import com.viewpoint.dangder.repository.DogRepository
 import javax.inject.Inject

@@ -2,7 +2,7 @@ package com.viewpoint.dangder.viewmodel
 
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.action.Actions
-import com.viewpoint.dangder.usecase.CheckRegisteredDogUseCase
+import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain

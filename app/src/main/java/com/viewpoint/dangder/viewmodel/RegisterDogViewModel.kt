@@ -5,11 +5,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
-import com.viewpoint.dangder.usecase.CheckRegisteredDogUseCase
-import com.viewpoint.dangder.usecase.FetchCharactersUseCase
-import com.viewpoint.dangder.usecase.FetchInterestsUseCase
+import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
+import com.viewpoint.dangder.usecase.dog.FetchCharactersUseCase
+import com.viewpoint.dangder.usecase.dog.FetchInterestsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.internal.aggregatedroot.codegen._com_viewpoint_dangder_DangderApplication
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.CoroutineExceptionHandler

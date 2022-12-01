@@ -4,9 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.entity.User
-import com.viewpoint.dangder.usecase.CreateEmailTokenUseCase
-import com.viewpoint.dangder.usecase.CreateUserUseCase
-import com.viewpoint.dangder.usecase.VerifyEmailTokenUseCase
+import com.viewpoint.dangder.usecase.auth.CreateEmailTokenUseCase
+import com.viewpoint.dangder.usecase.auth.CreateUserUseCase
+import com.viewpoint.dangder.usecase.auth.VerifyEmailTokenUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain

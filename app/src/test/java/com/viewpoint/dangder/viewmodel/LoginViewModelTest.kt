@@ -2,8 +2,8 @@ package com.viewpoint.dangder.viewmodel
 
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.action.Actions
-import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
-import com.viewpoint.dangder.usecase.LoginUseCase
+import com.viewpoint.dangder.usecase.auth.CheckLoggedInUseCase
+import com.viewpoint.dangder.usecase.auth.LoginUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
-import timber.log.Timber
 
 class LoginViewModelTest {
 
