@@ -130,6 +130,8 @@
                 android:text="월"/>
 
             <EditText
+                android:backgroundTint="@color/main"
+                android:textCursorDrawable="@color/main"
                 android:textSize="@dimen/micro"
                 android:id="@+id/initdog_birth_day_input"
                 android:textAlignment="center"

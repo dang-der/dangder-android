@@ -28,7 +28,7 @@ class ImageListAdapter : ListAdapter<Uri, ImageListAdapter.ViewHolder>(diffUtil)
     inner class ViewHolder(val binding: ItemImageListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(uri: Uri, position: Int) {
+        fun bind(uri: Uri) {
             Glide.with(binding.root)
                 .load(uri)
                 .fitCenter()
@@ -70,7 +70,7 @@ class ImageListAdapter : ListAdapter<Uri, ImageListAdapter.ViewHolder>(diffUtil)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position))
         holder.binding.initdogImageDeleteBtn.setOnClickListener { deleteItem(holder.adapterPosition) }
         if (editMode) holder.startEditMode() else holder.endEditMode()
     }

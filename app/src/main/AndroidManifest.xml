@@ -46,7 +46,7 @@
         <activity android:name=".view.LoginActivity" android:theme="@style/Theme.Dangder.NoActionBar"/>
         <activity android:name=".view.MainActivity" />
         <activity android:name=".view.SignUpActivity"/>
-        <activity android:name=".view.InitDogActivity"/>
+        <activity android:name=".view.InitDogActivity" android:windowSoftInputMode="adjustPan"/>
 
     </application>
 

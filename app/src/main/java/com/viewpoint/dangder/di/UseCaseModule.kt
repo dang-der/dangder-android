@@ -11,6 +11,8 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 @Module
 object UseCaseModule {
+
+    // auth
     @Provides
     fun providesCheckLoggedInUseCase(authRepository: AuthRepository) = CheckLoggedInUseCase(authRepository)
 
@@ -28,5 +30,13 @@ object UseCaseModule {
 
     @Provides
     fun providesCheckRegisteredDogUseCase(dogRepository: DogRepository) = CheckRegisteredDogUseCase(dogRepository)
+
+
+    //dog
+    @Provides
+    fun providesFetchCharacters(dogRepository: DogRepository) = FetchCharactersUseCase(dogRepository)
+
+    @Provides
+    fun providesFetchInterests(dogRepository: DogRepository) = FetchInterestsUseCase(dogRepository)
 
 }

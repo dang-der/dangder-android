@@ -17,15 +17,3 @@ query FetchLoginUser{
     }
 }
 
-query FetchCharacters{
-    fetchCharacters {
-        id
-        character
-    }
-}
-
-query FetchInterestCategoryForProfile{
-    fetchInterestCategory {
-        interest
-    }
-}
