@@ -3,6 +3,7 @@ package com.viewpoint.dangder.usecase
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.entity.User
 import com.viewpoint.dangder.repository.AuthRepository
+import com.viewpoint.dangder.usecase.auth.FetchUserUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -16,7 +17,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.kotlin.any
 import org.mockito.kotlin.given
 
 @DisplayName("유저 정보 가져오기 유스케이스는")

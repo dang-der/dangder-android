@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
+import com.viewpoint.dangder.usecase.auth.FetchUserUseCase
 import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
 import com.viewpoint.dangder.usecase.dog.CreateDogUseCase
 import com.viewpoint.dangder.usecase.dog.FetchCharactersUseCase
@@ -26,7 +27,6 @@ class InitDogViewModel @Inject constructor(
     private val createDogUseCase: CreateDogUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
-
 
     override val _action: PublishSubject<Actions> = PublishSubject.create()
     override val action: Observable<Actions>
@@ -81,12 +81,19 @@ class InitDogViewModel @Inject constructor(
         }
         private set
 
+    var _userId: String? = null
+        get() = field ?: let {
+            savedStateHandle.get<String>(USER_ID)
+        }
+
+
 
     fun createDog(location: Location) = viewModelScope.launch(ceh) {
+        showLoading()
 
         if (_images == null) return@launch
-        if (_images?.isNotEmpty() == true && _age != null && _description != null && _registerNumber !=null && _ownerBirth!=null) {
-            createDogUseCase(
+        if (_images?.isNotEmpty() == true && _age != null && _description != null && _registerNumber != null && _ownerBirth != null && _userId != null) {
+            val result = createDogUseCase(
                 images = _images!!,
                 age = _age!!,
                 description = _description!!,
@@ -96,17 +103,22 @@ class InitDogViewModel @Inject constructor(
                 ownerBirth = _ownerBirth!!,
                 lat = location.latitude,
                 lng = location.longitude,
-                userId = ""
+                userId = _userId!!
             )
+
+            hideLoading()
+
+            if(result) _action.onNext(Actions.GoToMainPage)
         }
     }
 
     fun checkRegisteredDog(dogRegNum: String, ownerBirth: String) = viewModelScope.launch(ceh) {
-        _action.onNext(Actions.ShowLoadingDialog)
+        showLoading()
 
         val result = checkRegisteredDogUseCase(dogRegNum, ownerBirth)
 
-        _action.onNext(Actions.HideLoadingDialog)
+        hideLoading()
+
         if (result) {
             _registerNumber = dogRegNum
             _ownerBirth = ownerBirth
@@ -125,18 +137,17 @@ class InitDogViewModel @Inject constructor(
     }
 
     fun fetchCharacters() = viewModelScope.launch(ceh) {
-        _action.onNext(Actions.ShowLoadingDialog)
+        showLoading()
         val characters = fetchCharactersUseCase()
-
-        _action.onNext(Actions.HideLoadingDialog)
+        hideLoading()
         _action.onNext(Actions.FetchCharacters(characters))
     }
 
     fun fetchInterests() = viewModelScope.launch(ceh) {
-        _action.onNext(Actions.ShowLoadingDialog)
+        showLoading()
         val interests = fetchInterestsUseCase()
 
-        _action.onNext(Actions.HideLoadingDialog)
+        hideLoading()
         _action.onNext(Actions.FetchInterests(interests))
     }
 
@@ -180,6 +191,13 @@ class InitDogViewModel @Inject constructor(
         }
     }
 
+    private fun showLoading(){
+        _action.onNext(Actions.ShowLoadingDialog)
+    }
+
+    private fun hideLoading(){
+        _action.onNext(Actions.HideLoadingDialog)
+    }
 
     override fun onCleared() {
         savedStateHandle[REGISTER_NUMBER] = _registerNumber
@@ -200,5 +218,6 @@ class InitDogViewModel @Inject constructor(
         const val DESCRIPTION = "description"
         const val CHARACTERS = "character"
         const val INTERESTS = "interest"
+        const val USER_ID = "userId"
     }
 }

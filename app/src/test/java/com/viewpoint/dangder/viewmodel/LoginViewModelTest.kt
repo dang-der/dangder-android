@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.entity.User
 import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
-import com.viewpoint.dangder.usecase.FetchUserUseCase
+import com.viewpoint.dangder.usecase.auth.FetchUserUseCase
 import com.viewpoint.dangder.usecase.LoginUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
@@ -16,12 +16,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
-import org.mockito.kotlin.mock
-import timber.log.Timber
 
 class LoginViewModelTest {
 

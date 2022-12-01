@@ -25,12 +25,24 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
         authViewModel.action.subscribe {
 
             Handler(Looper.getMainLooper()).postDelayed({
-                if (it == Actions.GoToLoginPage) {
-                    startActivity(Intent(this, LoginActivity::class.java))
-                    finish()
-                    return@postDelayed
+                when (it) {
+                    Actions.GoToLoginPage -> {
+                        startActivity(Intent(this, LoginActivity::class.java))
+                    }
+                    is Actions.GoToInitDogPage -> {
+                        startActivity(
+                            Intent(this, InitDogActivity::class.java).apply {
+                                putExtra("userId", it.userId)
+                            }
+                        )
+                    }
+                    Actions.ShowLoadingDialog -> showLoadingDialog()
+                    Actions.HideLoadingDialog -> hideLoadingDialog()
+                    else -> {
+                        startActivity(Intent(this, MainActivity::class.java))
+                    }
                 }
-                startActivity(Intent(this, MainActivity::class.java))
+                finish()
             }, 3000)
 
 

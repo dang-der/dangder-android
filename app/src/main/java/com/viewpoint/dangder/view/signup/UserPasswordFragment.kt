@@ -58,13 +58,17 @@ class UserPasswordFragment : BaseFragment<FragmentUserPasswordBinding>() {
         signUpViewModel.action.subscribeBy(
             onNext = {
                 when (it) {
-                    is Actions.GoToInitDogPage-> {
-                        startActivity(Intent(activity, InitDogActivity::class.java))
+                    is Actions.GoToInitDogPage -> {
+                        startActivity(
+                            Intent(activity, InitDogActivity::class.java).apply {
+                                putExtra("userId", it.userId)
+                            }
+                        )
                     }
                     Actions.ShowLoadingDialog -> showLoadingDialog()
                     Actions.HideLoadingDialog -> hideLoadingDialog()
                     else -> {
-                        if(it is Actions.ShowErrorMessage){
+                        if (it is Actions.ShowErrorMessage) {
                             showErrorSnackBar(binding.root, it.message)
                         }
                     }

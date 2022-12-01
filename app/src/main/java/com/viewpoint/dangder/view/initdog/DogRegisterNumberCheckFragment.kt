@@ -77,6 +77,7 @@ class DogRegisterNumberCheckFragment : BaseFragment<FragmentDogRegNumberBinding>
     }
 
     override fun initData() {
-
+        val userId = requireActivity().intent.getStringExtra("userId")
+        initDogViewModel._userId = userId
     }
 }
