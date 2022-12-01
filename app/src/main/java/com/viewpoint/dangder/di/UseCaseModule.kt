@@ -2,8 +2,10 @@ package com.viewpoint.dangder.di
 
 import com.viewpoint.dangder.repository.AuthRepository
 import com.viewpoint.dangder.repository.DogRepository
+import com.viewpoint.dangder.repository.FileRepository
 import com.viewpoint.dangder.usecase.auth.*
 import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
+import com.viewpoint.dangder.usecase.dog.CreateDogUseCase
 import com.viewpoint.dangder.usecase.dog.FetchCharactersUseCase
 import com.viewpoint.dangder.usecase.dog.FetchInterestsUseCase
 import dagger.Module
@@ -37,9 +39,12 @@ object UseCaseModule {
 
     //dog
     @Provides
-    fun providesFetchCharacters(dogRepository: DogRepository) = FetchCharactersUseCase(dogRepository)
+    fun providesFetchCharactersUseCase(dogRepository: DogRepository) = FetchCharactersUseCase(dogRepository)
 
     @Provides
-    fun providesFetchInterests(dogRepository: DogRepository) = FetchInterestsUseCase(dogRepository)
+    fun providesFetchInterestsUseCase(dogRepository: DogRepository) = FetchInterestsUseCase(dogRepository)
+
+    @Provides
+    fun providesCreateDogUseCaseUseCase(dogRepository: DogRepository, fileRepository: FileRepository) = CreateDogUseCase(dogRepository, fileRepository)
 
 }

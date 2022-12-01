@@ -29,6 +29,12 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
     override val layoutId: Int
         get() = R.layout.fragment_dog_profile_1
 
+    private val needPermissions = arrayOf(
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        android.Manifest.permission.CAMERA
+    )
+
     private val initDogViewModel: InitDogViewModel by hiltNavGraphViewModels(R.id.init_dog_nav_graph)
 
     private lateinit var imageDialog: BottomSheetDialog
@@ -60,9 +66,9 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
             onNext = {
                 when (it) {
                     Actions.GoToNextPage -> findNavController().navigate(R.id.action_dogProfile1Fragment_to_dogProfile2Fragment)
-                    else ->{
-                        if(it is Actions.ShowErrorMessage)
-                        showErrorSnackBar(binding.root, it.message)
+                    else -> {
+                        if (it is Actions.ShowErrorMessage)
+                            showErrorSnackBar(binding.root, it.message)
                     }
                 }
             },
@@ -75,13 +81,8 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
     override fun initData() {}
 
     override fun initView() {
-        requestPermissions(
-            arrayOf(
-                android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.CAMERA
-            )
-        )
+        // 무조건 권한 요청
+        requestPermissions(needPermissions)
 
         initImageDialog()
         initImageListView()
@@ -98,15 +99,8 @@ class DogProfile1Fragment : BaseFragment<FragmentDogProfile1Binding>() {
                 return@setOnClickListener
             }
 
-            val permissionResult = checkPermissions(
-                arrayOf(
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.CAMERA
-                )
-            )
-
-            if (permissionResult.not()) {
+            // 권한 재확인 & 권한 요청이 거절 되었을 경우
+            if (checkPermissions(needPermissions).not()) {
                 showDialogGoToSetting(arrayOf("저장소", "카메라"))
                 return@setOnClickListener
             }

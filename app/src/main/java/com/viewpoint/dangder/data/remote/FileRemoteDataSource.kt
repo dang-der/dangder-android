@@ -7,14 +7,10 @@ import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.DefaultUpload
 import com.apollographql.apollo3.api.Upload
 import com.viewpoint.UploadFileMutation
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.buffer
 import okio.source
-import timber.log.Timber
-import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import javax.inject.Inject

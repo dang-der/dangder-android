@@ -2,6 +2,7 @@ package com.viewpoint.dangder.view.initdog
 
 import android.widget.CompoundButton.OnCheckedChangeListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.chip.Chip
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.action.Actions
@@ -17,9 +18,14 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
     override val layoutId: Int
         get() = R.layout.fragment_dog_profile_2
 
+    private val needPermissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
     private val initDogViewModel: InitDogViewModel by hiltNavGraphViewModels(R.id.init_dog_nav_graph)
 
-    override fun initView() {}
+
+    override fun initView() {
+        requestPermissions(needPermissions)
+        handleClickCreateDog()
+    }
 
     override fun subscribeModel() {
         initDogViewModel.action.subscribeBy(
@@ -44,6 +50,22 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
     override fun initData() {
         initDogViewModel.fetchCharacters()
         initDogViewModel.fetchInterests()
+    }
+
+    private fun handleClickCreateDog(){
+        binding.initdogRegisterBtn.setOnClickListener {
+
+            if(checkPermissions(needPermissions).not()){
+                showDialogGoToSetting(arrayOf("위치 정보"))
+                return@setOnClickListener
+            }
+
+            val locationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
+            locationClient.lastLocation.addOnSuccessListener {
+                initDogViewModel.createDog(it)
+            }
+        }
     }
 
     private val characterChipCheckedChangeListener =

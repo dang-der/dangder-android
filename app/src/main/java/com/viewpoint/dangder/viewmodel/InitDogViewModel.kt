@@ -1,11 +1,13 @@
 package com.viewpoint.dangder.viewmodel
 
+import android.location.Location
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
 import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
+import com.viewpoint.dangder.usecase.dog.CreateDogUseCase
 import com.viewpoint.dangder.usecase.dog.FetchCharactersUseCase
 import com.viewpoint.dangder.usecase.dog.FetchInterestsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +23,7 @@ class InitDogViewModel @Inject constructor(
     private val checkRegisteredDogUseCase: CheckRegisteredDogUseCase,
     private val fetchInterestsUseCase: FetchInterestsUseCase,
     private val fetchCharactersUseCase: FetchCharactersUseCase,
+    private val createDogUseCase: CreateDogUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
 
@@ -79,6 +82,25 @@ class InitDogViewModel @Inject constructor(
         private set
 
 
+    fun createDog(location: Location) = viewModelScope.launch(ceh) {
+
+        if (_images == null) return@launch
+        if (_images?.isNotEmpty() == true && _age != null && _description != null && _registerNumber !=null && _ownerBirth!=null) {
+            createDogUseCase(
+                images = _images!!,
+                age = _age!!,
+                description = _description!!,
+                characters = _characters,
+                interests = _interests,
+                dogRegNumber = _registerNumber!!,
+                ownerBirth = _ownerBirth!!,
+                lat = location.latitude,
+                lng = location.longitude,
+                userId = ""
+            )
+        }
+    }
+
     fun checkRegisteredDog(dogRegNum: String, ownerBirth: String) = viewModelScope.launch(ceh) {
         _action.onNext(Actions.ShowLoadingDialog)
 
@@ -126,7 +148,6 @@ class InitDogViewModel @Inject constructor(
                 add(character)
             }.toTypedArray()
         }
-        Timber.d(_characters?.toList().toString())
     }
 
     fun addInterest(interest: String) {
@@ -137,12 +158,11 @@ class InitDogViewModel @Inject constructor(
                 add(interest)
             }.toTypedArray()
         }
-        Timber.d(_interests?.toList().toString())
     }
 
-    fun removeCharacter(character: String){
+    fun removeCharacter(character: String) {
         _characters?.let {
-            if(it.contains(character)){
+            if (it.contains(character)) {
                 _characters = it.toMutableList().apply {
                     remove(character)
                 }.toTypedArray()
@@ -150,9 +170,9 @@ class InitDogViewModel @Inject constructor(
         }
     }
 
-    fun removeInterest(interest: String){
+    fun removeInterest(interest: String) {
         _interests?.let {
-            if(it.contains(interest)){
+            if (it.contains(interest)) {
                 _interests = it.toMutableList().apply {
                     remove(interest)
                 }.toTypedArray()

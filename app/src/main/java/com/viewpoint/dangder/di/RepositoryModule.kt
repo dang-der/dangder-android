@@ -18,4 +18,7 @@ abstract class RepositoryModule {
     @Binds
     abstract fun bindDogRepository(dogRepository: DogRepositoryImpl) : DogRepository
 
+    @Binds
+    abstract fun bindFileRepository(fileRepository: FileRepositoryImpl) : FileRepository
+
 }
