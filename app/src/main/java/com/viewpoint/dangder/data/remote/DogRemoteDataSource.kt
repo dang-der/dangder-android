@@ -32,13 +32,12 @@ class DogRemoteDataSource @Inject constructor(
 
     suspend fun createDog(
         createDogInput: CreateDogInput,
-        locationInput: LocationInput,
         dogRegNum: String,
         ownerBirth: String
-    ){
+    ): ApolloResponse<CreateDogMutation.Data> {
         return withContext(Dispatchers.IO){
             apolloClient.mutation(CreateDogMutation(
-                createDogInput = createDogInput.copy(locations = locationInput),
+                createDogInput = createDogInput,
                 dogRegNum = dogRegNum,
                 ownerBirth = ownerBirth
             )).execute()

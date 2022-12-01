@@ -1,8 +1,11 @@
 package com.viewpoint.dangder.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
+import com.viewpoint.dangder.usecase.dog.FetchCharactersUseCase
+import com.viewpoint.dangder.usecase.dog.FetchInterestsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -19,6 +22,9 @@ import org.mockito.kotlin.given
 
 class RegisterDogViewModelTest {
     private val mockCheckRegisteredDogUseCase = Mockito.mock(CheckRegisteredDogUseCase::class.java)
+    private val mockFetchCharacterUseCase = Mockito.mock(FetchCharactersUseCase::class.java)
+    private val mockFetchInterestsUseCase = Mockito.mock(FetchInterestsUseCase::class.java)
+    private val mockSavedStateHandle = Mockito.mock(SavedStateHandle::class.java)
 
     private lateinit var registerDogViewModel: RegisterDogViewModel
     private val mainThread = newSingleThreadContext(RegisterDogViewModel::class.java.simpleName)
@@ -27,7 +33,10 @@ class RegisterDogViewModelTest {
     fun setUp() {
         registerDogViewModel =
             RegisterDogViewModel(
-                checkRegisteredDogUseCase = mockCheckRegisteredDogUseCase
+                checkRegisteredDogUseCase = mockCheckRegisteredDogUseCase,
+                fetchCharactersUseCase = mockFetchCharacterUseCase,
+                fetchInterestsUseCase = mockFetchInterestsUseCase,
+                savedStateHandle = mockSavedStateHandle
             )
         Dispatchers.setMain(mainThread)
     }

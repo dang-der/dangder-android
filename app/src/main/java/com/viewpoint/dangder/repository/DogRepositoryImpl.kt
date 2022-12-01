@@ -1,6 +1,9 @@
 package com.viewpoint.dangder.repository
 
 import com.viewpoint.dangder.data.remote.DogRemoteDataSource
+import com.viewpoint.dangder.entity.Dog
+import com.viewpoint.dangder.mapper.DogMapper
+import com.viewpoint.type.CreateDogInput
 import javax.inject.Inject
 
 class DogRepositoryImpl @Inject constructor(
@@ -28,5 +31,18 @@ class DogRepositoryImpl @Inject constructor(
 
         val interests = response.data?.fetchInterestCategory?.map { it.interest }
         return interests?.toTypedArray() ?: emptyArray()
+    }
+
+    override suspend fun createDog(
+        createDogInput: CreateDogInput,
+        dogRegNum: String,
+        ownerBirth: String
+    ): Dog {
+        val response = dogRemoteDataSource.createDog(createDogInput, dogRegNum, ownerBirth)
+        if (response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val dog = response.data?.createDog ?:throw Exception("강아지 등록에 실패했습니다.")
+
+        return DogMapper.mapToDogEntity(dog)
     }
 }
