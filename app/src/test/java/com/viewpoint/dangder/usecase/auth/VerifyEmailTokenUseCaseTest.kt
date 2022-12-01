@@ -1,4 +1,4 @@
-package com.viewpoint.dangder.usecase
+package com.viewpoint.dangder.usecase.auth
 
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.repository.AuthRepository

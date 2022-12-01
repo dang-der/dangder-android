@@ -1,4 +1,4 @@
-package com.viewpoint.dangder.usecase
+package com.viewpoint.dangder.usecase.auth
 
 import com.viewpoint.dangder.repository.AuthRepository
 import kotlinx.coroutines.flow.first

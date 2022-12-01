@@ -1,4 +1,4 @@
-package com.viewpoint.dangder.usecase
+package com.viewpoint.dangder.usecase.auth
 
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.entity.User
@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 
 @DisplayName("CreateUserUseCase (유저 생성 유스케이스)는")

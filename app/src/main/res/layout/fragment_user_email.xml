@@ -44,8 +44,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/label_layout"
             android:layout_marginTop="50dp"
-            android:hint="@string/hint_email"
             android:textSize="@dimen/micro"
+            app:hintEnabled="false"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/signup_email_input"
@@ -55,6 +55,7 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:textSize="@dimen/micro"
+                android:hint="@string/hint_email"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +64,7 @@
             android:id="@+id/signup_next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_button_bg"
+            android:background="@drawable/bg_round_button"
             android:text="다음"
             android:textSize="@dimen/middle"
             app:layout_constraintBottom_toBottomOf="parent"/>

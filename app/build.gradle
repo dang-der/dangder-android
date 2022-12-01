@@ -47,7 +47,7 @@ android {
 
     apollo {
         packageName.set("com.viewpoint")
-
+        mapScalarToUpload("Upload")
     }
 
     packagingOptions {
@@ -140,6 +140,14 @@ dependencies {
 
     // lottie
     implementation ("com.airbnb.android:lottie:5.2.0")
+
+    // glide
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    kapt 'com.github.bumptech.glide:compiler:4.14.2'
+
+    // location
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
 
 
 

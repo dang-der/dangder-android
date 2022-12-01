@@ -11,4 +11,10 @@
     <string name="verified">인증되었습니다.</string>
     <string name="label_check_password">비밀번호 확인</string>
     <string name="hint_repassword">비밀번호를 다시 입력해 주세요.</string>
+    <string name="hint_dog_reg_number">댕댕이의 등록번호를 입력해 주세요.</string>
+    <string name="dog_emoji">🐶댕댕이</string>
+    <string name="label_setting_profile">프로필 설정</string>
+    <string name="label_image">이미지</string>
+    <string name="caution_image1">🐾 가장 먼저 등록한 이미지가 대표 이미지로 설정됩니다.</string>
+    <string name="caution_image2">🐾 이미지를 길게 누르면 삭제 및 순서 편집이 가능합니다.</string>
 </resources>

@@ -62,7 +62,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:textSize="@dimen/large"
-                android:background="@drawable/round_gray_input_bg" />
+                android:background="@drawable/bg_round_gray_input" />
 
             <EditText
                 android:id="@+id/signup_code_2"
@@ -75,7 +75,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:textSize="@dimen/large"
-                android:background="@drawable/round_gray_input_bg" />
+                android:background="@drawable/bg_round_gray_input" />
 
             <EditText
                 android:id="@+id/signup_code_3"
@@ -88,7 +88,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:textSize="@dimen/large"
-                android:background="@drawable/round_gray_input_bg" />
+                android:background="@drawable/bg_round_gray_input" />
 
             <EditText
                 android:id="@+id/signup_code_4"
@@ -100,7 +100,7 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:textSize="@dimen/large"
-                android:background="@drawable/round_gray_input_bg" />
+                android:background="@drawable/bg_round_gray_input" />
         </LinearLayout>
 
         <TextView
@@ -132,7 +132,7 @@
             android:id="@+id/signup_next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_button_bg"
+            android:background="@drawable/bg_round_button"
             android:text="다음"
             android:textSize="@dimen/middle"
             app:layout_constraintBottom_toBottomOf="parent"/>

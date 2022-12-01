@@ -17,6 +17,7 @@ query FetchLoginUser{
     }
 }
 
+
 query  FetchSocialLoginUser{
     fetchSocialLoginUser {
         id
@@ -25,3 +26,4 @@ query  FetchSocialLoginUser{
         isStop
     }
 }
+

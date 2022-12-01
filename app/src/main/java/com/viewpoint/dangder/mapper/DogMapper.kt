@@ -1,5 +1,6 @@
 package com.viewpoint.dangder.mapper
 
+import com.viewpoint.CreateDogMutation
 import com.viewpoint.FetchLoginUserQuery
 import com.viewpoint.dangder.entity.Dog
 
@@ -9,6 +10,10 @@ object DogMapper {
         id = dogData.id,
         name = dogData.name,
         img = dogData.img.map { ImageMapper.mapToImage((it)) }
+    )
+
+    fun mapToDogEntity(dogData : CreateDogMutation.CreateDog) = Dog(
+        id = dogData.id
     )
 
 }
