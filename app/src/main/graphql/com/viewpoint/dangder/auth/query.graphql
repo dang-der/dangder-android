@@ -17,3 +17,13 @@ query FetchLoginUser{
     }
 }
 
+
+query  FetchSocialLoginUser{
+    fetchSocialLoginUser {
+        id
+        email
+        pet
+        isStop
+    }
+}
+

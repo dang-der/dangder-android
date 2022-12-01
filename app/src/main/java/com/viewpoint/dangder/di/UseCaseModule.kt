@@ -32,12 +32,15 @@ object UseCaseModule {
 
     @Provides
     fun providesCreateUserUseCase(authRepository: AuthRepository) = CreateUserUseCase(authRepository)
-
+    
     @Provides
-    fun providesCheckRegisteredDogUseCase(dogRepository: DogRepository) = CheckRegisteredDogUseCase(dogRepository)
+    fun provideFetchUserUsecase(authRepository: AuthRepository) = FetchUserUseCase(authRepository)
 
 
     //dog
+    @Provides
+    fun providesCheckRegisteredDogUseCase(dogRepository: DogRepository) = CheckRegisteredDogUseCase(dogRepository)
+
     @Provides
     fun providesFetchCharactersUseCase(dogRepository: DogRepository) = FetchCharactersUseCase(dogRepository)
 

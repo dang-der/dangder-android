@@ -4,6 +4,7 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Optional
 import com.viewpoint.*
+import com.viewpoint.adapter.FetchSocialLoginUserQuery_ResponseAdapter
 import com.viewpoint.type.CreateUserInput
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -19,8 +20,15 @@ class AuthRemoteDataSource @Inject constructor(
         }
     }
 
-    suspend fun userLogin(email: String, password: String): ApolloResponse<UserLoginMutation.Data> {
-        return withContext(Dispatchers.IO) {
+
+    suspend fun fetchSocialLoginUser(): ApolloResponse<FetchSocialLoginUserQuery.Data> {
+        return withContext(Dispatchers.IO){
+            apolloClient.query(FetchSocialLoginUserQuery()).execute()
+        }
+    }
+
+    suspend fun userLogin(email : String, password : String): ApolloResponse<UserLoginMutation.Data> {
+        return withContext(Dispatchers.IO){
             apolloClient.mutation(UserLoginMutation(email, password)).execute()
         }
     }
