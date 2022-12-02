@@ -1,24 +1,25 @@
-package com.viewpoint.dangder.view.myprofile
+package com.viewpoint.dangder.view.main
 
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentChatListBinding
+import com.viewpoint.dangder.databinding.FragmentMainBinding
 import com.viewpoint.dangder.databinding.FragmentMyProfileBinding
 import com.viewpoint.dangder.databinding.FragmentTodayBinding
 
-class MyProfileFragment : BaseFragment<FragmentMyProfileBinding>() {
+class MainFragment : BaseFragment<FragmentMainBinding>() {
     override val layoutId: Int
-        get() = R.layout.fragment_my_profile
+        get() = R.layout.fragment_main
 
     override fun initView() {
-        TODO("Not yet implemented")
+
     }
 
     override fun subscribeModel() {
-        TODO("Not yet implemented")
+
     }
 
     override fun initData() {
-        TODO("Not yet implemented")
+
     }
 }
