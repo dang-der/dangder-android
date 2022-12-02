@@ -38,32 +38,22 @@ class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
         binding.mainAroundDogList.adapter = aroundDogListAdapter
 
         cardStackLayoutManager.setStackFrom(StackFrom.Top)
+        cardStackLayoutManager.setScaleInterval(0.9f)
+        cardStackLayoutManager.setDirections(Direction.HORIZONTAL)
 
         val fakeData = (1..10).map { AroundDog(it.toString(), "name ${it}") }
         aroundDogListAdapter.submitList(fakeData)
     }
 
-    override fun onCardDragging(direction: Direction?, ratio: Float) {
 
-    }
 
-    override fun onCardSwiped(direction: Direction?) {
+    override fun onCardSwiped(direction: Direction?) {}
 
-    }
+    override fun onCardAppeared(view: View?, position: Int) {}
 
-    override fun onCardRewound() {
+    override fun onCardDisappeared(view: View?, position: Int) {}
 
-    }
-
-    override fun onCardCanceled() {
-
-    }
-
-    override fun onCardAppeared(view: View?, position: Int) {
-
-    }
-
-    override fun onCardDisappeared(view: View?, position: Int) {
-
-    }
+    override fun onCardDragging(direction: Direction?, ratio: Float) {}
+    override fun onCardRewound() {}
+    override fun onCardCanceled() {}
 }
