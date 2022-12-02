@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/main_menu_main"
+        android:title="메인"
+        android:icon="@drawable/ic_round_home_24"/>
+
+    <item
+        android:id="@+id/main_menu_today"
+        android:title="오늘의 댕댕이"
+        android:icon="@drawable/ic_round_military_tech_24"/>
+
+    <item
+        android:id="@+id/main_menu_chat"
+        android:title="채팅"
+        android:icon="@drawable/ic_chat"/>
+
+    <item
+        android:id="@+id/main_menu_my_profile"
+        android:title="마이 댕댕이"
+        android:icon="@drawable/ic_my_profile"/>
+</menu>

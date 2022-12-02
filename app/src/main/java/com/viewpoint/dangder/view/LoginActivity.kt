@@ -9,6 +9,8 @@ import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseActivity
 import com.viewpoint.dangder.databinding.ActivityLoginBinding
 import com.viewpoint.dangder.util.*
+import com.viewpoint.dangder.view.initdog.InitDogActivity
+import com.viewpoint.dangder.view.signup.SignUpActivity
 import com.viewpoint.dangder.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.kotlin.addTo

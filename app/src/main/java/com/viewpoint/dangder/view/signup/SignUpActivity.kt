@@ -1,4 +1,4 @@
-package com.viewpoint.dangder.view
+package com.viewpoint.dangder.view.signup
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -11,17 +11,17 @@ import com.viewpoint.dangder.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class InitDogActivity :AppCompatActivity() {
+class SignUpActivity :AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_init_dog)
-        supportActionBar?.title = "댕댕이 프로필"
+        setContentView(R.layout.activity_signup)
+        supportActionBar?.title = "회원가입"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.init_dog_container) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.signup_container) as NavHostFragment
         val navController = navHostFragment.navController
 
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -29,7 +29,7 @@ class InitDogActivity :AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.init_dog_container)
+        val navController = findNavController(R.id.signup_container)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.viewpoint.dangder.view.main.MainFragment"
+        android:label="MainFragment" />
+    <fragment
+        android:id="@+id/todayFragment"
+        android:name="com.viewpoint.dangder.view.today.TodayFragment"
+        android:label="TodayFragment" />
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.viewpoint.dangder.view.chat.ChatListFragment"
+        android:label="ChatListFragment" >
+        <action
+            android:id="@+id/action_chatListFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.viewpoint.dangder.view.myprofile.MyProfileFragment"
+        android:label="MyProfileFragment" />
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.viewpoint.dangder.view.chat.ChatRoomFragment"
+        android:label="ChatRoomFragment" />
+</navigation>

@@ -1,13 +1,22 @@
 package com.viewpoint.dangder.view
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import timber.log.Timber
+import com.viewpoint.dangder.R
+import com.viewpoint.dangder.base.BaseActivity
+import com.viewpoint.dangder.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Timber.d("this is main activity")
+    override val layoutId: Int = R.layout.activity_main
+
+    override fun initView() {
+
+    }
+
+    override fun subscribe() {
+
+    }
+
+    override fun initData() {
+
     }
 }

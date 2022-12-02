@@ -48,6 +48,6 @@ object UseCaseModule {
     fun providesFetchInterestsUseCase(dogRepository: DogRepository) = FetchInterestsUseCase(dogRepository)
 
     @Provides
-    fun providesCreateDogUseCaseUseCase(dogRepository: DogRepository, fileRepository: FileRepository) = CreateDogUseCase(dogRepository, fileRepository)
+    fun providesCreateDogUseCaseUseCase(dogRepository: DogRepository) = CreateDogUseCase(dogRepository)
 
 }
