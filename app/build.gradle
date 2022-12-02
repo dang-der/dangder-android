@@ -141,8 +141,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     // card-stack-view
-    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
-
+    // https://jitpack.io/p/yuyakaido/cardstackview
+    // https://github.com/yuyakaido/CardStackView/issues/350
+    implementation 'com.github.yuyakaido:cardstackview:2.3.4'
 
 
 }
