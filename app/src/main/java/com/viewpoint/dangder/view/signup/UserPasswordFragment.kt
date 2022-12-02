@@ -3,7 +3,6 @@ package com.viewpoint.dangder.view.signup
 import android.content.Intent
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.navGraphViewModels
-import com.google.android.material.snackbar.Snackbar
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseFragment
@@ -11,7 +10,7 @@ import com.viewpoint.dangder.databinding.FragmentUserPasswordBinding
 import com.viewpoint.dangder.util.InputVerifyWatcher
 import com.viewpoint.dangder.util.passwordRegex
 import com.viewpoint.dangder.util.showErrorSnackBar
-import com.viewpoint.dangder.view.InitDogActivity
+import com.viewpoint.dangder.view.initdog.InitDogActivity
 import com.viewpoint.dangder.viewmodel.SignUpViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
