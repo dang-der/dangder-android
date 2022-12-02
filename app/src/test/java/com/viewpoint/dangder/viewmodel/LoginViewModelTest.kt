@@ -3,9 +3,9 @@ package com.viewpoint.dangder.viewmodel
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.entity.User
-import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
-import com.viewpoint.dangder.usecase.FetchUserUseCase
-import com.viewpoint.dangder.usecase.LoginUseCase
+import com.viewpoint.dangder.usecase.auth.CheckLoggedInUseCase
+import com.viewpoint.dangder.usecase.auth.FetchUserUseCase
+import com.viewpoint.dangder.usecase.auth.LoginUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -16,12 +16,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.given
-import org.mockito.kotlin.mock
-import timber.log.Timber
 
 class LoginViewModelTest {
 
@@ -54,16 +51,12 @@ class LoginViewModelTest {
 
             @BeforeEach
             fun setUp() = runTest {
-
                 given(mockCheckIsLoginUseCase.invoke()).willReturn(true)
-
             }
 
-
-            
             @Nested
             @DisplayName("강아지 등록이 되어 있는 사용자라면")
-            inner class ContextWithRegisteredDog{
+            inner class ContextWithRegisteredDog {
                 @BeforeEach
                 fun setUp() = runTest {
                     val mockUser = Mockito.mock(User::class.java)
@@ -72,32 +65,36 @@ class LoginViewModelTest {
                 }
 
                 @Test
-            @DisplayName("메인 페이지 이동 액션을 발행한다.")
-            fun `it publish GoToMainPage action`() = runTest {
-                loginViewModel.checkIsLogin()
-                val actual = loginViewModel.action.test().awaitCount(3).values()
-                assertThat(actual).contains(Actions.GoToMainPage)
+                @DisplayName("메인 페이지 이동 액션을 발행한다.")
+                fun `it publish GoToMainPage action`() = runTest {
+                    loginViewModel.checkIsLogin()
+                    val actual = loginViewModel.action.test().awaitCount(3).values()
+                    assertThat(actual).contains(Actions.GoToMainPage)
 
+                }
             }
 
             @Nested
             @DisplayName("강아지 등록이 되어 있는 않은 사용자라면")
-            inner class ContextWithoutRegisteredDog{
+            inner class ContextWithoutRegisteredDog {
+                private val mockUser = Mockito.mock(User::class.java)
+
                 @BeforeEach
                 fun setUp() = runTest {
-                    val mockUser = Mockito.mock(User::class.java)
+                    given((mockUser.id)).willReturn("testId")
                     given(mockUser.pet).willReturn(false)
+
                     given(mockFetchUserUseCase.invoke()).willReturn(mockUser)
                 }
 
                 @Test
-                @DisplayName("메인 페이지 이동 액션을 발행한다.")
+                @DisplayName("강아지 등록 페이지 이동 액션을 발행한다.")
                 fun `it publish GoToMainPage action`() = runTest {
                     loginViewModel.checkIsLogin()
-                    loginViewModel.action.test().awaitCount(1).assertValue(Actions.GoToInitDogPage)
+                    val actual = loginViewModel.action.test().awaitCount(3).values()
+                    assertThat(actual).contains(Actions.GoToInitDogPage(mockUser.id))
                 }
             }
-
         }
 
         @Nested
@@ -123,21 +120,63 @@ class LoginViewModelTest {
     @DisplayName("login 메소드는")
     inner class DescribeOfLogin {
         @Nested
-        @DisplayName("입력이 올바른 이메일, 패스워드 값이라면")
-        inner class ContextWithCorrectValue {
+        @DisplayName("로그인에 성공하면")
+        inner class ContextWithSuccessLogin {
+
+
             @BeforeEach
             fun setUp() = runTest {
+
                 given(mockLoginUseCase.invoke(any(), any())).willReturn(true)
             }
 
-            @Test
-            @DisplayName("메인 페이지 이동 액션을 발행한다.")
-            fun `it publish GoToMainPage action`() = runTest {
-                val email = "test@test.com"
-                val pw = "123qwe"
-                loginViewModel.login(email, pw)
-                val actual = loginViewModel.action.test().awaitCount(3).values()
-                assertThat(actual).contains(Actions.GoToMainPage)
+            @Nested
+            @DisplayName("등록된 강아지가 있으면")
+            inner class ContextWithInitializedDog {
+                private val fakeUser = Mockito.mock(User::class.java)
+
+                @BeforeEach
+                fun setUp() = runTest {
+                    given(fakeUser.id).willReturn("testId")
+                    given(fakeUser.pet).willReturn(true)
+
+                    given(mockFetchUserUseCase.invoke()).willReturn(fakeUser)
+                }
+
+                @Test
+                @DisplayName("메인 페이지 이동 액션을 발행한다.")
+                fun `it publish GoToMainPage action`() = runTest {
+                    val email = "test@test.com"
+                    val pw = "123qwe"
+                    loginViewModel.login(email, pw)
+                    val actual = loginViewModel.action.test().awaitCount(3).values()
+                    assertThat(actual).contains(Actions.GoToMainPage)
+                }
+            }
+
+            @Nested
+            @DisplayName("등록된 강아지가 없으면")
+            inner class ContextWithoutInitializedDog {
+
+                private val fakeUser = Mockito.mock(User::class.java)
+
+                @BeforeEach
+                fun setUp() = runTest {
+                    given(fakeUser.id).willReturn("testId")
+                    given(fakeUser.pet).willReturn(false)
+
+                    given(mockFetchUserUseCase.invoke()).willReturn(fakeUser)
+                }
+
+                @Test
+                @DisplayName("강아지 등록 페이지 이동 액션을 발행한다.")
+                fun `it publish GoToMainPage action`() = runTest {
+                    val email = "test@test.com"
+                    val pw = "123qwe"
+                    loginViewModel.login(email, pw)
+                    val actual = loginViewModel.action.test().awaitCount(3).values()
+                    assertThat(actual).contains(Actions.GoToInitDogPage(fakeUser.id))
+                }
             }
         }
     }

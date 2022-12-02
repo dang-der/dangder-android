@@ -3,9 +3,10 @@ package com.viewpoint.dangder.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
-import com.viewpoint.dangder.usecase.CheckLoggedInUseCase
-import com.viewpoint.dangder.usecase.FetchUserUseCase
-import com.viewpoint.dangder.usecase.LoginUseCase
+import com.viewpoint.dangder.entity.User
+import com.viewpoint.dangder.usecase.auth.FetchUserUseCase
+import com.viewpoint.dangder.usecase.auth.CheckLoggedInUseCase
+import com.viewpoint.dangder.usecase.auth.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -37,10 +38,10 @@ class LoginViewModel @Inject constructor(
 
         val result = checkLoggedInUseCase()
 
-
         if (result) {
-            val isRegisterDog = checkRegisterDog()
-            if(isRegisterDog) _action.onNext(Actions.GoToMainPage) else _action.onNext(Actions.GoToInitDogPage)
+            val user = getLoginUser()
+            if (user.pet) _action.onNext(Actions.GoToMainPage)
+            else _action.onNext(Actions.GoToInitDogPage(userId = user.id))
         } else {
             _action.onNext(Actions.GoToLoginPage)
         }
@@ -53,17 +54,24 @@ class LoginViewModel @Inject constructor(
         _action.onNext(Actions.ShowLoadingDialog)
         val result = loginUseCase(email, pw)
 
-        if (result){
-            val isRegistered = checkRegisterDog()
-            if(isRegistered) _action.onNext(Actions.GoToMainPage) else _action.onNext(Actions.GoToInitDogPage)
+        if (result) {
+            val user = getLoginUser()
+
+            if (user.pet)
+                _action.onNext(Actions.GoToMainPage)
+            else
+                _action.onNext(
+                Actions.GoToInitDogPage(
+                    userId = user.id
+                )
+            )
         }
 
         _action.onNext(Actions.HideLoadingDialog)
     }
 
-    private suspend fun checkRegisterDog(): Boolean {
-        val user = fetchUserUseCase()
-        return user.pet
+    private suspend fun getLoginUser(): User {
+        return fetchUserUseCase()
     }
 
 

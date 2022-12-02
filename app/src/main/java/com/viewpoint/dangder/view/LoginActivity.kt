@@ -73,6 +73,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                     Actions.GoToMainPage -> {
                         startActivity(Intent(this, MainActivity::class.java))
                     }
+                    is Actions.GoToInitDogPage -> {
+                        startActivity(
+                            Intent(this, InitDogActivity::class.java).apply {
+                                putExtra("userId", it.userId)
+                            }
+                        )
+                    }
                     Actions.ShowLoadingDialog -> {
                         showLoadingDialog()
                     }

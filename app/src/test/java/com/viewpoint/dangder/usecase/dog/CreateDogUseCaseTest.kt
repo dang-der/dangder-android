@@ -1,8 +1,10 @@
 package com.viewpoint.dangder.usecase.dog
 
+import com.apollographql.apollo3.api.Optional
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.entity.Dog
 import com.viewpoint.dangder.repository.DogRepository
+import com.viewpoint.dangder.repository.FileRepository
 import com.viewpoint.type.CreateDogInput
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
@@ -21,8 +23,10 @@ import org.mockito.kotlin.*
 
 @DisplayName("CreateDogUseCase (내 강아지 등록) 유스케이스는는 ")
 internal class CreateDogUseCaseTest {
-    @Mock
+
+
     private val mockDogRepository = Mockito.mock(DogRepository::class.java)
+    private val mockFileRepository = Mockito.mock(FileRepository::class.java)
     private val createDogUseCase = CreateDogUseCase(mockDogRepository)
     private val mainThread = newSingleThreadContext(createDogUseCase::class.java.simpleName)
 
@@ -53,16 +57,15 @@ internal class CreateDogUseCaseTest {
     @Nested
     @DisplayName("내 강아지 등록에 성공한 경우")
     inner class ContextWithRegistered {
-
         @BeforeEach
         fun setUp() = runTest {
-            given(mockDogRepository.createDog(any(),any(), any())).willReturn(Dog(id="testId"))
+            given(mockDogRepository.createDog(any(), any(), any())).willReturn(Dog(id="testId"))
         }
 
         @Test
         @DisplayName("true를 리턴한다")
         fun `it return true`() = runTest {
-            val result = createDogUseCase.invoke(any(), any(), any())
+            val result = createDogUseCase.invoke(dogInput = any(), dogRegNumber = any(), ownerBirth = any())
             assertThat(result).isTrue()
         }
     }

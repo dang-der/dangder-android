@@ -1,5 +1,6 @@
 package com.viewpoint.dangder.view.initdog
 
+import android.content.Intent
 import android.widget.CompoundButton.OnCheckedChangeListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.google.android.gms.location.LocationServices
@@ -9,6 +10,7 @@ import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentDogProfile2Binding
 import com.viewpoint.dangder.util.showErrorSnackBar
+import com.viewpoint.dangder.view.MainActivity
 import com.viewpoint.dangder.viewmodel.InitDogViewModel
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -33,6 +35,12 @@ class DogProfile2Fragment : BaseFragment<FragmentDogProfile2Binding>() {
                 when (it) {
                     is Actions.FetchInterests -> addInterestsChips(it.data)
                     is Actions.FetchCharacters -> addCharacterChips(it.data)
+                    Actions.GoToMainPage ->{
+                        startActivity(
+                            Intent(requireActivity(), MainActivity::class.java)
+                        )
+                        requireActivity().finish()
+                    }
                     else -> {
                         if (it is Actions.ShowErrorMessage) {
                             showErrorSnackBar(binding.root, it.message)
