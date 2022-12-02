@@ -4,6 +4,7 @@ import android.location.Location
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.apollographql.apollo3.api.Optional
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
 import com.viewpoint.dangder.usecase.auth.FetchUserUseCase
@@ -11,6 +12,9 @@ import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
 import com.viewpoint.dangder.usecase.dog.CreateDogUseCase
 import com.viewpoint.dangder.usecase.dog.FetchCharactersUseCase
 import com.viewpoint.dangder.usecase.dog.FetchInterestsUseCase
+import com.viewpoint.dangder.view.data.InitDogInput
+import com.viewpoint.type.CreateDogInput
+import com.viewpoint.type.LocationInput
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -87,29 +91,40 @@ class InitDogViewModel @Inject constructor(
         }
 
 
-
     fun createDog(location: Location) = viewModelScope.launch(ceh) {
         showLoading()
 
         if (_images == null) return@launch
-        if (_images?.isNotEmpty() == true && _age != null && _description != null && _registerNumber != null && _ownerBirth != null && _userId != null) {
-            val result = createDogUseCase(
-                images = _images!!,
-                age = _age!!,
-                description = _description!!,
-                characters = _characters,
-                interests = _interests,
-                dogRegNumber = _registerNumber!!,
-                ownerBirth = _ownerBirth!!,
-                lat = location.latitude,
-                lng = location.longitude,
-                userId = _userId!!
-            )
 
-            hideLoading()
+        val createDogInput =
+            _age?.let { age ->
+                _description?.let { description ->
+                    _userId?.let { userId ->
+                        _images?.let { images ->
+                            InitDogInput(
+                                age = age,
+                                description = description,
+                                interests = _interests,
+                                characters = _characters,
+                                images = images,
+                                userId = userId,
+                                lat = location.latitude,
+                                lng = location.longitude
+                            )
+                        }
+                    }
+                }
+            }
 
-            if(result) _action.onNext(Actions.GoToMainPage)
-        }
+        createDogInput ?: throw Exception("강아지 등록에 실패했습니다.")
+
+        val result = createDogUseCase(
+            dogInput = createDogInput,
+            dogRegNumber = _registerNumber!!,
+            ownerBirth = _ownerBirth!!
+        )
+        if (result) _action.onNext(Actions.GoToMainPage)
+        hideLoading()
     }
 
     fun checkRegisteredDog(dogRegNum: String, ownerBirth: String) = viewModelScope.launch(ceh) {
@@ -191,11 +206,11 @@ class InitDogViewModel @Inject constructor(
         }
     }
 
-    private fun showLoading(){
+    private fun showLoading() {
         _action.onNext(Actions.ShowLoadingDialog)
     }
 
-    private fun hideLoading(){
+    private fun hideLoading() {
         _action.onNext(Actions.HideLoadingDialog)
     }
 

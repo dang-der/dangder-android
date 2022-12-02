@@ -56,8 +56,11 @@ class LoginViewModel @Inject constructor(
 
         if (result) {
             val user = getLoginUser()
-            if (user.pet) _action.onNext(Actions.GoToMainPage)
-            else _action.onNext(
+
+            if (user.pet)
+                _action.onNext(Actions.GoToMainPage)
+            else
+                _action.onNext(
                 Actions.GoToInitDogPage(
                     userId = user.id
                 )
