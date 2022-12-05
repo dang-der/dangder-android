@@ -11,12 +11,12 @@ import javax.inject.Inject
 class SettingsRepositoryImpl @Inject constructor(
     private val settingsLocalDataSource: SettingsLocalDataSource
 ): SettingsRepository {
-    override fun getIsLoginSetting(): Flow<Boolean?> {
+    override fun getAutoLoginSetting(): Flow<Boolean?> {
         val key = booleanPreferencesKey(SettingsLocalDataSource.AUTO_LOGIN)
         return settingsLocalDataSource.getBoolean(key)
     }
 
-    override fun getUserAccountSetting(): Flow<List<String>> {
+    override fun getUserAccount(): Flow<List<String>> {
         val keyE = stringPreferencesKey(SettingsLocalDataSource.USER_ACCOUNT_E)
         val keyP = stringPreferencesKey(SettingsLocalDataSource.USER_ACCOUNT_P)
 
@@ -25,7 +25,7 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAccessTokenSetting(): Flow<String> {
+    override fun getAccessToken(): Flow<String> {
         val key = stringPreferencesKey(SettingsLocalDataSource.TOKEN)
         return settingsLocalDataSource.getString(key)
     }

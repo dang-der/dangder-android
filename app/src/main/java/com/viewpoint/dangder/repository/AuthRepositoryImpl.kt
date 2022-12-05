@@ -38,11 +38,11 @@ class AuthRepositoryImpl @Inject constructor(
 
 
     override suspend fun fetchAutoLoginSetting(): Flow<Boolean?> {
-        return settingsRepository.getIsLoginSetting()
+        return settingsRepository.getAutoLoginSetting()
     }
 
     override suspend fun fetchUserAccount(): Flow<List<String>> {
-        return settingsRepository.getUserAccountSetting()
+        return settingsRepository.getUserAccount()
     }
 
     override suspend fun saveToken(token: String) {
