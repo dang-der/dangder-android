@@ -1,0 +1,5 @@
+mutation CreatePaymentForPassTicket($impUid : String!, $payMoney : Float!){
+    createPaymentForPassTicket(impUid: $impUid, payMoney:$payMoney){
+        id
+    }
+}
