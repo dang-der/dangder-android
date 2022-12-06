@@ -21,9 +21,9 @@
     <item
         android:drawable="@drawable/img_pug"
         android:top="150dp"
-        android:bottom="120dp"
-        android:right="120dp"
-        android:left="120dp"
+        android:bottom="140dp"
+        android:right="140dp"
+        android:left="140dp"
         >
 
     </item>

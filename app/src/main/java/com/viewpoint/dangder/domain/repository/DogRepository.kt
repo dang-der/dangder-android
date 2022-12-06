@@ -10,5 +10,5 @@ interface DogRepository {
     suspend fun fetchInterests() : Array<String>
     suspend fun createDog(dogInput: InitDogInput, dogRegNum: String, ownerBirth: String): Dog
     suspend fun fetchAroundDogs(dogId : String, page : Double = 1.0) : List<Dog>
-    suspend fun fetchDogsDistance(dogId: String) : List<DogDistance>
+    suspend fun fetchDogsDistance(dogId: String): List<DogDistance>
 }

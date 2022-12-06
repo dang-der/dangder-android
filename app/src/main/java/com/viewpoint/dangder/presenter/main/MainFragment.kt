@@ -15,6 +15,7 @@ import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.StackFrom
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import timber.log.Timber
 
 class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
     override val layoutId: Int
@@ -24,6 +25,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
     private val buyPassTicketDialog by lazy { BuyPassTicketDialog(mainViewModel) }
     private val cardStackLayoutManager by lazy { CardStackLayoutManager(requireContext(), this) }
     private val aroundDogListAdapter by lazy { AroundDogListAdapter { mainViewModel.checkBuyPassTicket() } }
+    private var currentPage = 1
 
 
     override fun initView() {
@@ -36,6 +38,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
                 when (it) {
                     is Actions.FetchAroundDogs -> {
                         aroundDogListAdapter.submitList(it.data)
+                    }
+                    is Actions.FetchMoreAroundDogs ->{
+                        Timber.d("fetchMore : ${it.data}")
+                        val new = aroundDogListAdapter.currentList + it.data
+
+                        aroundDogListAdapter.submitList(new)
                     }
                     is Actions.ShowSuccessMessage->{
                         showSuccessSnackBar(binding.root, it.message)
@@ -74,13 +82,22 @@ class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
 
     override fun onCardSwiped(direction: Direction?) {
         if (direction == Direction.Right) {
-            val current = aroundDogListAdapter.currentList[cardStackLayoutManager.topPosition]
+            val current = aroundDogListAdapter.currentList[cardStackLayoutManager.topPosition-1]
             mainViewModel.like(current.id)
         }
+
+        Timber.d("topPosition : ${cardStackLayoutManager.topPosition}")
+        if(cardStackLayoutManager.topPosition == aroundDogListAdapter.itemCount - 1){
+            mainViewModel.fetchMore(currentPage+1)
+            currentPage += 1
+        }
+
     }
 
     override fun onCardAppeared(view: View?, position: Int) {}
-    override fun onCardDisappeared(view: View?, position: Int) {}
+    override fun onCardDisappeared(view: View?, position: Int) {
+        Timber.d("disappeared : ${cardStackLayoutManager.topPosition}")
+    }
     override fun onCardDragging(direction: Direction?, ratio: Float) {}
     override fun onCardRewound() {}
     override fun onCardCanceled() {}
