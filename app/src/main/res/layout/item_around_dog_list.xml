@@ -85,6 +85,32 @@
                     android:textColor="@color/white"
                     android:layout_marginTop="10dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/right_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_favorite"
+                    android:layout_gravity="center"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/left_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_skip"
+                    android:layout_gravity="center"/>
+
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -98,6 +124,7 @@
             app:fabCustomSize="70dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

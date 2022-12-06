@@ -5,6 +5,8 @@ import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
 import com.viewpoint.dangder.usecase.auth.FetchUserAndDogUseCase
 import com.viewpoint.dangder.usecase.dog.FetchAroundDogsUseCase
+import com.viewpoint.dangder.usecase.like.CreateLikeUseCase
+import com.viewpoint.dangder.view.data.AroundDog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -15,8 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val fetchUserAndDogUseCase: FetchUserAndDogUseCase,
-    private val fetchAroundDogsUseCase: FetchAroundDogsUseCase
+    private val fetchAroundDogsUseCase: FetchAroundDogsUseCase,
+    private val createLikeUseCase: CreateLikeUseCase,
 ) : BaseViewModel() {
     override val _action: PublishSubject<Actions> = PublishSubject.create()
     override val action: Observable<Actions>
@@ -36,9 +38,13 @@ class MainViewModel @Inject constructor(
         _action.onNext(Actions.FetchAroundDogs(dogs))
 
         hideLoadingDialog()
-
-        Timber.tag("MainViewModel").d(dogs.toString())
     }
+
+    fun like(receiveDogId : String) = viewModelScope.launch(ceh){
+        val isMatched = createLikeUseCase(receiveDogId = receiveDogId)
+        if(isMatched) _action.onNext(Actions.Matched(receiveDogId))
+    }
+
 
 
 

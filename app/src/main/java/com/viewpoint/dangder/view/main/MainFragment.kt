@@ -18,6 +18,7 @@ import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.StackFrom
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import timber.log.Timber
 
 class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
     override val layoutId: Int
@@ -68,13 +69,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
     }
 
 
-
-    override fun onCardSwiped(direction: Direction?) {}
+    override fun onCardSwiped(direction: Direction?){
+        if(direction == Direction.Right){
+            val current = aroundDogListAdapter.currentList[cardStackLayoutManager.topPosition]
+            mainViewModel.like(current.id)
+        }
+    }
 
     override fun onCardAppeared(view: View?, position: Int) {}
-
     override fun onCardDisappeared(view: View?, position: Int) {}
-
     override fun onCardDragging(direction: Direction?, ratio: Float) {}
     override fun onCardRewound() {}
     override fun onCardCanceled() {}

@@ -1,0 +1,11 @@
+mutation CreateLike($createLikeInput : createLikeInput!){
+    createLike(createLikeInput: $createLikeInput){
+        isMatch
+        sendId
+        receiveId
+    }
+}
+
+mutation IsLike($sendId : String!, $received:String!){
+    isLike(receiveId: $received, sendId: $sendId)
+}

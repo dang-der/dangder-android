@@ -21,4 +21,7 @@ abstract class RepositoryModule {
     @Binds
     abstract fun bindFileRepository(fileRepository: FileRepositoryImpl) : FileRepository
 
+    @Binds
+    abstract fun bindLikeRepository(likeRepository : LikeRepositoryImpl) : LikeRepository
+
 }
