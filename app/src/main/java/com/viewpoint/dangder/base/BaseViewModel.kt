@@ -1,7 +1,7 @@
 package com.viewpoint.dangder.base
 
 import androidx.lifecycle.ViewModel
-import com.viewpoint.dangder.action.Actions
+import com.viewpoint.dangder.presenter.action.Actions
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.BehaviorSubject

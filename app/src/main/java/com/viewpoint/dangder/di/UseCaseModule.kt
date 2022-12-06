@@ -1,11 +1,10 @@
 package com.viewpoint.dangder.di
 
-import com.viewpoint.dangder.repository.AuthRepository
-import com.viewpoint.dangder.repository.DogRepository
-import com.viewpoint.dangder.repository.FileRepository
-import com.viewpoint.dangder.repository.SettingsRepository
-import com.viewpoint.dangder.usecase.auth.*
-import com.viewpoint.dangder.usecase.dog.*
+import com.viewpoint.dangder.domain.repository.AuthRepository
+import com.viewpoint.dangder.domain.repository.DogRepository
+import com.viewpoint.dangder.domain.repository.SettingsRepository
+import com.viewpoint.dangder.domain.usecase.auth.*
+import com.viewpoint.dangder.domain.usecase.dog.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

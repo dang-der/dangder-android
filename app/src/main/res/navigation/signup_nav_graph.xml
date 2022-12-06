@@ -5,7 +5,7 @@
     app:startDestination="@id/userEmailFragment">
     <fragment
         android:id="@+id/userEmailFragment"
-        android:name="com.viewpoint.dangder.view.signup.UserEmailFragment"
+        android:name="com.viewpoint.dangder.presenter.signup.UserEmailFragment"
         android:label="회원가입" >
         <action
             android:id="@+id/action_userEmailFragment_to_emailVerifyFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/emailVerifyFragment"
-        android:name="com.viewpoint.dangder.view.signup.VerifyEmailTokenFragment"
+        android:name="com.viewpoint.dangder.presenter.signup.VerifyEmailTokenFragment"
         android:label="회원가입" >
         <action
             android:id="@+id/action_emailVerifyFragment_to_userPasswordFragment"
@@ -23,6 +23,6 @@
     </fragment>
     <fragment
         android:id="@+id/userPasswordFragment"
-        android:name="com.viewpoint.dangder.view.signup.UserPasswordFragment"
+        android:name="com.viewpoint.dangder.presenter.signup.UserPasswordFragment"
         android:label="회원가입" />
 </navigation>

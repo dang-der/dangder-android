@@ -1,9 +1,9 @@
 package com.viewpoint.dangder.usecase
 
 import com.google.common.truth.Truth.assertThat
-import com.viewpoint.dangder.entity.User
-import com.viewpoint.dangder.repository.AuthRepository
-import com.viewpoint.dangder.usecase.auth.FetchUserUseCase
+import com.viewpoint.dangder.domain.entity.User
+import com.viewpoint.dangder.domain.repository.AuthRepository
+import com.viewpoint.dangder.domain.usecase.auth.FetchUserUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain

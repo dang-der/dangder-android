@@ -3,7 +3,7 @@
     <data>
         <variable
             name="dog"
-            type="com.viewpoint.dangder.view.data.AroundDog" />
+            type="com.viewpoint.dangder.presenter.uimodel.AroundDog" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

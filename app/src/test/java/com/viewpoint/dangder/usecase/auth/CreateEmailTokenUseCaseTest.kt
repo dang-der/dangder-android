@@ -1,7 +1,8 @@
 package com.viewpoint.dangder.usecase.auth
 
 import com.google.common.truth.Truth.assertThat
-import com.viewpoint.dangder.repository.AuthRepository
+import com.viewpoint.dangder.domain.repository.AuthRepository
+import com.viewpoint.dangder.domain.usecase.auth.CreateEmailTokenUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
