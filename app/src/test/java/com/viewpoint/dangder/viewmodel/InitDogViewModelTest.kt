@@ -2,12 +2,13 @@ package com.viewpoint.dangder.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth.assertThat
-import com.viewpoint.dangder.action.Actions
-import com.viewpoint.dangder.usecase.auth.FetchUserAndDogUseCase
-import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
-import com.viewpoint.dangder.usecase.dog.CreateDogUseCase
-import com.viewpoint.dangder.usecase.dog.FetchCharactersUseCase
-import com.viewpoint.dangder.usecase.dog.FetchInterestsUseCase
+import com.viewpoint.dangder.presenter.action.Actions
+import com.viewpoint.dangder.domain.usecase.auth.FetchUserAndDogUseCase
+import com.viewpoint.dangder.domain.usecase.dog.CheckRegisteredDogUseCase
+import com.viewpoint.dangder.domain.usecase.dog.CreateDogUseCase
+import com.viewpoint.dangder.domain.usecase.dog.FetchCharactersUseCase
+import com.viewpoint.dangder.domain.usecase.dog.FetchInterestsUseCase
+import com.viewpoint.dangder.presenter.initdog.InitDogViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain

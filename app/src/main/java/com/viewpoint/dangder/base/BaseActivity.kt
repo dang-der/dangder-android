@@ -11,8 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.viewbinding.ViewBinding
 import com.viewpoint.dangder.util.showErrorSnackBar
-import com.viewpoint.dangder.view.dialog.LoadingDialog
-import dagger.hilt.android.AndroidEntryPoint
+import com.viewpoint.dangder.presenter.dialog.LoadingDialog
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 

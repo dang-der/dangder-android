@@ -1,6 +1,7 @@
 package com.viewpoint.dangder.di
 
-import com.viewpoint.dangder.repository.*
+import com.viewpoint.dangder.data.repository.*
+import com.viewpoint.dangder.domain.repository.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

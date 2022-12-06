@@ -6,15 +6,15 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.viewpoint.dangder.view.main.MainFragment"
+        android:name="com.viewpoint.dangder.presenter.main.MainFragment"
         android:label="MainFragment" />
     <fragment
         android:id="@+id/todayFragment"
-        android:name="com.viewpoint.dangder.view.today.TodayFragment"
+        android:name="com.viewpoint.dangder.presenter.today.TodayFragment"
         android:label="TodayFragment" />
     <fragment
         android:id="@+id/chatListFragment"
-        android:name="com.viewpoint.dangder.view.chat.ChatListFragment"
+        android:name="com.viewpoint.dangder.presenter.chat.ChatListFragment"
         android:label="ChatListFragment" >
         <action
             android:id="@+id/action_chatListFragment_to_chatRoomFragment"
@@ -22,10 +22,10 @@
     </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
-        android:name="com.viewpoint.dangder.view.myprofile.MyProfileFragment"
+        android:name="com.viewpoint.dangder.presenter.myprofile.MyProfileFragment"
         android:label="MyProfileFragment" />
     <fragment
         android:id="@+id/chatRoomFragment"
-        android:name="com.viewpoint.dangder.view.chat.ChatRoomFragment"
+        android:name="com.viewpoint.dangder.presenter.chat.ChatRoomFragment"
         android:label="ChatRoomFragment" />
 </navigation>

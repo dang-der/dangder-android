@@ -3,7 +3,7 @@ package com.viewpoint.dangder.data.local
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import com.viewpoint.dangder.entity.User
+import com.viewpoint.dangder.domain.entity.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

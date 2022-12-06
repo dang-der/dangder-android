@@ -1,7 +1,8 @@
 package com.viewpoint.dangder.usecase.dog
 
 import com.google.common.truth.Truth.assertThat
-import com.viewpoint.dangder.repository.DogRepository
+import com.viewpoint.dangder.domain.repository.DogRepository
+import com.viewpoint.dangder.domain.usecase.dog.CheckRegisteredDogUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain

@@ -1,11 +1,10 @@
 package com.viewpoint.dangder.usecase.dog
 
-import com.apollographql.apollo3.api.Optional
 import com.google.common.truth.Truth.assertThat
-import com.viewpoint.dangder.entity.Dog
-import com.viewpoint.dangder.repository.DogRepository
-import com.viewpoint.dangder.repository.FileRepository
-import com.viewpoint.type.CreateDogInput
+import com.viewpoint.dangder.domain.entity.Dog
+import com.viewpoint.dangder.domain.repository.DogRepository
+import com.viewpoint.dangder.domain.repository.FileRepository
+import com.viewpoint.dangder.domain.usecase.dog.CreateDogUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.*
 

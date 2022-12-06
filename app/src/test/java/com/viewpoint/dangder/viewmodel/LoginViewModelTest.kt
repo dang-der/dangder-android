@@ -1,11 +1,12 @@
 package com.viewpoint.dangder.viewmodel
 
 import com.google.common.truth.Truth.assertThat
-import com.viewpoint.dangder.action.Actions
-import com.viewpoint.dangder.entity.User
-import com.viewpoint.dangder.usecase.auth.CheckLoggedInUseCase
-import com.viewpoint.dangder.usecase.auth.FetchUserUseCase
-import com.viewpoint.dangder.usecase.auth.LoginUseCase
+import com.viewpoint.dangder.presenter.action.Actions
+import com.viewpoint.dangder.domain.entity.User
+import com.viewpoint.dangder.domain.usecase.auth.CheckLoggedInUseCase
+import com.viewpoint.dangder.domain.usecase.auth.FetchUserUseCase
+import com.viewpoint.dangder.domain.usecase.auth.LoginUseCase
+import com.viewpoint.dangder.presenter.login.LoginViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain

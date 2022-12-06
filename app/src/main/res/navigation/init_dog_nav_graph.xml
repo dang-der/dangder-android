@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/dogRegisterNumberCheckFragment"
-        android:name="com.viewpoint.dangder.view.initdog.DogRegisterNumberCheckFragment"
+        android:name="com.viewpoint.dangder.presenter.initdog.DogRegisterNumberCheckFragment"
         android:label="댕댕이 프로필">
         <action
             android:id="@+id/action_dogRegisterNumberCheckFragment_to_dogProfile1Fragment"
@@ -14,11 +14,11 @@
     </fragment>
     <fragment
         android:id="@+id/dogProfile2Fragment"
-        android:name="com.viewpoint.dangder.view.initdog.DogProfile2Fragment"
+        android:name="com.viewpoint.dangder.presenter.initdog.DogProfile2Fragment"
         android:label="댕댕이 프로필" />
     <fragment
         android:id="@+id/dogProfile1Fragment"
-        android:name="com.viewpoint.dangder.view.initdog.DogProfile1Fragment"
+        android:name="com.viewpoint.dangder.presenter.initdog.DogProfile1Fragment"
         android:label="댕댕이 프로필">
         <action
             android:id="@+id/action_dogProfile1Fragment_to_dogProfile2Fragment"

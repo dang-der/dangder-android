@@ -1,16 +1,16 @@
 package com.viewpoint.dangder.usecase.auth
 
 import com.google.common.truth.Truth.assertThat
-import com.viewpoint.dangder.entity.Dog
-import com.viewpoint.dangder.entity.User
-import com.viewpoint.dangder.repository.AuthRepository
-import com.viewpoint.dangder.repository.SettingsRepository
+import com.viewpoint.dangder.domain.entity.Dog
+import com.viewpoint.dangder.domain.entity.User
+import com.viewpoint.dangder.domain.repository.AuthRepository
+import com.viewpoint.dangder.domain.repository.SettingsRepository
+import com.viewpoint.dangder.domain.usecase.auth.FetchUserAndDogUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import okhttp3.internal.wait
 import org.junit.After
 import org.junit.Before
 import org.junit.jupiter.api.BeforeEach
@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.given
 
 @DisplayName("사용자의 정보와 등록된 강아지를 가져오는 유스케이스는")
