@@ -3,8 +3,11 @@ package com.viewpoint.dangder.data.local
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import com.viewpoint.dangder.entity.User
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -12,36 +15,38 @@ class SettingsLocalDataSource @Inject constructor(
     private val settingsStore: DataStore<Preferences>
 ) {
 
-    fun getBoolean(key: Preferences.Key<Boolean>): Flow<Boolean?> {
-        return settingsStore.data.map {
-            it[key] ?: false
+    suspend fun getBoolean(key: Preferences.Key<Boolean>): Flow<Boolean?> {
+        return withContext(Dispatchers.IO){
+            settingsStore.data.map {
+                it[key] ?: false
+            }
         }
     }
 
-    fun getString(key: Preferences.Key<String>): Flow<String> {
-        return settingsStore.data.map {
-            it[key] ?: ""
-        }
-    }
-
-    fun getStringSet(key : Preferences.Key<Set<String>>): Flow<Set<String>> {
-        return settingsStore.data.map {
-            it[key] ?: setOf()
+    suspend fun getString(key: Preferences.Key<String>): Flow<String> {
+        return withContext(Dispatchers.IO){
+            settingsStore.data.map {
+                it[key] ?: ""
+            }
         }
     }
 
     suspend fun putString(key : Preferences.Key<String>, value: String){
-        settingsStore.edit { settings ->
-            settings[key] = value
-        }
+         withContext(Dispatchers.IO){
+             settingsStore.edit { settings ->
+                 settings[key] = value
+             }
+         }
     }
 
-    companion object {
-        const val AUTO_LOGIN = "auto_login"
-        const val TOKEN = "access_token"
-        const val USER_ACCOUNT_E = "user_account_e"
-        const val USER_ACCOUNT_P = "user_account_p"
 
+    companion object {
+        const val AUTO_LOGIN = "autoLogin"
+        const val TOKEN = "accessToken"
+        const val USER_ACCOUNT_E = "userAccountE"
+        const val USER_ACCOUNT_P = "userAccountP"
+        const val USER_ID = "userId"
+        const val DOG_ID = "dogId"
     }
 
 }

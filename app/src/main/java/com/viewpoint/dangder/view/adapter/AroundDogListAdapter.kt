@@ -14,7 +14,7 @@ class AroundDogListAdapter : ListAdapter<AroundDog, AroundDogListAdapter.ViewHol
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: AroundDog) {
-            binding.name.text = data.name
+            binding.dog = data
         }
     }
 

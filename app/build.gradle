@@ -5,6 +5,7 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id("com.apollographql.apollo3").version("3.7.0")
     id "de.mannodermaus.android-junit5" version "1.8.2.1"
+    id 'kotlin-parcelize'
 
 }
 
@@ -144,6 +145,8 @@ dependencies {
     // https://jitpack.io/p/yuyakaido/cardstackview
     // https://github.com/yuyakaido/CardStackView/issues/350
     implementation 'com.github.yuyakaido:cardstackview:2.3.4'
+
+
 
 
 }

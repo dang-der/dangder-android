@@ -4,6 +4,8 @@ import android.net.Uri
 import com.apollographql.apollo3.api.Optional
 import com.viewpoint.dangder.data.remote.DogRemoteDataSource
 import com.viewpoint.dangder.entity.Dog
+import com.viewpoint.dangder.entity.DogDistance
+import com.viewpoint.dangder.mapper.DogDistanceMapper
 import com.viewpoint.dangder.mapper.DogMapper
 import com.viewpoint.dangder.view.data.InitDogInput
 import com.viewpoint.type.CreateDogInput
@@ -61,6 +63,24 @@ class DogRepositoryImpl @Inject constructor(
         val dog = response.data?.createDog ?: throw Exception("강아지 등록에 실패했습니다.")
 
         return DogMapper.mapToDogEntity(dog)
+    }
+
+    override suspend fun fetchAroundDogs(dogId: String, page: Double): List<Dog> {
+        val response = dogRemoteDataSource.fetchAroundDog(dogId, page)
+        if (response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val dogs = response.data?.fetchAroundDogs ?: throw Exception("데이터 불러오기에 실패했습니다.")
+
+        return dogs.map { DogMapper.mapToDogEntity(it) }
+    }
+
+    override suspend fun fetchDogsDistance(dogId: String): List<DogDistance> {
+        val response = dogRemoteDataSource.fetchDogsDistance(dogId)
+        if (response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val distances = response.data?.fetchDogsDistance ?: throw Exception("데이터 불러오기에 실패했습니다.")
+
+        return distances.map { DogDistanceMapper.mapToDogDistanceEntity(it) }
     }
 
     private suspend fun fileUpload(images: Array<Uri>): List<String> {

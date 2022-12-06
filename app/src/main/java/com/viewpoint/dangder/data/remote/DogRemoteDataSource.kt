@@ -2,10 +2,7 @@ package com.viewpoint.dangder.data.remote
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.ApolloResponse
-import com.viewpoint.CreateDogMutation
-import com.viewpoint.FetchCharactersQuery
-import com.viewpoint.FetchInterestCategoryForProfileQuery
-import com.viewpoint.GetDogInfoMutation
+import com.viewpoint.*
 import com.viewpoint.type.CreateDogInput
 import com.viewpoint.type.LocationInput
 import kotlinx.coroutines.Dispatchers
@@ -53,6 +50,18 @@ class DogRemoteDataSource @Inject constructor(
     suspend fun fetchInterests() : ApolloResponse<FetchInterestCategoryForProfileQuery.Data> {
         return withContext(Dispatchers.IO){
             apolloClient.query(FetchInterestCategoryForProfileQuery()).execute()
+        }
+    }
+
+    suspend fun fetchAroundDog(dogId : String, page : Double) : ApolloResponse<FetchAroundDogsQuery.Data> {
+        return withContext(Dispatchers.IO){
+            apolloClient.query(FetchAroundDogsQuery(dogId, page)).execute()
+        }
+    }
+
+    suspend fun fetchDogsDistance(dogId: String):ApolloResponse<FetchDogsDistanceQuery.Data>{
+        return withContext(Dispatchers.IO){
+            apolloClient.query(FetchDogsDistanceQuery(dogId)).execute()
         }
     }
 }

@@ -2,8 +2,10 @@ package com.viewpoint.dangder.repository
 
 import com.viewpoint.dangder.data.remote.AuthRemoteDataSource
 import com.viewpoint.dangder.entity.User
+import com.viewpoint.dangder.mapper.DogMapper
 import com.viewpoint.dangder.mapper.UserMapper
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -24,15 +26,19 @@ class AuthRepositoryImpl @Inject constructor(
         if(response.hasErrors()) throw Exception(response.errors?.first()?.message)
 
         val userData = response.data?.fetchLoginUser?.user ?: throw Exception("데이터가 없습니다.")
+        val dogData = response.data?.fetchLoginUser?.dog ?: throw Exception("데이터가 없습니다.")
 
-        return UserMapper.mapToUser(userData)
+        val dog = DogMapper.mapToDogEntity(dogData)
+        val user = UserMapper.mapToUser(userData)
+
+        return user.copy(dog = dog)
     }
 
     override suspend fun fetchSocialLoginUser(): User {
         val response = authRemoteDataSource.fetchSocialLoginUser()
         if(response.hasErrors()) throw Exception(response.errors?.first()?.message)
 
-        val user = response?.data?.fetchSocialLoginUser?: throw Exception("데이터가 없습니다.")
+        val user = response.data?.fetchSocialLoginUser?: throw Exception("데이터가 없습니다.")
         return UserMapper.mapToUser(user)
     }
 
