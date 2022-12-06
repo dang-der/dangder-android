@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    app:behavior_draggable="true"
+    app:behavior_hideable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <ImageView
+        android:id="@+id/payment_dialog_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_round_campaign_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/main" />
+
+    <TextView
+        android:id="@+id/payment_dialog_label1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="먼저 말을 걸기 위해서 \n 댕더 패스 구매가 필요해요!"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/middle"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/payment_dialog_icon" />
+
+    <TextView
+        android:id="@+id/payment_dialog_label2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="댕더 패스를 구매하시겠습니까?"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:textSize="@dimen/middle"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/payment_dialog_label1" />
+
+    <TextView
+        android:id="@+id/payment_dialog_label3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="구매한 댕더패스트 \n 한 달간 이용이 가능합니다."
+        android:textAlignment="center"
+        android:textSize="@dimen/small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/payment_dialog_label2" />
+
+    <TextView
+        android:id="@+id/payment_dialog_label4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="한 달 4900KRW"
+        android:textAlignment="center"
+        android:textSize="@dimen/small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/payment_dialog_label3" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/payment_dialog_buy_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="35dp"
+        android:backgroundTint="@color/main"
+        android:background="@drawable/bg_round_button"
+        android:paddingHorizontal="50dp"
+        android:text="구매하기"
+        android:textColor="@color/white"
+        android:textSize="@dimen/middle"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/payment_dialog_label4" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

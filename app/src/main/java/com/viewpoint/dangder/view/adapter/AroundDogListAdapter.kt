@@ -8,13 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.viewpoint.dangder.databinding.ItemAroundDogListBinding
 import com.viewpoint.dangder.view.data.AroundDog
 
-class AroundDogListAdapter : ListAdapter<AroundDog, AroundDogListAdapter.ViewHolder>(diffUtil) {
+class AroundDogListAdapter(
+    private val handleClickPassTicket : (dog : AroundDog) -> Unit
+) : ListAdapter<AroundDog, AroundDogListAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemAroundDogListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: AroundDog) {
             binding.dog = data
+            binding.mainCardPassTicketBtn.setOnClickListener{
+                handleClickPassTicket(data)
+            }
         }
     }
 

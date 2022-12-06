@@ -10,3 +10,11 @@ fun showErrorSnackBar(view : View, message : String){
     snackBar.setBackgroundTint(Color.parseColor("#ED3F3F"))
     snackBar.show()
 }
+
+
+fun showSuccessSnackBar(view: View, message: String){
+    val snackBar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
+    snackBar.setTextColor(Color.WHITE)
+    snackBar.setBackgroundTint(Color.parseColor("#ADF4A0"))
+    snackBar.show()
+}
