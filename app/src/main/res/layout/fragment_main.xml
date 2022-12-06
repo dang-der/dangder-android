@@ -41,7 +41,11 @@
             app:layout_constraintWidth_percent="0.9"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent=".8"
-            />
+            >
+
+        </com.yuyakaido.android.cardstackview.CardStackView>
+
+
 
 
 
