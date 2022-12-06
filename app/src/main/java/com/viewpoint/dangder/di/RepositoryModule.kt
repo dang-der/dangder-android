@@ -24,4 +24,7 @@ abstract class RepositoryModule {
     @Binds
     abstract fun bindLikeRepository(likeRepository : LikeRepositoryImpl) : LikeRepository
 
+    @Binds
+    abstract fun bindPaymentRepository(paymentRepository: PaymentRepositoryImpl) : PaymentRepository
+
 }
