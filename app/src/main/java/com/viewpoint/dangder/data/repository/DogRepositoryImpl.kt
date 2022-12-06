@@ -76,6 +76,7 @@ class DogRepositoryImpl @Inject constructor(
         return dogs.map { DogMapper.mapToDogEntity(it) }
     }
 
+
     override suspend fun fetchDogsDistance(dogId: String): List<DogDistance> {
         val response = dogRemoteDataSource.fetchDogsDistance(dogId)
         if (response.hasErrors()) throw Exception(response.errors?.first()?.message)

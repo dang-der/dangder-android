@@ -10,15 +10,16 @@ class FetchAroundDogsUseCase @Inject constructor(
     private val dogRepository: DogRepository,
     private val settingsRepository: SettingsRepository
 ) {
-    suspend operator fun invoke(): List<AroundDog> {
+    suspend operator fun invoke(page : Double = 1.0): List<AroundDog> {
         try {
             val dogId = settingsRepository.getDogId().first()
 
-            val aroundDogs = dogRepository.fetchAroundDogs(dogId)
+            val aroundDogs = dogRepository.fetchAroundDogs(dogId, page)
             val distances = dogRepository.fetchDogsDistance(dogId)
 
             return aroundDogs.mapIndexed { index, dog ->
                 val d = distances[index]
+
                 return@mapIndexed AroundDog(
                     id = dog.id,
                     name = dog.name,

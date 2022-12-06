@@ -41,7 +41,6 @@ class MainViewModel @Inject constructor(
 
 
     fun fetchData() = viewModelScope.launch(ceh) {
-
         showLoadingDialog()
 
         val dogs = fetchAroundDogsUseCase()
@@ -70,10 +69,9 @@ class MainViewModel @Inject constructor(
                     return@payment
                 }
 
-                viewModelScope.launch {
+                viewModelScope.launch(ceh) {
                     it?.imp_uid?.let { impUid ->
-                        Timber.d(impUid)
-                        val result = buyPassTicketUseCase(impUid)
+                        val result = buyPassTicketUseCase(impUid, 100.0)
                         if(result) _action.onNext(Actions.ShowSuccessMessage("댕더 패스 구매 완료!"))
                         else _action.onNext(Actions.ShowErrorMessage("결제에 실패했습니다."))
                     }
@@ -93,6 +91,13 @@ class MainViewModel @Inject constructor(
             return@launch
         }
         // todo : joinChatRoom 진행
+    }
+
+    fun fetchMore(page : Int) = viewModelScope.launch(ceh){
+        showLoadingDialog()
+        val moreData = fetchAroundDogsUseCase(page.toDouble())
+        _action.onNext(Actions.FetchMoreAroundDogs(moreData))
+        hideLoadingDialog()
     }
 
     private suspend fun createPaymentRequest(): IamPortRequest {

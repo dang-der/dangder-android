@@ -27,7 +27,7 @@
             android:textAlignment="center"
             android:textSize="@dimen/small"
             android:layout_marginTop="26dp"
-            android:text="주변에 위치하는 댕댕이가 \n 존재하지 않습니다."/>
+            android:text="더 이상 주변에 위치하는 \n 댕댕이가 없어요!"/>
         
         <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/main_around_dog_list"
