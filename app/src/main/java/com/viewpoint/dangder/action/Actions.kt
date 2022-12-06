@@ -1,5 +1,7 @@
 package com.viewpoint.dangder.action
 
+import com.viewpoint.dangder.view.data.AroundDog
+
 
 sealed class Actions {
     // page move action
@@ -16,4 +18,5 @@ sealed class Actions {
     // data action
     data class FetchCharacters(val data : Array<String>) : Actions()
     data class FetchInterests(val data: Array<String>) : Actions()
+    data class FetchAroundDogs(val data: List<AroundDog>) : Actions()
 }

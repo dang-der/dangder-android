@@ -36,11 +36,16 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         loadingDialog = LoadingDialog.newInstance()
 
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         initView()
         subscribeModel()
         initData()
-
-        return binding.root
     }
 
     override fun onDestroyView() {

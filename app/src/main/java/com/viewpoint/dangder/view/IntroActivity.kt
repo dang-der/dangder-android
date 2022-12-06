@@ -36,14 +36,15 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
                                 putExtra("userId", it.userId)
                             }
                         )
+                        finish()
                     }
                     Actions.ShowLoadingDialog -> showLoadingDialog()
                     Actions.HideLoadingDialog -> hideLoadingDialog()
                     else -> {
                         startActivity(Intent(this, MainActivity::class.java))
+                        finish()
                     }
                 }
-                finish()
             }, 3000)
 
 

@@ -12,7 +12,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewbinding.ViewBinding
 import com.viewpoint.dangder.util.showErrorSnackBar
 import com.viewpoint.dangder.view.dialog.LoadingDialog
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+
 
 abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
     protected lateinit var binding: B
@@ -30,13 +32,14 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, layoutId)
         loadingDialog = LoadingDialog.newInstance()
         initView()
-        initData()
+
 
     }
 
     override fun onStart() {
         super.onStart()
         subscribe()
+        initData()
     }
 
     override fun onStop() {

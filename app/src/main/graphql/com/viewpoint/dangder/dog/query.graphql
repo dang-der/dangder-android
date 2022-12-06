@@ -10,3 +10,25 @@ query FetchInterestCategoryForProfile{
         interest
     }
 }
+
+query FetchAroundDogs($id : String!, $page : Float!){
+    fetchAroundDogs(id: $id, page: $page){
+        id
+        name
+        age
+        gender
+        description
+        img {
+            img
+            isMain
+        }
+    }
+}
+
+query FetchDogsDistance($id : String!){
+    fetchDogsDistance(id: $id){
+        dogId
+        distance
+    }
+}
+

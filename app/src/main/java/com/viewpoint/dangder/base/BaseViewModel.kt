@@ -16,4 +16,12 @@ abstract class BaseViewModel : ViewModel() {
         compositeDisposable.clear()
         super.onCleared()
     }
+
+    protected fun showLoadingDialog(){
+        _action.onNext(Actions.ShowLoadingDialog)
+    }
+
+    protected fun hideLoadingDialog(){
+        _action.onNext(Actions.HideLoadingDialog)
+    }
 }

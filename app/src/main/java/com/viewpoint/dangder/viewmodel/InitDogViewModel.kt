@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo3.api.Optional
 import com.viewpoint.dangder.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
+import com.viewpoint.dangder.usecase.auth.FetchUserAndDogUseCase
 import com.viewpoint.dangder.usecase.auth.FetchUserUseCase
 import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
 import com.viewpoint.dangder.usecase.dog.CreateDogUseCase
@@ -29,6 +30,7 @@ class InitDogViewModel @Inject constructor(
     private val fetchInterestsUseCase: FetchInterestsUseCase,
     private val fetchCharactersUseCase: FetchCharactersUseCase,
     private val createDogUseCase: CreateDogUseCase,
+    private val fetchUserAndDogUseCase: FetchUserAndDogUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
 
@@ -118,12 +120,15 @@ class InitDogViewModel @Inject constructor(
 
         createDogInput ?: throw Exception("강아지 등록에 실패했습니다.")
 
-        val result = createDogUseCase(
+        val createDogResult = createDogUseCase(
             dogInput = createDogInput,
             dogRegNumber = _registerNumber!!,
             ownerBirth = _ownerBirth!!
         )
-        if (result) _action.onNext(Actions.GoToMainPage)
+
+        val fetchLoginAndDogResult = fetchUserAndDogUseCase()
+
+        if (createDogResult && fetchLoginAndDogResult.id.isNotEmpty()) _action.onNext(Actions.GoToMainPage) else _action.onNext(Actions.GoToLoginPage)
         hideLoading()
     }
 

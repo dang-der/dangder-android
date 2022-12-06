@@ -1,5 +1,6 @@
 package com.viewpoint.dangder.mapper
 
+import com.viewpoint.FetchAroundDogsQuery
 import com.viewpoint.FetchLoginUserQuery
 import com.viewpoint.dangder.entity.Image
 
@@ -10,4 +11,9 @@ object ImageMapper {
             isMain = imageData.isMain
         )
     }
+
+    fun mapToImage(imageData: FetchAroundDogsQuery.Img) = Image(
+        url = imageData.img,
+        isMain = imageData.isMain
+    )
 }

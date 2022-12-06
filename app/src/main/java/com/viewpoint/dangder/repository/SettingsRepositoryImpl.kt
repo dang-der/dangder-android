@@ -4,6 +4,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.viewpoint.dangder.data.local.SettingsLocalDataSource
+import com.viewpoint.dangder.entity.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
@@ -11,12 +12,12 @@ import javax.inject.Inject
 class SettingsRepositoryImpl @Inject constructor(
     private val settingsLocalDataSource: SettingsLocalDataSource
 ): SettingsRepository {
-    override fun getIsLoginSetting(): Flow<Boolean?> {
+    override suspend fun getAutoLoginSetting(): Flow<Boolean?> {
         val key = booleanPreferencesKey(SettingsLocalDataSource.AUTO_LOGIN)
         return settingsLocalDataSource.getBoolean(key)
     }
 
-    override fun getUserAccountSetting(): Flow<List<String>> {
+    override suspend fun getUserAccount(): Flow<List<String>> {
         val keyE = stringPreferencesKey(SettingsLocalDataSource.USER_ACCOUNT_E)
         val keyP = stringPreferencesKey(SettingsLocalDataSource.USER_ACCOUNT_P)
 
@@ -25,14 +26,29 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAccessTokenSetting(): Flow<String> {
+    override suspend fun getAccessToken(): Flow<String> {
         val key = stringPreferencesKey(SettingsLocalDataSource.TOKEN)
+        return settingsLocalDataSource.getString(key)
+    }
+
+    override suspend fun getDogId(): Flow<String> {
+        val key = stringPreferencesKey(SettingsLocalDataSource.DOG_ID)
         return settingsLocalDataSource.getString(key)
     }
 
     override suspend fun saveAccessToken(accessToken: String) {
         val key = stringPreferencesKey(SettingsLocalDataSource.TOKEN)
         settingsLocalDataSource.putString(key, accessToken)
+    }
+
+    override suspend fun saveUserId(userId: String) {
+        val key = stringPreferencesKey(SettingsLocalDataSource.USER_ID)
+        settingsLocalDataSource.putString(key, userId)
+    }
+
+    override suspend fun saveDogId(dogId: String) {
+        val key = stringPreferencesKey(SettingsLocalDataSource.DOG_ID)
+        settingsLocalDataSource.putString(key, dogId)
     }
 
 }

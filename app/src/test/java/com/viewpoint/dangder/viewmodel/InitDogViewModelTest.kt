@@ -3,6 +3,7 @@ package com.viewpoint.dangder.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth.assertThat
 import com.viewpoint.dangder.action.Actions
+import com.viewpoint.dangder.usecase.auth.FetchUserAndDogUseCase
 import com.viewpoint.dangder.usecase.dog.CheckRegisteredDogUseCase
 import com.viewpoint.dangder.usecase.dog.CreateDogUseCase
 import com.viewpoint.dangder.usecase.dog.FetchCharactersUseCase
@@ -26,6 +27,7 @@ class InitDogViewModelTest {
     private val mockFetchCharacterUseCase = Mockito.mock(FetchCharactersUseCase::class.java)
     private val mockFetchInterestsUseCase = Mockito.mock(FetchInterestsUseCase::class.java)
     private val mockCreateDogUseCase = Mockito.mock(CreateDogUseCase::class.java)
+    private val mockFetchUserAndDogUseCase = Mockito.mock(FetchUserAndDogUseCase::class.java)
 
     private val mockSavedStateHandle = Mockito.mock(SavedStateHandle::class.java)
 
@@ -40,6 +42,7 @@ class InitDogViewModelTest {
                 fetchCharactersUseCase = mockFetchCharacterUseCase,
                 fetchInterestsUseCase = mockFetchInterestsUseCase,
                 createDogUseCase = mockCreateDogUseCase,
+                fetchUserAndDogUseCase = mockFetchUserAndDogUseCase,
                 savedStateHandle = mockSavedStateHandle
             )
         Dispatchers.setMain(mainThread)
