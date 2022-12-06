@@ -9,6 +9,9 @@ plugins {
 
 }
 
+def Properties properties = new Properties()
+properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
 android {
     namespace 'com.viewpoint.dangder'
     compileSdk 32
@@ -22,6 +25,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArgument("runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder")
+        buildConfigField("String", "IAMPORT_KEY", properties.getProperty("iamport.key"))
 
 
     }
@@ -148,8 +152,5 @@ dependencies {
 
     // 아임포트
     implementation 'com.github.iamport:iamport-android:1.3.6'
-
-
-
 
 }

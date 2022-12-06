@@ -7,7 +7,7 @@ class BuyPassTicketUseCase @Inject constructor(
     private val paymentRepository: PaymentRepository
 ) {
 
-    suspend operator fun invoke(impUid : String, payMoney : Double): Boolean {
+    suspend operator fun invoke(impUid : String, payMoney : Double = 100.0): Boolean {
         try {
             val id = paymentRepository.createPaymentForPassTicket(impUid, payMoney)
             return id.isNotEmpty()
