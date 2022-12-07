@@ -11,4 +11,10 @@ data class Dog(
     val isNeut : Boolean ? = null,
     val interests : List<String>? = emptyList(),
     val characters : List<String>? = emptyList(),
-)
+){
+    fun getMainImage(): String {
+        img?: return ""
+        if(img.isEmpty()) return ""
+        return img.first { it.isMain }.url
+    }
+}

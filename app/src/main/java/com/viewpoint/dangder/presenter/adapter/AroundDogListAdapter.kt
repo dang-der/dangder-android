@@ -9,7 +9,8 @@ import com.viewpoint.dangder.databinding.ItemAroundDogListBinding
 import com.viewpoint.dangder.presenter.uimodel.AroundDog
 
 class AroundDogListAdapter(
-    private val handleClickPassTicket : (dog : AroundDog) -> Unit
+    private val handleClickPassTicket : (dog : AroundDog) -> Unit,
+    private val handleClickDogInfo : (dogId : String) -> Unit
 ) : ListAdapter<AroundDog, AroundDogListAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemAroundDogListBinding) :
@@ -19,6 +20,10 @@ class AroundDogListAdapter(
             binding.dog = data
             binding.mainCardPassTicketBtn.setOnClickListener{
                 handleClickPassTicket(data)
+            }
+
+            binding.mainCardInfoContainer.setOnClickListener {
+                handleClickDogInfo(data.id)
             }
         }
     }
