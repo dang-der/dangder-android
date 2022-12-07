@@ -64,4 +64,10 @@ class DogRemoteDataSource @Inject constructor(
             apolloClient.query(FetchDogsDistanceQuery(dogId)).execute()
         }
     }
+
+    suspend fun fetchOneDog(dogId: String) : ApolloResponse<FetchOneDogQuery.Data>{
+        return withContext(Dispatchers.IO){
+            apolloClient.query(FetchOneDogQuery(dogId)).execute()
+        }
+    }
 }

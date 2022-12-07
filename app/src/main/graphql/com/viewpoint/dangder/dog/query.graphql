@@ -32,3 +32,26 @@ query FetchDogsDistance($id : String!){
     }
 }
 
+query FetchOneDog($id : String!){
+    fetchOneDog(id: $id){
+        id
+        name
+        age
+        gender
+        isNeut
+        description
+        interests {
+            interest
+        }
+        characters {
+            character
+        }
+        img {
+            isMain
+            img
+        }
+    }
+}
+
+
+
