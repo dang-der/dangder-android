@@ -1,6 +1,7 @@
 package com.viewpoint.dangder.presenter.main
 
 import android.animation.ValueAnimator
+import android.app.Notification.Action
 import android.graphics.Color
 import android.view.View
 import android.view.animation.AlphaAnimation
@@ -17,9 +18,11 @@ import com.viewpoint.dangder.databinding.FragmentDetailBinding
 import com.viewpoint.dangder.domain.entity.Dog
 import com.viewpoint.dangder.presenter.action.Actions
 import com.viewpoint.dangder.presenter.dialog.BuyPassTicketDialog
+import com.viewpoint.dangder.presenter.dialog.MatchedDialog
 import com.viewpoint.dangder.util.showErrorSnackBar
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import timber.log.Timber
 import kotlin.math.abs
 
 
@@ -50,11 +53,27 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
                         binding.dog = it.data
                         initChips(it.data)
                     }
-                    Actions.ShowBuyPassTicketDialog ->{
-                        buyPassTicketDialog.show(requireActivity().supportFragmentManager, buyPassTicketDialog.tag)
+
+                    is Actions.Matched -> {
+                        val matchedDialog = MatchedDialog(pairDog = it.pairDog)
+                        if (matchedDialog.isAdded.not()) {
+                            matchedDialog.show(
+                                requireActivity().supportFragmentManager,
+                                matchedDialog.tag
+                            )
+                        }
                     }
+                    Actions.ShowBuyPassTicketDialog -> {
+                        buyPassTicketDialog.show(
+                            requireActivity().supportFragmentManager,
+                            buyPassTicketDialog.tag
+                        )
+                    }
+//                    Actions.ShowLoadingDialog -> showLoadingDialog()
+//                    Actions.HideLoadingDialog -> hideLoadingDialog()
                     else -> {
                         if (it is Actions.ShowErrorMessage) {
+                            Timber.tag("error").d(it.message)
                             showErrorSnackBar(binding.root, it.message)
                         }
                     }
@@ -87,20 +106,20 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
         binding.detailToolbarBackBtn.setOnClickListener(finish)
     }
 
-    private fun handleClickPassTicket(){
+    private fun handleClickPassTicket() {
         binding.detailPassTicketBtn.setOnClickListener {
             mainViewModel.checkBuyPassTicket()
         }
     }
 
-    private fun handleClickLike(){
+    private fun handleClickLike() {
         binding.detailLikeBtn.setOnClickListener {
-            val dogId = arguments?.getString("dogId") ?:return@setOnClickListener
+            val dogId = arguments?.getString("dogId") ?: return@setOnClickListener
             mainViewModel.like(dogId)
         }
     }
 
-    private fun handleClickReport(){
+    private fun handleClickReport() {
         // todo : 신고하기 페이지 이동 기능 구현
     }
 
@@ -115,7 +134,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
             binding.detailCharactersGroup.addView(createChip(it))
         }
 
-        val interests = dog.interests ?: run{
+        val interests = dog.interests ?: run {
             binding.detailInterestsContainer.isVisible = false
             return
         }
@@ -203,7 +222,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
             ) else
             ValueAnimator.ofArgb(
                 ContextCompat.getColor(requireContext(), R.color.main),
-                Color.TRANSPARENT)
+                Color.TRANSPARENT
+            )
 
         colorAnimation.duration = duration
         colorAnimation.addUpdateListener {

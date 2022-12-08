@@ -85,8 +85,8 @@
 
                         <TextView
                             android:id="@+id/main_card_dog_description_tv"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginEnd="20dp"
                             android:text="@{dog.description}"
@@ -135,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/white"
+                app:backgroundTint="@color/white"
                 android:src="@drawable/ic_pass_ticket"
                 app:fabCustomSize="70dp"
                 app:layout_constraintBottom_toBottomOf="parent"

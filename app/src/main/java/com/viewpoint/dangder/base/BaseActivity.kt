@@ -13,12 +13,13 @@ import androidx.viewbinding.ViewBinding
 import com.viewpoint.dangder.util.showErrorSnackBar
 import com.viewpoint.dangder.presenter.dialog.LoadingDialog
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import timber.log.Timber
 
 
 abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
     protected lateinit var binding: B
     protected abstract val layoutId: Int
-    protected lateinit var loadingDialog: LoadingDialog
+    protected val loadingDialog: LoadingDialog = LoadingDialog()
     protected val compositeDisposable = CompositeDisposable()
 
     protected abstract fun initView()
@@ -29,9 +30,7 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
-        loadingDialog = LoadingDialog.newInstance()
         initView()
-
 
     }
 
@@ -47,7 +46,9 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
     }
 
     protected fun showLoadingDialog() {
+        if (loadingDialog.isAdded) return
         loadingDialog.show(supportFragmentManager, loadingDialog.tag)
+
     }
 
     protected fun hideLoadingDialog() {

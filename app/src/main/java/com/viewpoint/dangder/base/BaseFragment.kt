@@ -22,8 +22,8 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
 
     protected val compositeDisposable = CompositeDisposable()
     protected lateinit var binding: B
+    protected val loadingDialog by lazy { LoadingDialog() }
     protected abstract val layoutId: Int
-    protected lateinit var loadingDialog: LoadingDialog
 
     protected abstract fun initView()
     protected abstract fun subscribeModel()
@@ -34,10 +34,7 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.d("onCreateView")
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-        loadingDialog = LoadingDialog.newInstance()
-
         return binding.root
     }
 
@@ -54,13 +51,13 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     }
 
     protected fun showLoadingDialog() {
+        if (loadingDialog.isAdded) return
+
         loadingDialog.show(requireActivity().supportFragmentManager, loadingDialog.tag)
     }
 
     protected fun hideLoadingDialog() {
-        if (loadingDialog.isAdded) {
-            loadingDialog.dismissAllowingStateLoss()
-        }
+        loadingDialog.dismissAllowingStateLoss()
     }
 
     protected fun requestPermissions(permissions: Array<String>) {
