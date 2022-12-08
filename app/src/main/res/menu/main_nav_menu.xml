@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--    각 탭에 대한 navigation res 파일의 android:id와 munu res 파일의 각 Item의 id가 동일한 이름으로 선언되어 있어야 한다.-->
 
     <item
-        android:id="@+id/main_menu_main"
-        android:title="메인"
-        android:icon="@drawable/ic_round_home_24"/>
-
-    <item
-        android:id="@+id/main_menu_today"
+        android:id="@+id/todayFragment"
         android:title="오늘의 댕댕이"
-        android:icon="@drawable/ic_round_military_tech_24"/>
+        android:icon="@drawable/ic_round_military_tech_24" />
 
     <item
-        android:id="@+id/main_menu_chat"
+        android:id="@+id/mainFragment"
+        android:title="메인"
+        android:icon="@drawable/ic_round_home_24" />
+
+
+    <item
+        android:id="@+id/chatListFragment"
         android:title="채팅"
-        android:icon="@drawable/ic_chat"/>
+        android:icon="@drawable/ic_chat" />
 
     <item
-        android:id="@+id/main_menu_my_profile"
+        android:id="@+id/myProfileFragment"
         android:title="마이 댕댕이"
-        android:icon="@drawable/ic_my_profile"/>
+        android:icon="@drawable/ic_my_profile" />
 </menu>
