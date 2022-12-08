@@ -18,6 +18,7 @@ class DogRepositoryImpl @Inject constructor(
     private val dogRemoteDataSource: DogRemoteDataSource,
     private val fileRepository: FileRepository,
 ) : DogRepository {
+
     override suspend fun getDogInfo(dogRegNum: String, ownerBirth: String): Boolean {
         val response = dogRemoteDataSource.getDogInfo(dogRegNum, ownerBirth)
 
@@ -84,6 +85,14 @@ class DogRepositoryImpl @Inject constructor(
         val distances = response.data?.fetchDogsDistance ?: throw Exception("데이터 불러오기에 실패했습니다.")
 
         return distances.map { DogDistanceMapper.mapToDogDistanceEntity(it) }
+    }
+
+    override suspend fun fetchOneDog(dogId: String): Dog {
+        val response = dogRemoteDataSource.fetchOneDog(dogId)
+        if(response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val dog = response.data?.fetchOneDog ?: throw Exception("데이터가 존재하지 않습니다.")
+        return DogMapper.mapToDogEntity(dog)
     }
 
     private suspend fun fileUpload(images: Array<Uri>): List<String> {

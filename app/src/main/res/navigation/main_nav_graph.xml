@@ -7,7 +7,12 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.viewpoint.dangder.presenter.main.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+
+    </fragment>
     <fragment
         android:id="@+id/todayFragment"
         android:name="com.viewpoint.dangder.presenter.today.TodayFragment"
@@ -28,4 +33,13 @@
         android:id="@+id/chatRoomFragment"
         android:name="com.viewpoint.dangder.presenter.chat.ChatRoomFragment"
         android:label="ChatRoomFragment" />
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.viewpoint.dangder.presenter.main.DetailFragment"
+        android:label="DetailFragment" >
+        <argument
+            android:name="dogId"
+            app:argType="string"
+            android:defaultValue='""' />
+    </fragment>
 </navigation>

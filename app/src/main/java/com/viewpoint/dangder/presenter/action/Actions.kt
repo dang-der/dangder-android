@@ -1,5 +1,6 @@
 package com.viewpoint.dangder.presenter.action
 
+import com.viewpoint.dangder.domain.entity.Dog
 import com.viewpoint.dangder.presenter.uimodel.AroundDog
 
 
@@ -19,9 +20,13 @@ sealed class Actions {
     // data action
     data class FetchCharacters(val data : Array<String>) : Actions()
     data class FetchInterests(val data: Array<String>) : Actions()
-    data class FetchAroundDogs(val data: List<AroundDog>) : Actions()
+
     data class Matched(val receiveDogId : String) : Actions()
+
+    data class FetchAroundDogs(val data: List<AroundDog>) : Actions()
     data class FetchMoreAroundDogs(val data: List<AroundDog>) : Actions()
+
+    data class FetchOneDog(val data : Dog) : Actions()
 
     //
     object ShowBuyPassTicketDialog : Actions()

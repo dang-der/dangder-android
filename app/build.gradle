@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "com.viewpoint.dangder"
-        minSdk 24
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -152,5 +152,6 @@ dependencies {
 
     // 아임포트
     implementation 'com.github.iamport:iamport-android:1.3.6'
+
 
 }

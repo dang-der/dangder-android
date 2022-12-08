@@ -3,16 +3,15 @@ package com.viewpoint.dangder.data.mapper
 import com.viewpoint.CreateDogMutation
 import com.viewpoint.FetchAroundDogsQuery
 import com.viewpoint.FetchLoginUserQuery
+import com.viewpoint.FetchOneDogQuery
 import com.viewpoint.dangder.domain.entity.Dog
-import com.viewpoint.dangder.domain.entity.Image
-import timber.log.Timber
 
 object DogMapper {
 
     fun mapToDogEntity(dogData: FetchLoginUserQuery.Dog) = Dog(
         id = dogData.id,
         name = dogData.name,
-        img = dogData.img.map { ImageMapper.mapToImage((it)) }
+        img = dogData.img.map { ImageMapper.mapToImageEntity((it)) }
     )
 
     fun mapToDogEntity(dogData : CreateDogMutation.CreateDog) = Dog(
@@ -20,14 +19,27 @@ object DogMapper {
     )
 
     fun mapToDogEntity(dogData: FetchAroundDogsQuery.FetchAroundDog): Dog {
-        Timber.d(dogData.img.map { ImageMapper.mapToImage(it) }.toString())
         return Dog(
             id = dogData.id,
             name = dogData.name,
-            img = dogData.img.map { ImageMapper.mapToImage(it) },
+            img = dogData.img.map { ImageMapper.mapToImageEntity(it) },
             age = dogData.age,
             description = dogData.description,
             gender = dogData.gender
+        )
+    }
+
+    fun mapToDogEntity(dogDate : FetchOneDogQuery.FetchOneDog) : Dog{
+        return Dog(
+            id = dogDate.id,
+            name = dogDate.name,
+            age = dogDate.age,
+            gender = dogDate.gender,
+            isNeut = dogDate.isNeut,
+            description = dogDate.description,
+            interests = dogDate.interests.map { it.interest },
+            characters = dogDate.characters.map { it.character },
+            img = dogDate.img.map { ImageMapper.mapToImageEntity(it) }
         )
     }
 

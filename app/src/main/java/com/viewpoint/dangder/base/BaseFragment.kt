@@ -16,6 +16,7 @@ import androidx.viewbinding.ViewBinding
 import com.viewpoint.dangder.util.showErrorSnackBar
 import com.viewpoint.dangder.presenter.dialog.LoadingDialog
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import timber.log.Timber
 
 abstract class BaseFragment<B : ViewBinding> : Fragment() {
 
@@ -33,16 +34,15 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Timber.d("onCreateView")
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         loadingDialog = LoadingDialog.newInstance()
-
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initView()
         subscribeModel()
         initData()

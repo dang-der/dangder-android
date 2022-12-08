@@ -5,14 +5,15 @@ import com.iamport.sdk.data.sdk.IamPortRequest
 import com.iamport.sdk.data.sdk.PayMethod
 import com.iamport.sdk.domain.core.Iamport
 import com.viewpoint.dangder.BuildConfig
-import com.viewpoint.dangder.presenter.action.Actions
 import com.viewpoint.dangder.base.BaseViewModel
 import com.viewpoint.dangder.domain.entity.User
 import com.viewpoint.dangder.domain.usecase.auth.FetchUserUseCase
 import com.viewpoint.dangder.domain.usecase.dog.FetchAroundDogsUseCase
+import com.viewpoint.dangder.domain.usecase.dog.FetchOneDogUseCase
 import com.viewpoint.dangder.domain.usecase.like.CreateLikeUseCase
 import com.viewpoint.dangder.domain.usecase.payment.BuyPassTicketUseCase
 import com.viewpoint.dangder.domain.usecase.payment.CheckUserBuyPassTicketUseCase
+import com.viewpoint.dangder.presenter.action.Actions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -27,7 +28,8 @@ class MainViewModel @Inject constructor(
     private val createLikeUseCase: CreateLikeUseCase,
     private val fetchUserUseCase: FetchUserUseCase,
     private val buyPassTicketUseCase: BuyPassTicketUseCase,
-    private val checkUserBuyPassTicketUseCase: CheckUserBuyPassTicketUseCase
+    private val checkUserBuyPassTicketUseCase: CheckUserBuyPassTicketUseCase,
+    private val fetchOneDogUseCase: FetchOneDogUseCase
 ) : BaseViewModel() {
     override val _action: PublishSubject<Actions> = PublishSubject.create()
     override val action: Observable<Actions>
@@ -40,11 +42,22 @@ class MainViewModel @Inject constructor(
     }
 
 
-    fun fetchData() = viewModelScope.launch(ceh) {
+    fun fetchAroundDogs() = viewModelScope.launch(ceh) {
         showLoadingDialog()
 
         val dogs = fetchAroundDogsUseCase()
         _action.onNext(Actions.FetchAroundDogs(dogs))
+
+        hideLoadingDialog()
+    }
+
+
+    fun fetchOneDog(dogId: String) = viewModelScope.launch(ceh) {
+        showLoadingDialog()
+
+        val dog = fetchOneDogUseCase(dogId)
+
+        _action.onNext(Actions.FetchOneDog(dog))
 
         hideLoadingDialog()
     }
@@ -54,7 +67,7 @@ class MainViewModel @Inject constructor(
         if (isMatched) _action.onNext(Actions.Matched(receiveDogId))
     }
 
-    fun requestBuyPassTicket(iamport : Iamport) = viewModelScope.launch(ceh) {
+    fun requestBuyPassTicket(iamport: Iamport) = viewModelScope.launch(ceh) {
         showLoadingDialog()
 
         val request = createPaymentRequest()
@@ -64,7 +77,7 @@ class MainViewModel @Inject constructor(
             userCode = BuildConfig.IAMPORT_KEY,
             paymentResultCallback = {
 
-                if(it?.imp_success?.not() == true){
+                if (it?.imp_success?.not() == true) {
                     _action.onNext(Actions.ShowErrorMessage("결제에 실패했습니다."))
                     return@payment
                 }
@@ -72,7 +85,7 @@ class MainViewModel @Inject constructor(
                 viewModelScope.launch(ceh) {
                     it?.imp_uid?.let { impUid ->
                         val result = buyPassTicketUseCase(impUid, 100.0)
-                        if(result) _action.onNext(Actions.ShowSuccessMessage("댕더 패스 구매 완료!"))
+                        if (result) _action.onNext(Actions.ShowSuccessMessage("댕더 패스 구매 완료!"))
                         else _action.onNext(Actions.ShowErrorMessage("결제에 실패했습니다."))
                     }
                 }.start()
@@ -86,14 +99,14 @@ class MainViewModel @Inject constructor(
 
         val isPurchase = checkUserBuyPassTicketUseCase()
 
-        if(!isPurchase){
+        if (!isPurchase) {
             _action.onNext(Actions.ShowBuyPassTicketDialog)
             return@launch
         }
         // todo : joinChatRoom 진행
     }
 
-    fun fetchMore(page : Int) = viewModelScope.launch(ceh){
+    fun fetchMore(page: Int) = viewModelScope.launch(ceh) {
         showLoadingDialog()
         val moreData = fetchAroundDogsUseCase(page.toDouble())
         _action.onNext(Actions.FetchMoreAroundDogs(moreData))
