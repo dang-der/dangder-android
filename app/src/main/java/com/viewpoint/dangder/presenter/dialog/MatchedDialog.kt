@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.viewpoint.dangder.databinding.DialogMatchedBinding
 import com.viewpoint.dangder.domain.entity.Dog
+import com.viewpoint.dangder.presenter.main.MainViewModel
 
 
 class MatchedDialog(
+    private val mainViewModel : MainViewModel,
     private val pairDog: Dog,
 ) : DialogFragment() {
 
@@ -41,11 +43,13 @@ class MatchedDialog(
     private fun initView() {
         binding.dog = pairDog
         handleClickClose()
+        handleClickGoChat()
     }
 
     private fun handleClickGoChat() {
         binding.matchChatBtn.setOnClickListener {
-            // todo : ChatViewModel에 joinChatRoom 요청
+            mainViewModel.enterChatRoom(pairDogId = pairDog.id)
+            this.dismiss()
         }
     }
 

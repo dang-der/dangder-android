@@ -5,11 +5,6 @@ mutation JoinChatRoom($dogId : String!, $chatPairId : String!){
         dog{
             id
         }
-        chatMessages {
-            id
-            senderId
-            type
-            message
-        }
+
     }
 }

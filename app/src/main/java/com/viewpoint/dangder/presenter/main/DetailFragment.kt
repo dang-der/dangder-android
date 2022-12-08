@@ -7,6 +7,7 @@ import android.view.View
 import android.view.animation.AlphaAnimation
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
@@ -34,7 +35,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
 
     private val mainViewModel: MainViewModel by hiltNavGraphViewModels(R.id.main_nav_graph)
 
-    private val buyPassTicketDialog by lazy { BuyPassTicketDialog(mainViewModel) }
+    private var buyPassTicketDialog: BuyPassTicketDialog? = null
     private var mIsTheTitleVisible = false
     private var mIsTheTitleContainerVisible = true
 
@@ -55,7 +56,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
                     }
 
                     is Actions.Matched -> {
-                        val matchedDialog = MatchedDialog(pairDog = it.pairDog)
+                        val matchedDialog =
+                            MatchedDialog(pairDog = it.pairDog, mainViewModel = mainViewModel)
                         if (matchedDialog.isAdded.not()) {
                             matchedDialog.show(
                                 requireActivity().supportFragmentManager,
@@ -63,11 +65,19 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
                             )
                         }
                     }
-                    Actions.ShowBuyPassTicketDialog -> {
-                        buyPassTicketDialog.show(
+                    is Actions.ShowBuyPassTicketDialog -> {
+                        buyPassTicketDialog = BuyPassTicketDialog(mainViewModel, it.pairDogId)
+                        if (buyPassTicketDialog?.isAdded == true) return@subscribeBy
+
+                        buyPassTicketDialog?.show(
                             requireActivity().supportFragmentManager,
-                            buyPassTicketDialog.tag
+                            buyPassTicketDialog!!.tag
                         )
+                    }
+
+                    is Actions.GoToChatRoomPage->{
+                        val b = bundleOf("chatRoomId" to it.roomId)
+                        findNavController().navigate(R.id.action_mainFragment_to_chatRoomFragment, b)
                     }
 //                    Actions.ShowLoadingDialog -> showLoadingDialog()
 //                    Actions.HideLoadingDialog -> hideLoadingDialog()
@@ -107,8 +117,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
     }
 
     private fun handleClickPassTicket() {
+        val dogId = arguments?.getString("dogId") ?: return
         binding.detailPassTicketBtn.setOnClickListener {
-            mainViewModel.checkBuyPassTicket()
+            mainViewModel.checkBuyPassTicket(dogId)
         }
     }
 

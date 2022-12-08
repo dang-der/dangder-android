@@ -7,8 +7,5 @@ object ChatRoomMapper {
     fun mapToChatRoomEntity(chatRoomData: JoinChatRoomMutation.JoinChatRoom) = ChatRoom(
         id = chatRoomData.id,
         pairDogId = chatRoomData.chatPairId,
-        chatMessages = chatRoomData.chatMessages.map {
-            ChatMessageMapper.mapToChatMessage(it)
-        }
     )
 }
