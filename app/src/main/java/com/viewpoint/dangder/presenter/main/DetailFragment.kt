@@ -1,19 +1,29 @@
 package com.viewpoint.dangder.presenter.main
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AlphaAnimation
+import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.chip.Chip
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentDetailBinding
+import com.viewpoint.dangder.domain.entity.Dog
+import com.viewpoint.dangder.presenter.action.Actions
+import com.viewpoint.dangder.util.convertSPtoPX
+import com.viewpoint.dangder.util.showErrorSnackBar
+import io.reactivex.rxjava3.kotlin.addTo
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import timber.log.Timber
 import kotlin.math.abs
 
@@ -24,10 +34,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
     override val layoutId: Int
         get() = R.layout.fragment_detail
 
-
-    private val PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f
-    private val PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f
-    private val ALPHA_ANIMATIONS_DURATION = 200L
+    private val detailViewModel : DetailViewModel by hiltNavGraphViewModels(R.id.main_nav_graph)
 
     private var mIsTheTitleVisible = false
     private var mIsTheTitleContainerVisible = true
@@ -38,10 +45,30 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
         handleClickBackArrow()
     }
 
-    override fun subscribeModel() {}
+    override fun subscribeModel() {
+        detailViewModel.action.subscribeBy(
+            onNext = {
+                     when(it){
+                         is Actions.FetchOneDog -> {
+                             binding.dog = it.data
+                             initChips(it.data)
+                         }
+                         else->{
+                             if(it is Actions.ShowErrorMessage){
+                                 showErrorSnackBar(binding.root, it.message)
+                             }
+                         }
+                     }
+            },
+            onError = {
+
+            }
+        ).addTo(compositeDisposable)
+    }
 
     override fun initData() {
         val dogId = arguments?.get("dogId").toString()
+        detailViewModel.fetchData(dogId)
     }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
@@ -52,6 +79,25 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
         handleToolbarTitleVisibility(percentage)
     }
 
+    private fun initChips(dog : Dog){
+        val characters = dog.characters ?:return
+        characters.forEach {
+            binding.detailCharactersGroup.addView(createChip(it))
+        }
+
+        val interests = dog.interests ?:return
+        interests.forEach {
+            binding.detailInterestsGroup.addView(createChip(it))
+        }
+    }
+
+    private fun createChip(data: String): Chip {
+        return Chip(requireContext()).apply {
+            text = data
+            setChipBackgroundColorResource(R.color.main_opacity_10)
+        }
+    }
+
     private fun initMenu(){
         val menuHost : MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider{
@@ -60,10 +106,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // todo : 메뉴 선택시 동작 구현하기 - 좋아요, 신고하기
                 return false
             }
-
-        })
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
 
@@ -124,6 +170,12 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
         alphaAnimation.duration = duration
         alphaAnimation.fillAfter = true
         v.startAnimation(alphaAnimation)
+    }
+
+    companion object{
+        private const val PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f
+        private const val PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f
+        private const val ALPHA_ANIMATIONS_DURATION = 200L
     }
 
 }
