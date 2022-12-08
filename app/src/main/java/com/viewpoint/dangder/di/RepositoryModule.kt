@@ -28,4 +28,6 @@ abstract class RepositoryModule {
     @Binds
     abstract fun bindPaymentRepository(paymentRepository: PaymentRepositoryImpl) : PaymentRepository
 
+    @Binds
+    abstract fun bindChatRepository(chatRepository: ChatRepositoryImpl) : ChatRepository
 }

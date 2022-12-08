@@ -10,6 +10,7 @@ sealed class Actions {
     object GoToLoginPage : Actions()
     object GoToNextPage : Actions()
     data class GoToInitDogPage(val userId: String? = null) : Actions()
+    data class GoToChatRoomPage(val roomId : String) : Actions()
 
     // common action
     object ShowLoadingDialog : Actions()
@@ -29,6 +30,6 @@ sealed class Actions {
     data class FetchOneDog(val data : Dog) : Actions()
 
     //
-    object ShowBuyPassTicketDialog : Actions()
+    data class ShowBuyPassTicketDialog(val pairDogId: String? = null) : Actions()
 
 }

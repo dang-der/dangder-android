@@ -1,0 +1,10 @@
+mutation JoinChatRoom($dogId : String!, $chatPairId : String!){
+    joinChatRoom(dogId: $dogId, chatPairId: $chatPairId){
+        id
+        chatPairId
+        dog{
+            id
+        }
+
+    }
+}

@@ -7,6 +7,7 @@ import com.iamport.sdk.domain.core.Iamport
 import com.viewpoint.dangder.BuildConfig
 import com.viewpoint.dangder.base.BaseViewModel
 import com.viewpoint.dangder.domain.entity.User
+import com.viewpoint.dangder.domain.usecase.EnterChatRoomUseCase
 import com.viewpoint.dangder.domain.usecase.auth.FetchUserUseCase
 import com.viewpoint.dangder.domain.usecase.dog.FetchAroundDogsUseCase
 import com.viewpoint.dangder.domain.usecase.dog.FetchOneDogUseCase
@@ -29,7 +30,8 @@ class MainViewModel @Inject constructor(
     private val fetchUserUseCase: FetchUserUseCase,
     private val buyPassTicketUseCase: BuyPassTicketUseCase,
     private val checkUserBuyPassTicketUseCase: CheckUserBuyPassTicketUseCase,
-    private val fetchOneDogUseCase: FetchOneDogUseCase
+    private val fetchOneDogUseCase: FetchOneDogUseCase,
+    private val enterChatRoomUseCase: EnterChatRoomUseCase
 ) : BaseViewModel() {
     override val _action: PublishSubject<Actions> = PublishSubject.create()
     override val action: Observable<Actions>
@@ -73,7 +75,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun requestBuyPassTicket(iamport: Iamport) = viewModelScope.launch(ceh) {
+
+    // pairDogId 가 null이 아닐 때 : 상대방과 채팅하기 위해 댕더패스를 구매하는 경우
+    fun requestBuyPassTicket(iamport: Iamport, pairDogId: String? = null) = viewModelScope.launch(ceh) {
         showLoadingDialog()
 
         val request = createPaymentRequest()
@@ -91,8 +95,12 @@ class MainViewModel @Inject constructor(
                 viewModelScope.launch(ceh) {
                     it?.imp_uid?.let { impUid ->
                         val result = buyPassTicketUseCase(impUid, 100.0)
-                        if (result) _action.onNext(Actions.ShowSuccessMessage("댕더 패스 구매 완료!"))
-                        else _action.onNext(Actions.ShowErrorMessage("결제에 실패했습니다."))
+                        if (result) {
+                            _action.onNext(Actions.ShowSuccessMessage("댕더 패스 구매 완료!"))
+
+                            enterChatRoom(pairDogId)
+
+                        } else _action.onNext(Actions.ShowErrorMessage("결제에 실패했습니다."))
                     }
                 }.start()
             }
@@ -100,23 +108,33 @@ class MainViewModel @Inject constructor(
         hideLoadingDialog()
     }
 
-    fun checkBuyPassTicket() = viewModelScope.launch(ceh) {
+    fun checkBuyPassTicket(pairDogId : String) = viewModelScope.launch(ceh) {
         showLoadingDialog()
 
         val isPurchase = checkUserBuyPassTicketUseCase()
 
         if (!isPurchase) {
             hideLoadingDialog()
-            _action.onNext(Actions.ShowBuyPassTicketDialog)
+            _action.onNext(Actions.ShowBuyPassTicketDialog(pairDogId))
             return@launch
         }
-        // todo : joinChatRoom 진행
+
+        enterChatRoom(pairDogId)
     }
 
     fun fetchMore(page: Int) = viewModelScope.launch(ceh) {
         showLoadingDialog()
         val moreData = fetchAroundDogsUseCase(page.toDouble())
         _action.onNext(Actions.FetchMoreAroundDogs(moreData))
+        hideLoadingDialog()
+    }
+
+    fun enterChatRoom(pairDogId: String? = null) = viewModelScope.launch(ceh){
+        showLoadingDialog()
+        pairDogId ?: return@launch
+
+        val chatRoom = enterChatRoomUseCase(pairDogId=pairDogId)
+        _action.onNext(Actions.GoToChatRoomPage(roomId = chatRoom.id))
         hideLoadingDialog()
     }
 

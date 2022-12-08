@@ -10,7 +10,8 @@ import com.viewpoint.dangder.databinding.DialogBuyPassticketBinding
 import com.viewpoint.dangder.presenter.main.MainViewModel
 
 class BuyPassTicketDialog(
-    private val mainViewModel: MainViewModel
+    private val mainViewModel: MainViewModel,
+    private val pairDogId : String? = null
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogBuyPassticketBinding
@@ -32,7 +33,7 @@ class BuyPassTicketDialog(
 
     private fun handleClickBuyPassTicket() {
         binding.paymentDialogBuyButton.setOnClickListener {
-            mainViewModel.requestBuyPassTicket(Iamport)
+            mainViewModel.requestBuyPassTicket(Iamport, pairDogId)
         }
     }
 

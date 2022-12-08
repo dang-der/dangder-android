@@ -1,5 +1,6 @@
 package com.viewpoint.dangder.presenter.main
 
+import android.app.Notification.Action
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -25,12 +26,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
         get() = R.layout.fragment_main
     private val mainViewModel: MainViewModel by hiltNavGraphViewModels(R.id.main_nav_graph)
 
-    private val buyPassTicketDialog by lazy { BuyPassTicketDialog(mainViewModel) }
+    private var buyPassTicketDialog: BuyPassTicketDialog? = null
 
-    private lateinit var  cardStackLayoutManager :CardStackLayoutManager
+    private lateinit var cardStackLayoutManager: CardStackLayoutManager
     private val aroundDogListAdapter by lazy {
         AroundDogListAdapter(
-            handleClickPassTicket = { mainViewModel.checkBuyPassTicket() },
+            handleClickPassTicket = { mainViewModel.checkBuyPassTicket(it.id) },
             handleClickDogInfo = {
                 val bundle = bundleOf("dogId" to it)
                 findNavController().navigate(R.id.action_mainFragment_to_detailFragment, bundle)
@@ -57,22 +58,29 @@ class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
                     }
                     is Actions.ShowSuccessMessage -> {
                         showSuccessSnackBar(binding.root, it.message)
-                        buyPassTicketDialog.dismiss()
+                        buyPassTicketDialog?.dismiss()
                     }
 
-                    is Actions.Matched ->{
-                        val dialog = MatchedDialog(it.pairDog)
+                    is Actions.Matched -> {
+                        val matchedDialog = MatchedDialog(pairDog = it.pairDog, mainViewModel = mainViewModel)
 
-                        if(dialog.isAdded.not()){
-                            dialog.show(requireActivity().supportFragmentManager,dialog.tag)
+                        if (matchedDialog.isAdded.not()) {
+                            matchedDialog.show(requireActivity().supportFragmentManager, matchedDialog.tag)
                         }
                     }
-                    Actions.ShowBuyPassTicketDialog -> {
-                        if (buyPassTicketDialog.isAdded) return@subscribeBy
-                        buyPassTicketDialog.show(
+                    is Actions.ShowBuyPassTicketDialog -> {
+
+                        buyPassTicketDialog = BuyPassTicketDialog(mainViewModel, it.pairDogId)
+                        if (buyPassTicketDialog?.isAdded == true) return@subscribeBy
+
+                        buyPassTicketDialog?.show(
                             requireActivity().supportFragmentManager,
-                            buyPassTicketDialog.tag
+                            buyPassTicketDialog!!.tag
                         )
+                    }
+                    is Actions.GoToChatRoomPage->{
+                        val b = bundleOf("chatRoomId" to it.roomId)
+                        findNavController().navigate(R.id.action_mainFragment_to_chatRoomFragment, b)
                     }
                     else -> {
                         if (it is Actions.ShowErrorMessage) {
