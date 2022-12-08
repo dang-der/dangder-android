@@ -21,7 +21,7 @@ sealed class Actions {
     data class FetchCharacters(val data : Array<String>) : Actions()
     data class FetchInterests(val data: Array<String>) : Actions()
 
-    data class Matched(val receiveDogId : String) : Actions()
+    data class Matched(val pairDog : Dog) : Actions()
 
     data class FetchAroundDogs(val data: List<AroundDog>) : Actions()
     data class FetchMoreAroundDogs(val data: List<AroundDog>) : Actions()

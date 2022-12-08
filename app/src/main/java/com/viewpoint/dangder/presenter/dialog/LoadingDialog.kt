@@ -24,17 +24,9 @@ class LoadingDialog : DialogFragment() {
         return inflater.inflate(R.layout.dialog_loading, container, false)
     }
 
-
     override fun show(manager: FragmentManager, tag: String?) {
         val ft = manager.beginTransaction()
         ft.add(this, tag)
         ft.commitAllowingStateLoss()
-    }
-
-    companion object {
-        fun newInstance(
-        ): LoadingDialog {
-            return LoadingDialog()
-        }
     }
 }

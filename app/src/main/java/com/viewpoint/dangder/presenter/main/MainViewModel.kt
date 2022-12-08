@@ -51,7 +51,6 @@ class MainViewModel @Inject constructor(
         hideLoadingDialog()
     }
 
-
     fun fetchOneDog(dogId: String) = viewModelScope.launch(ceh) {
         showLoadingDialog()
 
@@ -64,7 +63,14 @@ class MainViewModel @Inject constructor(
 
     fun like(receiveDogId: String) = viewModelScope.launch(ceh) {
         val isMatched = createLikeUseCase(receiveDogId = receiveDogId)
-        if (isMatched) _action.onNext(Actions.Matched(receiveDogId))
+
+        if (isMatched){
+            showLoadingDialog()
+            val pairDog = fetchOneDogUseCase(receiveDogId)
+            hideLoadingDialog()
+            _action.onNext(Actions.Matched(pairDog))
+
+        }
     }
 
     fun requestBuyPassTicket(iamport: Iamport) = viewModelScope.launch(ceh) {
@@ -100,6 +106,7 @@ class MainViewModel @Inject constructor(
         val isPurchase = checkUserBuyPassTicketUseCase()
 
         if (!isPurchase) {
+            hideLoadingDialog()
             _action.onNext(Actions.ShowBuyPassTicketDialog)
             return@launch
         }

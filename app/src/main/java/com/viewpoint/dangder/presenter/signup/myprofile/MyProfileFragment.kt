@@ -1,4 +1,4 @@
-package com.viewpoint.dangder.presenter.myprofile
+package com.viewpoint.dangder.presenter.signup.myprofile
 
 import com.viewpoint.dangder.R
 import com.viewpoint.dangder.base.BaseFragment

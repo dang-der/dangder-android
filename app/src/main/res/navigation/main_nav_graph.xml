@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
-        android:name="com.viewpoint.dangder.presenter.myprofile.MyProfileFragment"
+        android:name="com.viewpoint.dangder.presenter.signup.myprofile.MyProfileFragment"
         android:label="MyProfileFragment" />
     <fragment
         android:id="@+id/chatRoomFragment"
