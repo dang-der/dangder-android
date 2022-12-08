@@ -1,17 +1,13 @@
 package com.viewpoint.dangder.presenter.main
 
-import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.animation.ValueAnimator
+import android.graphics.Color
 import android.view.View
 import android.view.animation.AlphaAnimation
-import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
@@ -20,11 +16,10 @@ import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentDetailBinding
 import com.viewpoint.dangder.domain.entity.Dog
 import com.viewpoint.dangder.presenter.action.Actions
-import com.viewpoint.dangder.util.convertSPtoPX
+import com.viewpoint.dangder.presenter.dialog.BuyPassTicketDialog
 import com.viewpoint.dangder.util.showErrorSnackBar
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import timber.log.Timber
 import kotlin.math.abs
 
 
@@ -34,31 +29,36 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
     override val layoutId: Int
         get() = R.layout.fragment_detail
 
-    private val detailViewModel : DetailViewModel by hiltNavGraphViewModels(R.id.main_nav_graph)
+    private val mainViewModel: MainViewModel by hiltNavGraphViewModels(R.id.main_nav_graph)
 
+    private val buyPassTicketDialog by lazy { BuyPassTicketDialog(mainViewModel) }
     private var mIsTheTitleVisible = false
     private var mIsTheTitleContainerVisible = true
 
     override fun initView() {
         initAppBar()
-        initMenu()
         handleClickBackArrow()
+        handleClickPassTicket()
+        handleClickLike()
     }
 
     override fun subscribeModel() {
-        detailViewModel.action.subscribeBy(
+        mainViewModel.action.subscribeBy(
             onNext = {
-                     when(it){
-                         is Actions.FetchOneDog -> {
-                             binding.dog = it.data
-                             initChips(it.data)
-                         }
-                         else->{
-                             if(it is Actions.ShowErrorMessage){
-                                 showErrorSnackBar(binding.root, it.message)
-                             }
-                         }
-                     }
+                when (it) {
+                    is Actions.FetchOneDog -> {
+                        binding.dog = it.data
+                        initChips(it.data)
+                    }
+                    Actions.ShowBuyPassTicketDialog ->{
+                        buyPassTicketDialog.show(requireActivity().supportFragmentManager, buyPassTicketDialog.tag)
+                    }
+                    else -> {
+                        if (it is Actions.ShowErrorMessage) {
+                            showErrorSnackBar(binding.root, it.message)
+                        }
+                    }
+                }
             },
             onError = {
 
@@ -68,24 +68,58 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
 
     override fun initData() {
         val dogId = arguments?.get("dogId").toString()
-        detailViewModel.fetchData(dogId)
+        mainViewModel.fetchOneDog(dogId)
     }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
         val maxScroll = appBarLayout!!.totalScrollRange
-        val percentage = abs(verticalOffset).toFloat()/ maxScroll.toFloat()
+        val percentage = abs(verticalOffset).toFloat() / maxScroll.toFloat()
 
-        handleAlphaOnTitle(percentage)
+        handleAppbarTitleVisibility(percentage)
         handleToolbarTitleVisibility(percentage)
     }
 
-    private fun initChips(dog : Dog){
-        val characters = dog.characters ?:return
+
+    private fun handleClickBackArrow() {
+        val finish = View.OnClickListener { findNavController().popBackStack() }
+
+        binding.detailAppbarBackBtn.setOnClickListener(finish)
+        binding.detailToolbarBackBtn.setOnClickListener(finish)
+    }
+
+    private fun handleClickPassTicket(){
+        binding.detailPassTicketBtn.setOnClickListener {
+            mainViewModel.checkBuyPassTicket()
+        }
+    }
+
+    private fun handleClickLike(){
+        binding.detailLikeBtn.setOnClickListener {
+            val dogId = arguments?.getString("dogId") ?:return@setOnClickListener
+            mainViewModel.like(dogId)
+        }
+    }
+
+    private fun handleClickReport(){
+        // todo : 신고하기 페이지 이동 기능 구현
+    }
+
+
+    private fun initChips(dog: Dog) {
+        val characters = dog.characters ?: kotlin.run {
+            binding.detailCharactersContainer.isVisible = false
+            return
+        }
+
         characters.forEach {
             binding.detailCharactersGroup.addView(createChip(it))
         }
 
-        val interests = dog.interests ?:return
+        val interests = dog.interests ?: run{
+            binding.detailInterestsContainer.isVisible = false
+            return
+        }
+
         interests.forEach {
             binding.detailInterestsGroup.addView(createChip(it))
         }
@@ -98,22 +132,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
         }
     }
 
-    private fun initMenu(){
-        val menuHost : MenuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider{
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.detail_toolbar_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                // todo : 메뉴 선택시 동작 구현하기 - 좋아요, 신고하기
-                return false
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-    }
-
-
-    private fun initAppBar(){
+    private fun initAppBar() {
         binding.detailToolbar.title = ""
         binding.detailAppbar.addOnOffsetChangedListener(this)
 
@@ -121,28 +140,32 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
         startAlphaAnimation(binding.detailToolbarContainer, 0, View.INVISIBLE)
     }
 
-    private fun handleClickBackArrow(){
-        val finish = View.OnClickListener { findNavController().popBackStack() }
-
-        binding.detailAppbarBackBtn.setOnClickListener(finish)
-        binding.detailToolbarBackBtn.setOnClickListener(finish)
-    }
-
     private fun handleToolbarTitleVisibility(percentage: Float) {
         if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
             if (!mIsTheTitleVisible) {
-                startAlphaAnimation(binding.detailToolbarContainer, ALPHA_ANIMATIONS_DURATION, View.VISIBLE)
+                startAlphaAnimation(
+                    binding.detailToolbarContainer,
+                    ALPHA_ANIMATIONS_DURATION,
+                    View.VISIBLE
+                )
+
+                startColorAnimation(ALPHA_ANIMATIONS_DURATION, View.VISIBLE)
                 mIsTheTitleVisible = true
             }
         } else {
             if (mIsTheTitleVisible) {
-                startAlphaAnimation(binding.detailToolbarContainer, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE)
+                startAlphaAnimation(
+                    binding.detailToolbarContainer,
+                    ALPHA_ANIMATIONS_DURATION,
+                    View.INVISIBLE
+                )
+                startColorAnimation(ALPHA_ANIMATIONS_DURATION, View.INVISIBLE)
                 mIsTheTitleVisible = false
             }
         }
     }
 
-    private fun handleAlphaOnTitle(percentage: Float) {
+    private fun handleAppbarTitleVisibility(percentage: Float) {
         if (percentage >= PERCENTAGE_TO_HIDE_TITLE_DETAILS) {
             if (mIsTheTitleContainerVisible) {
                 startAlphaAnimation(
@@ -172,10 +195,28 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(), AppBarLayout.OnOff
         v.startAnimation(alphaAnimation)
     }
 
-    companion object{
+    private fun startColorAnimation(duration: Long, visibility: Int) {
+        val colorAnimation = if (visibility === View.VISIBLE)
+            ValueAnimator.ofArgb(
+                Color.TRANSPARENT,
+                ContextCompat.getColor(requireContext(), R.color.main)
+            ) else
+            ValueAnimator.ofArgb(
+                ContextCompat.getColor(requireContext(), R.color.main),
+                Color.TRANSPARENT)
+
+        colorAnimation.duration = duration
+        colorAnimation.addUpdateListener {
+
+            binding.detailToolbar.setBackgroundColor(it.animatedValue as Int)
+        }
+        colorAnimation.start()
+    }
+
+    companion object {
         private const val PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f
         private const val PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f
-        private const val ALPHA_ANIMATIONS_DURATION = 200L
+        private const val ALPHA_ANIMATIONS_DURATION = 500L
     }
 
 }

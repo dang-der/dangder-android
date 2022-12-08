@@ -1,5 +1,6 @@
 package com.viewpoint.dangder.util
 
+import android.media.Image
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -19,5 +20,14 @@ fun ImageView.profileImage(imageUrl: String?){
     Glide.with(this.context)
         .load("$prefix$imageUrl")
         .circleCrop()
+        .into(this)
+}
+
+@BindingAdapter("backgroundImage")
+fun ImageView.backgroundImage(imageUrl : String?){
+    imageUrl?:return
+
+    Glide.with(this.context)
+        .load("${prefix}${imageUrl}")
         .into(this)
 }

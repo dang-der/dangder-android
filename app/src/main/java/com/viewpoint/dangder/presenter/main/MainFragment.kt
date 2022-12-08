@@ -17,8 +17,6 @@ import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.StackFrom
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import okhttp3.internal.notify
-import timber.log.Timber
 
 class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
     override val layoutId: Int
@@ -80,7 +78,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
     }
 
     override fun initData() {
-        mainViewModel.fetchData()
+        mainViewModel.fetchAroundDogs()
     }
 
     override fun onCardSwiped(direction: Direction?) {
