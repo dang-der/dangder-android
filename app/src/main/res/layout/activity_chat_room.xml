@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:background="none"
+                android:background="@null"
                 android:textSize="@dimen/micro"
                 android:hint="메세지를 입력해 주세요."
                 android:layout_weight=".8"
