@@ -1,0 +1,31 @@
+query FetchChatRoom($roomId : String!){
+    fetchChatRoom(roomId: $roomId){
+        id
+        chatPairId
+        dog{
+            id
+        }
+        chatMessages {
+            id
+            senderId
+            type
+            message
+            lat
+            lng
+            meetAt
+        }
+    }
+}
+
+query FetchChatMessagesByChatRoomId($chatRoomId : String!){
+    fetchChatMessagesByChatRoomId(chatRoomId: $chatRoomId){
+        id
+        senderId
+        type
+        message
+        lat
+        lng
+        meetAt
+    }
+}
+
