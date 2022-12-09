@@ -21,4 +21,6 @@ class ChatRoomActivity : BaseActivity<ActivityChatRoomBinding>() {
     override fun subscribe() {
 
     }
+
+
 }
