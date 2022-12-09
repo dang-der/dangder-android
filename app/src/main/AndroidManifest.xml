@@ -49,6 +49,7 @@
         <activity android:name=".presenter.MainActivity" android:theme="@style/Theme.Dangder.NoActionBar"/>
         <activity android:name=".presenter.signup.SignUpActivity"/>
         <activity android:name=".presenter.initdog.InitDogActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".presenter.chat.ChatRoomActivity" android:windowSoftInputMode="adjustPan"/>
 
     </application>
 
