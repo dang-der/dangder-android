@@ -1,7 +1,9 @@
 package com.viewpoint.dangder.data.repository
 
+import com.viewpoint.dangder.data.mapper.ChatMessageMapper
 import com.viewpoint.dangder.data.mapper.ChatRoomMapper
 import com.viewpoint.dangder.data.remote.ChatRemoteDataSource
+import com.viewpoint.dangder.domain.entity.ChatMessage
 import com.viewpoint.dangder.domain.entity.ChatRoom
 import com.viewpoint.dangder.domain.repository.ChatRepository
 import javax.inject.Inject
@@ -17,5 +19,28 @@ class ChatRepositoryImpl @Inject constructor(
         val chatRoomData = response.data?.joinChatRoom ?: throw Exception("데이터가 존재하지 않습니다.")
 
         return ChatRoomMapper.mapToChatRoomEntity(chatRoomData)
+    }
+
+    override suspend fun fetchChatRoom(roomId: String): ChatRoom {
+        val response = chatRemoteDataSource.fetchChatRoom(roomId)
+
+        if(response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val chatRoomData = response.data?.fetchChatRoom ?:throw  Exception("데이터가 존재하지 않습니다.")
+
+        return ChatRoomMapper.mapToChatRoomEntity(chatRoomData)
+    }
+
+    override suspend fun fetchChatMessagesByChatRoomId(roomId: String): List<ChatMessage> {
+        val response = chatRemoteDataSource.fetchChatMessagesByChatRoomId(roomId)
+
+        if(response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val messagesData = response.data?.fetchChatMessagesByChatRoomId ?:throw  Exception("데이터가 존재하지 않습니다.")
+
+        return messagesData.map {
+            ChatMessageMapper.mapToChatMessage(it)
+        }
+
     }
 }
