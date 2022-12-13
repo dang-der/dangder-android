@@ -4,16 +4,17 @@ query FetchChatRoom($roomId : String!){
         chatPairId
         dog{
             id
+            name
         }
-        chatMessages {
-            id
-            senderId
-            type
-            message
-            lat
-            lng
-            meetAt
-        }
+#        chatMessages {
+#            id
+#            senderId
+#            type
+#            message
+#            lat
+#            lng
+#            meetAt
+#        }
     }
 }
 

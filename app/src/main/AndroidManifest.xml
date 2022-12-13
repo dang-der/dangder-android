@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -31,9 +31,9 @@
         android:theme="@style/Theme.Dangder"
         tools:targetApi="31">
         <activity
-            android:theme="@style/Theme.Dangder.NoActionBar"
             android:name=".presenter.login.IntroActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Dangder.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,11 +45,20 @@
                 android:value="" />
         </activity>
 
-        <activity android:name=".presenter.login.LoginActivity" android:theme="@style/Theme.Dangder.NoActionBar"/>
-        <activity android:name=".presenter.MainActivity" android:theme="@style/Theme.Dangder.NoActionBar"/>
-        <activity android:name=".presenter.signup.SignUpActivity"/>
-        <activity android:name=".presenter.initdog.InitDogActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".presenter.chat.ChatRoomActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".presenter.login.LoginActivity"
+            android:theme="@style/Theme.Dangder.NoActionBar" />
+        <activity
+            android:name=".presenter.MainActivity"
+            android:theme="@style/Theme.Dangder.NoActionBar" />
+        <activity android:name=".presenter.signup.SignUpActivity" />
+        <activity
+            android:name=".presenter.initdog.InitDogActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".presenter.chat.ChatRoomActivity"
+            android:theme="@style/Theme.Dangder.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
 
     </application>
 

@@ -40,6 +40,6 @@ object DogMapper {
         )
     }
 
-    fun mapToDogEntity(dogData : FetchChatRoomQuery.Dog) = Dog(id = dogData.id)
+    fun mapToDogEntity(dogData : FetchChatRoomQuery.Dog) = Dog(id = dogData.id, name = dogData.name)
 
 }

@@ -13,7 +13,6 @@ object ChatRoomMapper {
     fun mapToChatRoomEntity(chatRoomData : FetchChatRoomQuery.FetchChatRoom) = ChatRoom(
         id = chatRoomData.id,
         pairDogId = chatRoomData.chatPairId,
-        chatMessages = chatRoomData.chatMessages.map { ChatMessageMapper.mapToChatMessage(it) },
         dog = DogMapper.mapToDogEntity(chatRoomData.dog)
     )
 }

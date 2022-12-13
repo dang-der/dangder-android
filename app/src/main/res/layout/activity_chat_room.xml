@@ -49,9 +49,8 @@
 
                     <ImageView
                         android:id="@+id/chat_room_pair_dog_img"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         app:profileImage="@{pairDog.mainImage}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -87,10 +86,11 @@
 
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:id="@+id/chat_room_input_container"
             android:background="@drawable/bg_line_round_input"
             android:layout_margin="16dp"
-            android:padding="8dp"
+            android:padding="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -104,6 +104,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/chat_room_message_input"
                 android:background="@null"
                 android:textSize="@dimen/micro"
                 android:hint="메세지를 입력해 주세요."
@@ -112,7 +113,7 @@
                 android:layout_height="match_parent"/>
 
             <ImageView
-
+                android:id="@+id/chat_room_send_btn"
                 android:src="@drawable/ic_send"
                 android:padding="5dp"
                 android:layout_weight=".1"
