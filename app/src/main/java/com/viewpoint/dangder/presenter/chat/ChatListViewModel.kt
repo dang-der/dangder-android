@@ -6,6 +6,7 @@ import com.viewpoint.dangder.domain.entity.User
 import com.viewpoint.dangder.domain.usecase.auth.FetchUserAndDogUseCase
 import com.viewpoint.dangder.domain.usecase.chat.FetchChatRoomsUseCase
 import com.viewpoint.dangder.presenter.action.Actions
+import com.viewpoint.dangder.presenter.uimodel.ChatRoomItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatListViewModel @Inject constructor(
     private val fetchUserAndDogUseCase: FetchUserAndDogUseCase,
-    private val fetchChatRoomsUseCase : FetchChatRoomsUseCase
+    private val fetchChatRoomsUseCase: FetchChatRoomsUseCase
 ) : BaseViewModel() {
     override val _action: PublishSubject<Actions> = PublishSubject.create()
     override val action: Observable<Actions>
@@ -29,7 +30,7 @@ class ChatListViewModel @Inject constructor(
     }
 
 
-    fun fetchChatRooms() = viewModelScope.launch(ceh){
+    fun fetchChatRooms() = viewModelScope.launch(ceh) {
         showLoadingDialog()
 
         val dogId = fetchUserAndDog().dog?.id
@@ -37,7 +38,18 @@ class ChatListViewModel @Inject constructor(
         dogId ?: throw Exception("채팅방 목록을 찾을 수 없습니다.")
 
         val rooms = fetchChatRoomsUseCase(dogId)
-        _action.onNext(Actions.FetchChatRooms(rooms))
+        val roomItems = rooms
+            .filter { it.pairDog != null && it.chatMessages?.isNotEmpty() == true }
+            .map {
+                ChatRoomItem(
+                    id = it.id,
+                    pairDogImage = it.pairDog!!.getMainImage(),
+                    pairDogName = it.pairDog!!.name!!,
+                    lastMessage = it.chatMessages!!.last()
+                )
+            }
+
+        _action.onNext(Actions.FetchChatRooms(roomItems))
 
         hideLoadingDialog()
     }

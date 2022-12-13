@@ -2,7 +2,7 @@ package com.viewpoint.dangder.presenter.uimodel
 
 import com.viewpoint.dangder.domain.entity.Image
 
-data class AroundDog(
+data class AroundDogItem(
     val id: String,
     val name: String? = null,
     val age : Int? = null,

@@ -3,7 +3,8 @@ package com.viewpoint.dangder.presenter.action
 import com.viewpoint.dangder.domain.entity.ChatMessage
 import com.viewpoint.dangder.domain.entity.ChatRoom
 import com.viewpoint.dangder.domain.entity.Dog
-import com.viewpoint.dangder.presenter.uimodel.AroundDog
+import com.viewpoint.dangder.presenter.uimodel.AroundDogItem
+import com.viewpoint.dangder.presenter.uimodel.ChatRoomItem
 
 
 sealed class Actions {
@@ -27,14 +28,14 @@ sealed class Actions {
 
     data class Matched(val pairDog : Dog) : Actions()
 
-    data class FetchAroundDogs(val data: List<AroundDog>) : Actions()
-    data class FetchMoreAroundDogs(val data: List<AroundDog>) : Actions()
+    data class FetchAroundDogs(val data: List<AroundDogItem>) : Actions()
+    data class FetchMoreAroundDogs(val data: List<AroundDogItem>) : Actions()
 
     data class FetchOneDog(val data : Dog) : Actions()
 
     data class FetchChatRoomInfo(val pairDog: Dog?, val myDog : Dog?, val roomId : String) : Actions()
     data class FetchChatMessages(val data : List<ChatMessage>) :Actions()
-    data class FetchChatRooms(val rooms : List<ChatRoom>) :Actions()
+    data class FetchChatRooms(val rooms : List<ChatRoomItem>) :Actions()
 
     // chat action
     data class ReceiveTextMessage(val data : String, val dog : Dog) : Actions()

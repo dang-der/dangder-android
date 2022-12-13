@@ -22,6 +22,7 @@ object ChatRoomMapper {
         pairDogId = chatRoomData.chatPairDog!!.id,
         chatMessages = chatRoomData.lastMessage?.let {
             listOf(ChatMessageMapper.mapToChatMessageEntity(it))
-        }
+        },
+        pairDog = DogMapper.mapToDogEntity(chatRoomData.chatPairDog)
     )
 }
