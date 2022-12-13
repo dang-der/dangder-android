@@ -1,6 +1,5 @@
 package com.viewpoint.dangder.presenter.chat
 
-import android.app.Notification.Action
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.viewpoint.dangder.base.BaseViewModel
@@ -8,18 +7,17 @@ import com.viewpoint.dangder.domain.entity.ChatMessageType
 import com.viewpoint.dangder.domain.entity.Dog
 import com.viewpoint.dangder.domain.usecase.chat.FetchChatMessagesUseCase
 import com.viewpoint.dangder.domain.usecase.chat.FetchChatRoomUseCase
+import com.viewpoint.dangder.domain.usecase.chat.FetchChatRoomsUseCase
 import com.viewpoint.dangder.domain.usecase.dog.FetchOneDogUseCase
 import com.viewpoint.dangder.presenter.action.Actions
 import com.viewpoint.dangder.util.socket.OnData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.PublishSubject
-import io.socket.emitter.Emitter
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.math.ln
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
