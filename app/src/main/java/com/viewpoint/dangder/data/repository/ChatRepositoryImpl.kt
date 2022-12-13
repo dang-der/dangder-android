@@ -43,4 +43,20 @@ class ChatRepositoryImpl @Inject constructor(
         }
 
     }
+
+    override suspend fun fetchChatRooms(dogId: String): List<ChatRoom> {
+        val response = chatRemoteDataSource.fetchChatRooms(dogId)
+
+        if(response.hasErrors()) throw Exception(response.errors?.first()?.message)
+
+        val chatRooms = response.data?.fetchChatRooms ?: throw Exception("데이터가 존재하지 않습니다.")
+
+        if(chatRooms.isEmpty()) throw Exception("데이터가 존재하지 않습니디.")
+
+        return chatRooms
+            .filter { it.id !=null && it.chatPairDog !=null }
+            .map {
+                ChatRoomMapper.mapToChatRoomEntity(it)
+            }
+    }
 }
