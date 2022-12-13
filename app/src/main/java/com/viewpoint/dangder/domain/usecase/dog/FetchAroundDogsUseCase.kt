@@ -2,7 +2,7 @@ package com.viewpoint.dangder.domain.usecase.dog
 
 import com.viewpoint.dangder.domain.repository.DogRepository
 import com.viewpoint.dangder.domain.repository.SettingsRepository
-import com.viewpoint.dangder.presenter.uimodel.AroundDog
+import com.viewpoint.dangder.presenter.uimodel.AroundDogItem
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ class FetchAroundDogsUseCase @Inject constructor(
     private val dogRepository: DogRepository,
     private val settingsRepository: SettingsRepository
 ) {
-    suspend operator fun invoke(page : Double = 1.0): List<AroundDog> {
+    suspend operator fun invoke(page : Double = 1.0): List<AroundDogItem> {
         try {
             val dogId = settingsRepository.getDogId().first()
 
@@ -20,7 +20,7 @@ class FetchAroundDogsUseCase @Inject constructor(
             return aroundDogs.mapIndexed { index, dog ->
                 val d = distances[index]
 
-                return@mapIndexed AroundDog(
+                return@mapIndexed AroundDogItem(
                     id = dog.id,
                     name = dog.name,
                     description = dog.description,

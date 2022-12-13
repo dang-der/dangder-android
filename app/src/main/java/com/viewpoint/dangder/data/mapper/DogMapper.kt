@@ -42,4 +42,10 @@ object DogMapper {
 
     fun mapToDogEntity(dogData : FetchChatRoomQuery.Dog) = Dog(id = dogData.id, name = dogData.name)
 
+    fun mapToDogEntity(dogData : FetchChatRoomsQuery.ChatPairDog) = Dog(
+        id = dogData.id,
+        name = dogData.name,
+        img = dogData.img.map { ImageMapper.mapToImageEntity(it) }
+    )
+
 }

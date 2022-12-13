@@ -30,3 +30,23 @@ query FetchChatMessagesByChatRoomId($chatRoomId : String!){
     }
 }
 
+query FetchChatRooms($dogId : String!){
+    fetchChatRooms(dogId: $dogId){
+        id
+        chatPairDog {
+            id
+            name
+            img{
+                img
+                isMain
+            }
+        }
+        lastMessage {
+            id
+            senderId
+            type
+            message
+        }
+    }
+}
+

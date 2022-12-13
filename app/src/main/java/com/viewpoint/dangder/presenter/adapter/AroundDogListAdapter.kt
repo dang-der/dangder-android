@@ -6,17 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.viewpoint.dangder.databinding.ItemAroundDogListBinding
-import com.viewpoint.dangder.presenter.uimodel.AroundDog
+import com.viewpoint.dangder.presenter.uimodel.AroundDogItem
 
 class AroundDogListAdapter(
-    private val handleClickPassTicket : (dog : AroundDog) -> Unit,
+    private val handleClickPassTicket : (dog : AroundDogItem) -> Unit,
     private val handleClickDogInfo : (dogId : String) -> Unit
-) : ListAdapter<AroundDog, AroundDogListAdapter.ViewHolder>(diffUtil) {
+) : ListAdapter<AroundDogItem, AroundDogListAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(private val binding: ItemAroundDogListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: AroundDog) {
+        fun bind(data: AroundDogItem) {
             binding.dog = data
             binding.mainCardPassTicketBtn.setOnClickListener{
                 handleClickPassTicket(data)
@@ -43,12 +43,12 @@ class AroundDogListAdapter(
     }
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<AroundDog>() {
-            override fun areItemsTheSame(oldItem: AroundDog, newItem: AroundDog): Boolean {
+        val diffUtil = object : DiffUtil.ItemCallback<AroundDogItem>() {
+            override fun areItemsTheSame(oldItem: AroundDogItem, newItem: AroundDogItem): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: AroundDog, newItem: AroundDog): Boolean {
+            override fun areContentsTheSame(oldItem: AroundDogItem, newItem: AroundDogItem): Boolean {
                 return oldItem == newItem
             }
 
