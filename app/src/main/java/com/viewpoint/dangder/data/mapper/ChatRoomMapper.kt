@@ -19,6 +19,9 @@ object ChatRoomMapper {
 
     fun mapToChatRoomEntity(chatRoomData : FetchChatRoomsQuery.FetchChatRoom) = ChatRoom(
         id = chatRoomData.id!!,
-        pairDogId = chatRoomData.chatPairDog!!.id
+        pairDogId = chatRoomData.chatPairDog!!.id,
+        chatMessages = chatRoomData.lastMessage?.let {
+            listOf(ChatMessageMapper.mapToChatMessageEntity(it))
+        }
     )
 }

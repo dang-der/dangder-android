@@ -8,6 +8,7 @@ import com.viewpoint.dangder.domain.usecase.EnterChatRoomUseCase
 import com.viewpoint.dangder.domain.usecase.auth.*
 import com.viewpoint.dangder.domain.usecase.chat.FetchChatMessagesUseCase
 import com.viewpoint.dangder.domain.usecase.chat.FetchChatRoomUseCase
+import com.viewpoint.dangder.domain.usecase.chat.FetchChatRoomsUseCase
 import com.viewpoint.dangder.domain.usecase.dog.*
 import dagger.Module
 import dagger.Provides
@@ -80,4 +81,9 @@ object UseCaseModule {
     fun providesFetchChatMessagesUseCase(
         chatRepository: ChatRepository
     ) = FetchChatMessagesUseCase(chatRepository)
+
+    @Provides
+    fun providesFetchChatRoomsUseCase(
+        chatRepository: ChatRepository
+    ) = FetchChatRoomsUseCase(chatRepository)
 }

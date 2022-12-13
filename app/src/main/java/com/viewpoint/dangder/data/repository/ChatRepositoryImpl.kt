@@ -39,7 +39,7 @@ class ChatRepositoryImpl @Inject constructor(
         val messagesData = response.data?.fetchChatMessagesByChatRoomId ?:throw  Exception("데이터가 존재하지 않습니다.")
 
         return messagesData.map {
-            ChatMessageMapper.mapToChatMessage(it)
+            ChatMessageMapper.mapToChatMessageEntity(it)
         }
 
     }

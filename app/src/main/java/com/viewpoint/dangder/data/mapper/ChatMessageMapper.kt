@@ -1,8 +1,9 @@
 package com.viewpoint.dangder.data.mapper
 
 import com.viewpoint.FetchChatMessagesByChatRoomIdQuery
-import com.viewpoint.FetchChatRoomQuery
+import com.viewpoint.FetchChatRoomsQuery
 import com.viewpoint.dangder.domain.entity.*
+import com.viewpoint.dangder.presenter.action.Actions
 
 object ChatMessageMapper {
 //    fun mapToChatMessage(messageData: FetchChatRoomQuery): ChatMessage {
@@ -31,29 +32,36 @@ object ChatMessageMapper {
 //        }
 //    }
 
-    fun mapToChatMessage(messageData: FetchChatMessagesByChatRoomIdQuery.FetchChatMessagesByChatRoomId): ChatMessage {
-        return when (messageData.type) {
+    fun mapToChatMessageEntity(messageData: FetchChatMessagesByChatRoomIdQuery.FetchChatMessagesByChatRoomId): ChatMessage {
+        return createChatMessage(messageData.type, messageData.id, messageData.senderId, messageData.message)
+    }
+
+    fun mapToChatMessageEntity(messageData : FetchChatRoomsQuery.LastMessage): ChatMessage {
+        return createChatMessage(messageData.type, messageData.id, messageData.senderId, messageData.message)
+    }
+
+    private fun createChatMessage(type: String, id: String,  senderId: String, message: String?) =
+        when (type) {
             ChatMessageType.TEXT.name -> TextMessage(
-                id = messageData.id,
-                senderId = messageData.senderId,
+                id = id,
+                senderId = senderId,
                 type = ChatMessageType.TEXT,
-                message =  messageData.message
+                message = message
             )
             ChatMessageType.PLAN.name -> PlanMessage(
-                id = messageData.id,
-                senderId = messageData.senderId,
+                id = id,
+                senderId = senderId,
                 type = ChatMessageType.PLAN
             )
             ChatMessageType.PLACE.name -> PlaceMessage(
-                id = messageData.id,
-                senderId = messageData.senderId,
+                id = id,
+                senderId = senderId,
                 type = ChatMessageType.PLACE
             )
-            else-> object : ChatMessage(){
+            else -> object : ChatMessage() {
                 override var id: String = ""
                 override var type: ChatMessageType = ChatMessageType.NONE
-                override var senderId: String=""
+                override var senderId: String = ""
             }
         }
-    }
 }
