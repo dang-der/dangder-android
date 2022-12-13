@@ -6,6 +6,8 @@ import com.viewpoint.dangder.domain.repository.DogRepository
 import com.viewpoint.dangder.domain.repository.SettingsRepository
 import com.viewpoint.dangder.domain.usecase.EnterChatRoomUseCase
 import com.viewpoint.dangder.domain.usecase.auth.*
+import com.viewpoint.dangder.domain.usecase.chat.FetchChatMessagesUseCase
+import com.viewpoint.dangder.domain.usecase.chat.FetchChatRoomUseCase
 import com.viewpoint.dangder.domain.usecase.dog.*
 import dagger.Module
 import dagger.Provides
@@ -68,4 +70,14 @@ object UseCaseModule {
         chatRepository: ChatRepository,
         settingsRepository: SettingsRepository
     ) = EnterChatRoomUseCase(chatRepository, settingsRepository)
+
+    @Provides
+    fun providesFetchChatRoomUseCase(
+        chatRepository: ChatRepository
+    ) = FetchChatRoomUseCase(chatRepository)
+
+    @Provides
+    fun providesFetchChatMessagesUseCase(
+        chatRepository: ChatRepository
+    ) = FetchChatMessagesUseCase(chatRepository)
 }

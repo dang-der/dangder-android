@@ -118,6 +118,9 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
 
+    //gson
+    implementation 'com.google.code.gson:gson:2.10'
+
     // rx
     implementation('io.reactivex.rxjava3:rxandroid:3.0.2')
     implementation('io.reactivex.rxjava3:rxkotlin:3.0.1')

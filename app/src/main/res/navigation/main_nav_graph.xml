@@ -11,9 +11,6 @@
         <action
             android:id="@+id/action_mainFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_chatRoomFragment"
-            app:destination="@id/chatRoomFragment" />
 
     </fragment>
     <fragment
@@ -23,23 +20,11 @@
     <fragment
         android:id="@+id/chatListFragment"
         android:name="com.viewpoint.dangder.presenter.chat.ChatListFragment"
-        android:label="ChatListFragment" >
-        <action
-            android:id="@+id/action_chatListFragment_to_chatRoomFragment"
-            app:destination="@id/chatRoomFragment" />
-    </fragment>
+        android:label="ChatListFragment" />
     <fragment
         android:id="@+id/myProfileFragment"
         android:name="com.viewpoint.dangder.presenter.signup.myprofile.MyProfileFragment"
         android:label="MyProfileFragment" />
-    <fragment
-        android:id="@+id/chatRoomFragment"
-        android:name="com.viewpoint.dangder.presenter.chat.ChatRoomFragment"
-        android:label="ChatRoomFragment" >
-        <argument
-            android:name="chatRoomId"
-            app:argType="string" />
-    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.viewpoint.dangder.presenter.main.DetailFragment"
@@ -48,8 +33,5 @@
             android:name="dogId"
             app:argType="string"
             android:defaultValue='""' />
-        <action
-            android:id="@+id/action_detailFragment_to_chatRoomFragment"
-            app:destination="@id/chatRoomFragment" />
     </fragment>
 </navigation>

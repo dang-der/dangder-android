@@ -2,6 +2,8 @@ package com.viewpoint.dangder.data.remote
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.ApolloResponse
+import com.viewpoint.FetchChatMessagesByChatRoomIdQuery
+import com.viewpoint.FetchChatRoomQuery
 import com.viewpoint.JoinChatRoomMutation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,6 +20,18 @@ class ChatRemoteDataSource @Inject constructor(
         return withContext(Dispatchers.IO) {
             apolloClient.mutation(JoinChatRoomMutation(dogId = myDogId, chatPairId = pairDogId))
                 .execute()
+        }
+    }
+
+    suspend fun fetchChatRoom(roomId : String) : ApolloResponse<FetchChatRoomQuery.Data>{
+        return withContext(Dispatchers.IO){
+            apolloClient.query(FetchChatRoomQuery(roomId)).execute()
+        }
+    }
+
+    suspend fun fetchChatMessagesByChatRoomId(roomId: String) : ApolloResponse<FetchChatMessagesByChatRoomIdQuery.Data>{
+        return withContext(Dispatchers.IO){
+            apolloClient.query(FetchChatMessagesByChatRoomIdQuery(roomId)).execute()
         }
     }
 

@@ -1,6 +1,7 @@
 package com.viewpoint.dangder.presenter.main
 
 import android.app.Notification.Action
+import android.content.Intent
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -10,6 +11,7 @@ import com.viewpoint.dangder.base.BaseFragment
 import com.viewpoint.dangder.databinding.FragmentMainBinding
 import com.viewpoint.dangder.presenter.action.Actions
 import com.viewpoint.dangder.presenter.adapter.AroundDogListAdapter
+import com.viewpoint.dangder.presenter.chat.ChatRoomActivity
 import com.viewpoint.dangder.presenter.dialog.BuyPassTicketDialog
 import com.viewpoint.dangder.presenter.dialog.MatchedDialog
 import com.viewpoint.dangder.util.showErrorSnackBar
@@ -79,8 +81,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(), CardStackListener {
                         )
                     }
                     is Actions.GoToChatRoomPage->{
-                        val b = bundleOf("chatRoomId" to it.roomId)
-                        findNavController().navigate(R.id.action_mainFragment_to_chatRoomFragment, b)
+                        startActivity(
+                            Intent(requireActivity(), ChatRoomActivity::class.java).apply {
+                                putExtra("chatRoomId", it.roomId)
+                            }
+                        )
                     }
                     else -> {
                         if (it is Actions.ShowErrorMessage) {
